@@ -12,7 +12,7 @@ PIPEX		:= $(PIPEDIR)/$(PIPENAME)
 OBJDIR		:= ./obj
 
 SRCDIR	:= ./srcs/
-SRC	:= 
+SRC	:= lexer.c lexer_util.c
 ENTRY	:= main.c
 ENTRYBONUS	:= main_bonus.c
 DELENTRY	:= $(OBJDIR)/main_bonus.o
