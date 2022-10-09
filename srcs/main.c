@@ -13,6 +13,8 @@
 #include "pipex.h"
 #include "minishell.h"
 
+//
+
 //簡易的な入力受付
 int loop(t_env *env)
 {
