@@ -12,7 +12,9 @@ PIPEX		:= $(PIPEDIR)/$(PIPENAME)
 OBJDIR		:= ./obj
 
 SRCDIR	:= ./srcs/
-SRC	:= 
+SRC	:= env.c \
+	utils_array.c \
+	
 ENTRY	:= main.c
 ENTRYBONUS	:= main_bonus.c
 DELENTRY	:= $(OBJDIR)/main_bonus.o
@@ -34,8 +36,8 @@ LFLAGS	:= $(addprefix -L,$(LIBDIRS))
 LIBS	:= $(LIBFT) $(PIPEX)
 
 CC	:= cc
-CFLAGS	:= -Wall -Wextra -Werror
-LDFLAGS := $(IFLAGS) $(LFLAGS) -lft -lpipex
+CFLAGS	:= -Wall -Wextra -Werror 
+LDFLAGS := $(IFLAGS) $(LFLAGS) -lft -lpipex -lreadline
 
 all:
 	@make -C $(LIBFTDIR)
