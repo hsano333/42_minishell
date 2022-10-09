@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/09 23:51:43 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/09 23:52:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int main(int argc, char **argv, char **envp)
 	t_env *env;
 	int		i;
 
-	i = 0;
+	i = 1;
 	printf("%d\n", i);
 	(void)argc;
 	(void)argv;
