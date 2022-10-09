@@ -44,10 +44,13 @@ int loop(t_env *env)
 int main(int argc, char **argv, char **envp)
 {
 	t_env *env;
-	int		i;
+	int i;
 
 	i = 1;
 	printf("%d\n", i);
+	printf("%d\n", i);
+	printf("%d\n", i);
+
 	(void)argc;
 	(void)argv;
 
