@@ -32,13 +32,13 @@ DEPS	:= $(OBJECTS:.o=.d)
 INCS	:= ./include $(LIBFTDIR)/include
 
 LIBDIRS	:= $(LIBFTDIR) $(PIPEDIR)
-IFLAGS	:= $(addprefix -I,$(INCS))
+IFLAGS	:= $(addprefix -I,$(INCS)) -I$(shell brew --prefix readline)/include
 LFLAGS	:= $(addprefix -L,$(LIBDIRS))
 LIBS	:= $(LIBFT) $(PIPEX)
 
 CC	:= cc
 CFLAGS	:= -Wall -Wextra -Werror 
-LDFLAGS := $(IFLAGS) $(LFLAGS) -lft -lpipex -lreadline
+LDFLAGS := $(IFLAGS) $(LFLAGS) -lft -lpipex -lreadline  -L$(shell brew --prefix readline)/lib -lreadline
 
 all:
 	@make -C $(LIBFTDIR)
