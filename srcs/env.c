@@ -19,6 +19,7 @@ t_env *init_env(char **envp)
     t_env *env;
 
     env = ft_calloc(1, sizeof(t_env));
+    init_signal(&(env)->act);
     //アドレスがなくて、実体が無い場合も。要素が無い場合は不要なので
     if (env && envp && (*envp))
     {

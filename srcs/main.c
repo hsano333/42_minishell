@@ -34,7 +34,6 @@ int loop(t_env *env)
 		// lexer parser
 
 		printf("%s\n", line);
-		//ここは使い方まだ不明。
 		add_history(line);
 		free(line);
 	}
@@ -44,12 +43,6 @@ int loop(t_env *env)
 int main(int argc, char **argv, char **envp)
 {
 	t_env *env;
-	int i;
-
-	i = 1;
-	printf("%d\n", i);
-	printf("%d\n", i);
-	printf("%d\n", i);
 
 	(void)argc;
 	(void)argv;

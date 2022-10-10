@@ -14,6 +14,7 @@ OBJDIR		:= ./obj
 SRCDIR	:= ./srcs/
 SRC	:= env.c \
 	utils_array.c \
+	signal.c \
 	
 ENTRY	:= main.c
 ENTRYBONUS	:= main_bonus.c
