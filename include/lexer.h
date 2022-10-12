@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/09 02:34:01 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/13 03:01:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,21 @@ enum	e_token_type
 	LT,
 	D_GT,
 	D_LT,
-	SEMICOLON,
-	SLASH,
-	BACK_SLASH,
-	EQUAL,
-	DOT,
-	D_DOT,
 	ASTERISK,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
+	DOLLER,
 	EXIT_STATUS,
 	//LPAREN,
 	//RPAREN,
 	//COMMA,
 	//INT,
+	//EQUAL,
+	//SEMICOLON,
+	//SLASH,
+	//BACK_SLASH,
+	//DOT,
+	//D_DOT,
 	NON,
 };
 typedef enum e_token_type token_type;
@@ -49,7 +50,11 @@ typedef struct s_token
 	token_type	type;
 	char		*literal;
 	size_t		len;
+	size_t		id;
+	int		valid;
 }	t_token;
 
+
 t_token	*lexer(char *str);
+size_t	expand_str(t_token *tokens, token_type pre_token, size_t i);
 #endif
