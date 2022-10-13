@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/12 14:50:41 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/13 16:20:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,4 @@ int str_arr_len(char **arr);
 char **str_arr_dup(char **arr);
 void free_str_array(char ***arr);
 
-char	*get_env_val(char *var);
-int	*set_env(char *var, char *val);
 #endif

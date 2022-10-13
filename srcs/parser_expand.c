@@ -6,10 +6,11 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 15:55:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/13 16:43:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "parser.h"
 #include "libft_str.h"
 #include "minishell.h"
@@ -62,7 +63,7 @@ void	expand_doller(t_token *token, token_type pre_token)
 
 	if (pre_token == SINGLE_QUOTE)
 		return ;
-	str = get_env_val(&(token->literal[1]));
+	str = func_test(NULL, 1, &(token->literal[1]), NULL);
 	//if (!str)
 		//kill_process();
 	free(token->literal);

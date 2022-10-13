@@ -6,23 +6,41 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 03:42:21 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/13 16:45:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft_str.h"
+#include "env.h"
 
-char	*get_env_val(char *var)
+static char	*get_env_val(char **env, char *var)
 {
-	if (!var)
-		return ft_strdup("");
-	return (ft_strdup("hsano"));
+	if (env)
+		if (!var)
+			return ft_strdup(env[3]);
+	return (ft_strdup(env[5]));
 }
 
-int	*set_env(char *var, char *val)
+static int	set_env(char **env, char *var, char *val)
 {
 
 	(void )var;
 	(void )val;
+	//(void )env;
+	if (env == NULL)
+		return (1);
 	return (0);
+}
+
+char	*func_test(char **envp, t_env_mode mode, char *var, char *val)
+{
+	static char **env = NULL;
+
+	if (mode == INIT_ENV)
+		env = envp;
+	else if (mode == GET_ENV)
+		return get_env_val(env, var);
+	else if (mode == SET_ENV)
+		set_env(env, var, val);
+	return (NULL);
 }

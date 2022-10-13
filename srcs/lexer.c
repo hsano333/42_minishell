@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 02:35:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/13 16:54:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ token_type	identify_token(char c, char next_c)
 {
 	token_type	type;
 
-	printf("c=%c, next=%c\n", c, next_c);
 	type = identify_token_partial(c, next_c);
 	if (type != NON)
 		return (type);
