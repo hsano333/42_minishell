@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 16:54:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/14 02:54:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ int main(int argc, char **argv, char **envp)
 	env = init_env(envp);
 
 	print_env(env);
-	func_test(envp, 0, NULL, NULL);
-	printf("env test:%s\n", func_test(NULL, 1, NULL, NULL));
+	env_func(envp, 0, NULL, NULL);
+	printf("env test:%s\n", env_func(NULL, 1, NULL, NULL));
 
 	// readline
 	loop(env);

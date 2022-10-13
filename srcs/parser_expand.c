@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 16:43:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/14 04:43:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ token_type	is_expand(t_token *token)
 {
 	if (token->type == SINGLE_QUOTE 
 		|| token->type == DOUBLE_QUOTE
-		|| token->type == DOLLER)
+		|| (token->type & DOLLER) == DOLLER)
 		return (token->type);
 	return (NON);
 }
@@ -59,13 +59,33 @@ void	expand_quote(t_token *token, size_t end_no)
 
 void	expand_doller(t_token *token, token_type pre_token)
 {
+	char	*env_str;
+	char	*base_str;
 	char	*str;
 
 	if (pre_token == SINGLE_QUOTE)
 		return ;
-	str = func_test(NULL, 1, &(token->literal[1]), NULL);
-	//if (!str)
-		//kill_process();
+	str = NULL;
+	base_str =  ft_strchr(token->literal, '$');
+	if (base_str && base_str[0] == '$' && base_str[1] != '\0')
+	{
+		env_str = env_func(NULL, 1, &(base_str[1]), NULL);
+		base_str[0] = '\0';
+		str = ft_strjoin(token->literal, env_str);
+		base_str =  ft_strchr(&(base_str[1]), '$');
+		while (base_str)
+		{
+			free(env_str);
+			env_str = env_func(NULL, 1, &(base_str[1]), NULL);
+			str = ft_strjoin(str, env_str);
+			base_str =  ft_strchr(&(base_str[1]), '$');
+		}
+		free(env_str);
+	}
+	else
+		return ;
+	if (!str)
+		return ;
 	free(token->literal);
 	token->literal = str;
 }
@@ -83,7 +103,7 @@ size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
 		return (end_no);
 	else if (tokens[i].type == EOS && pre_token == NON)
 		return (end_no);
-	else if (cur_token == DOLLER)
+	else if (DOLLER == (cur_token & DOLLER))
 		expand_doller(&(tokens[i]), pre_token);
 	else if (cur_token != NON && pre_token == NON)
 		end_no = expand_str(tokens, cur_token, i + 1);
@@ -97,4 +117,11 @@ size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
 	if (tokens[i].type != EOS)
 		end_no = expand_str(tokens, pre_token, i + 1);
 	return (end_no);
+}
+
+void	parser_expand(void)
+{
+	//expand_str(tokens, NON, 0);
+	//expand_asterisk(tokens, NON, 0);
+
 }

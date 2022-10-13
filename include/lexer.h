@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 03:01:50 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/14 02:51:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 
 enum	e_token_type
 {
-	ILLEGAL = 1,
+	IDENT = 1,
+	ILLEGAL,
 	EOS,
-	IDENT,
+	IDENT_DOLLER,
+	IDENT_ASTERISK,
+	IDENT_ASTERISK_DOLLER,
 	PIPE,
 	D_PIPE,
 	D_AMPERSAND,
@@ -26,11 +29,11 @@ enum	e_token_type
 	LT,
 	D_GT,
 	D_LT,
-	ASTERISK,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
-	DOLLER,
 	EXIT_STATUS,
+	DOLLER = 256,
+	ASTERISK = 512,
 	//LPAREN,
 	//RPAREN,
 	//COMMA,

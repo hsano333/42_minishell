@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 16:54:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/14 04:14:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,29 @@ token_type	identify_token(char c, char next_c)
 	return (IDENT);
 }
 
-size_t	token_len(token_type type, char *str)
+size_t	token_len(token_type *type, char *str)
 {
 	size_t	i;
 	size_t	cnt;
+	token_type	tmp_type;
 
-	if (!(type == IDENT || type == DOLLER || type == ASTERISK))
-		return (token_len_helper(type));
-	i = 1;
+	if (!(*type == IDENT || *type == DOLLER || *type == ASTERISK))
+		return (token_len_helper(*type));
+	i = 0;
 	cnt = 1;
-	while (str[i])
+	while (str[++i])
 	{
 		if (is_whitespace(str[i]))
 			break ;
-		if (identify_token(str[i], str[i + 1]) == IDENT)
+		tmp_type = identify_token(str[i], str[i + 1]);
+		if (tmp_type == IDENT || tmp_type == DOLLER || tmp_type == ASTERISK)
+		{
 			cnt++;
+			//if (tmp_type == DOLLER || tmp_type == ASTERISK)
+			*type= (*type | tmp_type);
+		}
 		else
 			break ;
-		i++;
 	}
 	return (cnt);
 }
@@ -88,15 +93,23 @@ size_t	token_len(token_type type, char *str)
 void	init_token(t_token *token, token_type type, char *str, size_t id)
 {
 	//t_token	*token;
-
 	//token = (t_token *)malloc(sizeof(t_token));
 	//if (!token)
 		//return (NULL);
+	token->len = token_len(&type, str);
 	token->type = type;
-	token->len = token_len(type, str);
-	token->literal = ft_substr(str, 0, token->len);
+	token->literal = ft_substr(str, 0, token->len + 1);
+	printf("tokne->len=%zu, str=%s, lit=%s,[]=%d\n", token->len, str, token->literal, token->literal[token->len]);
 	token->id = id;
 	token->valid = true;
+	//if ((type == IDENT) && (flag == (IDENT | ASTERISK | DOLLER)))
+		//token->type = IDENT_ASTERISK_DOLLER;
+	//else if ((type == IDENT) && (flag == (IDENT | DOLLER)))
+		//token->type = IDENT_DOLLER;
+	//else if ((type == IDENT) && (flag == (IDENT | ASTERISK)))
+		//token->type = IDENT_ASTERISK;
+
+
 	//return (token);
 }
 

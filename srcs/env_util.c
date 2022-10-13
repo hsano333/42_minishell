@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 16:45:37 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/14 02:53:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	set_env(char **env, char *var, char *val)
 	return (0);
 }
 
-char	*func_test(char **envp, t_env_mode mode, char *var, char *val)
+char	*env_func(char **envp, t_env_mode mode, char *var, char *val)
 {
 	static char **env = NULL;
 
