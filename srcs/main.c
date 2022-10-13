@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 03:43:09 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/13 15:56:44 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	env = init_env(envp);
-	/*
 
 	print_env(env);
 
@@ -57,18 +56,6 @@ int main(int argc, char **argv, char **envp)
 	loop(env);
 
 	free_env(env);
-	*/
-	char *str = "$USER$PATH > test1 < $USE\'abcdef $USER\' \"abcd$USERtest\" $USER";
-
-	//size_t	i;
-	//i = 0;
-	printf("%p:%p\n", envp,env);
-	t_token *token = lexer(str);
-
-	printf("test str:%s\n", str);
-	put_tokens(token);
-	expand_str(token, NON, 0);
-	put_tokens(token);
 
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 01:30:27 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/13 15:53:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void	put_tokens(t_token *tokens)
 	while (tokens[i].type != EOS)
 	{
 		tmp_token = &(tokens[i]);
-		printf("id=%zu,type=%d, len=%zu str=%s\n ", tmp_token->id, tmp_token->type, tmp_token->len, tmp_token->literal);
+		if (tmp_token->valid)
+			printf("id=%zu,type=%d, len=%zu str=%s, valid=%d\n ", tmp_token->id, tmp_token->type, tmp_token->len, tmp_token->literal, tmp_token->valid);
 		i++;
 	}
 }
