@@ -31,6 +31,7 @@ int loop(t_env *env)
 		line = readline("\033[31mminishell$ \033[0m");
 		if (!line || ft_strlen(line) == 0)
 		{
+			printf("exit\n");
 			free(line);
 			break;
 		}
