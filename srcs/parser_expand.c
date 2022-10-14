@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/14 04:43:30 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/14 14:09:16 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void	expand_doller(t_token *token, token_type pre_token)
 		}
 		free(env_str);
 	}
-	else
-		return ;
 	if (!str)
 		return ;
 	free(token->literal);
