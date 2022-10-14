@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_util.h                                       :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 01:08:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 01:28:26 by hsano            ###   ########.fr       */
+/*   Created: 2022/10/13 16:13:58 by hsano             #+#    #+#             */
+/*   Updated: 2022/10/14 02:54:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_UTIL_H
-# define LEXER_UTIL_H
+#ifndef ENV_H
+# define ENV_H
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "lexer.h"
-#include "libft_str.h"
-#include <stdio.h>
+enum e_env_mode
+{
+	INIT_ENV,
+	GET_ENV,
+	SET_ENV,
+};
 
-int		is_whitespace(char c);
-size_t	whitespace_len(char *str);
-size_t	token_len_helper(token_type type);
-t_token	*check_error(t_token *tokens);
-void	put_tokens(t_token *tokens);
-void	clear_tokens(t_token *tokens);
+typedef enum e_env_mode t_env_mode;
+
+char	*env_func(char **src_env, t_env_mode mode, char *var, char *val);
 #endif
-

@@ -6,14 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/08 02:42:56 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/13 16:20:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
-
-//
 
 #include "libft.h"
 #include <stdio.h>

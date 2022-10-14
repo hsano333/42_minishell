@@ -15,6 +15,10 @@ SRCDIR	:= ./srcs/
 SRC	:= env.c \
 	utils_array.c \
 	signal.c \
+	lexer.c \
+	lexer_util.c \
+	parser_expand.c \
+	env_util.c 
 	
 ENTRY	:= main.c
 ENTRYBONUS	:= main_bonus.c
