@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/14 02:54:33 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/15 16:45:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "lexer.h"
 #include "lexer_util.h"
 #include "env.h"
+#include "parser_expand.h"
+#include "dir.h"
 
 //簡易的な入力受付
 int loop(t_env *env)
@@ -35,12 +37,10 @@ int loop(t_env *env)
 			free(line);
 			break;
 		}
-
-
-
+		set_cur_dir("");
 		tokens = lexer(line);
 		put_tokens(tokens);
-		expand_str(tokens, NON, 0);
+		parser_expand(tokens);
 		printf("\n");
 		put_tokens(tokens);
 		// lexer parser

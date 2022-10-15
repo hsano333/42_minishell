@@ -19,4 +19,5 @@ typedef struct s_cmd {
 	t_fd	out;
 	size_t	no;
 }	t_cmd;
+
 #endif

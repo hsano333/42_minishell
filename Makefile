@@ -20,7 +20,8 @@ SRC	:= env.c \
 	parser_expand.c \
 	parser_expand_doller.c \
 	parser_expand_asterisk.c \
-	env_util.c 
+	env_util.c \
+	dir.c
 	
 ENTRY	:= main.c
 ENTRYBONUS	:= main_bonus.c

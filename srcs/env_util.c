@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/14 02:53:29 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/15 23:39:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*get_env_val(char **env, char *var)
 	if (env)
 		if (!var)
 			return ft_strdup(env[3]);
-	return (ft_strdup(env[5]));
+	return (ft_strdup(env[3]));
 }
 
 static int	set_env(char **env, char *var, char *val)
