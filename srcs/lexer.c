@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/14 04:14:15 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/14 14:30:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,11 @@ size_t	token_len(token_type *type, char *str)
 //t_token	*init_token(t_token *token, token_type type, char *str, size_t id)
 void	init_token(t_token *token, token_type type, char *str, size_t id)
 {
-	//t_token	*token;
-	//token = (t_token *)malloc(sizeof(t_token));
-	//if (!token)
-		//return (NULL);
 	token->len = token_len(&type, str);
 	token->type = type;
-	token->literal = ft_substr(str, 0, token->len + 1);
-	printf("tokne->len=%zu, str=%s, lit=%s,[]=%d\n", token->len, str, token->literal, token->literal[token->len]);
+	token->literal = ft_substr(str, 0, token->len);
 	token->id = id;
 	token->valid = true;
-	//if ((type == IDENT) && (flag == (IDENT | ASTERISK | DOLLER)))
-		//token->type = IDENT_ASTERISK_DOLLER;
-	//else if ((type == IDENT) && (flag == (IDENT | DOLLER)))
-		//token->type = IDENT_DOLLER;
-	//else if ((type == IDENT) && (flag == (IDENT | ASTERISK)))
-		//token->type = IDENT_ASTERISK;
-
-
-	//return (token);
 }
 
 t_token	*lexer(char *str)
@@ -118,29 +104,19 @@ t_token	*lexer(char *str)
 	size_t	i;
 	size_t	len;
 	t_token	*tokens;
-	//t_token	*tmp_token;
 	
 	len = ft_strlen(str) - whitespace_len(str);
-	tokens = (t_token *)malloc(sizeof(t_token) * len);
+	tokens = (t_token *)malloc(sizeof(t_token) * (len + 1));
 	i = 0;
 	while (*str)
 	{
 		if (is_whitespace(*str))
 		{
 			str++;
-			printf("white space\n");
 			continue ;
 		}
 		init_token(&(tokens[i]), identify_token(*str, str[1]), str, i);
 		str += tokens[i].len;
-		//tokens[i].type = identify_token(*str, str[1]);
-		//tokens[i].literal = ft_strdup(str);
-		//tokens[i].len = token_len(tokens[i].type, str);
-		//tokens[i].id = i;
-		//tokens[i].valid = true;
-		//push_back(tokens, tmp_token);
-		//str += tmp_token->len;
-		//printf("No.1 str=%s,tokens[%zu].len=%zu \n", str, i,tokens[i].len);
 		i++;
 	}
 	init_token(&(tokens[i]), EOS, "", i);

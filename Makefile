@@ -18,6 +18,8 @@ SRC	:= env.c \
 	lexer.c \
 	lexer_util.c \
 	parser_expand.c \
+	parser_expand_doller.c \
+	parser_expand_asterisk.c \
 	env_util.c 
 	
 ENTRY	:= main.c
