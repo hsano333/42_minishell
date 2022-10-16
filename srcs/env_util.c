@@ -43,6 +43,8 @@ static char *get_env_val(char **env, char *var)
 		}
 		i++;
 	}
+	if (!value)
+		value = ft_calloc(1, sizeof(char));
 	return (value);
 }
 

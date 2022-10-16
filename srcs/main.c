@@ -91,6 +91,8 @@ int main(int argc, char **argv, char **envp)
 
 	// get
 	printf("env get test:%s\n", env_func(NULL, GET_ENV, "OLDPWD", NULL));
+	//存在しないケース
+	printf("env get test:%s\n", env_func(NULL, GET_ENV, "OLDPWDaaaa", NULL));
 
 	// set
 	env_func(NULL, SET_ENV, "test=test", NULL);
