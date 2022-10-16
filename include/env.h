@@ -11,16 +11,20 @@
 /* ************************************************************************** */
 
 #ifndef ENV_H
-# define ENV_H
+#define ENV_H
+
+#include <stdbool.h>
 
 enum e_env_mode
 {
 	INIT_ENV,
 	GET_ENV,
 	SET_ENV,
+	DEL_ENV,
 };
 
 typedef enum e_env_mode t_env_mode;
 
-char	*env_func(char **src_env, t_env_mode mode, char *var, char *val);
+char *env_func(char ***src_env, t_env_mode mode, char *var, char *val);
+
 #endif

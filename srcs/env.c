@@ -49,3 +49,11 @@ void print_env(const t_env *env)
         printf("%zu: [%s]\n", i, env->env_var[i]);
     }
 }
+
+void print_env2(const char **env)
+{
+    for (size_t i = 0; env[i] != NULL; i++)
+    {
+        printf("%zu: [%s]\n", i, env[i]);
+    }
+}
