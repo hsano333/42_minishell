@@ -37,6 +37,7 @@ typedef struct s_env
 t_env *init_env(char **envp);
 void free_env(t_env *env);
 void print_env(const t_env *env);
+void print_env2(const char **env);
 
 // signal
 bool init_signal(t_sigaction *act);
@@ -45,5 +46,6 @@ bool init_signal(t_sigaction *act);
 int str_arr_len(char **arr);
 char **str_arr_dup(char **arr);
 void free_str_array(char ***arr);
+char **realloc_str_arr(char **arr, size_t size);
 
 #endif

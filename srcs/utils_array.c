@@ -59,3 +59,26 @@ void free_str_array(char ***arr)
     free(*arr);
     *arr = NULL;
 }
+
+char **realloc_str_arr(char **arr, size_t size)
+{
+    size_t i;
+    char **new;
+
+    if (!arr)
+        return (NULL);
+    new = ft_calloc(size + 1, sizeof(char *));
+    if (!new)
+    {
+        free_str_array(&arr);
+        return (NULL);
+    }
+    i = 0;
+    while (size-- && arr && arr[i])
+    {
+        new[i] = ft_strdup(arr[i]);
+        i++;
+    }
+    free_str_array(&arr);
+    return (new);
+}

@@ -6,41 +6,98 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/15 23:39:08 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/16 21:39:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_str.h"
 #include "env.h"
+#include <minishell.h>
 
-static char	*get_env_val(char **env, char *var)
+static char *get_env_val(char **env, char *var)
 {
-	if (env)
-		if (!var)
-			return ft_strdup(env[3]);
-	return (ft_strdup(env[3]));
+	size_t i;
+	char *value;
+
+	i = 0;
+	value = NULL;
+	//環境変数の最後まで読む
+	while (env && var && env[i])
+	{
+		//差分が=の時。つまり存在した時
+		if (ft_strncmp(env[i], var, ft_strlen(env[i])) == '=')
+		{
+			value = ft_strchr(env[i], '=') + 1;
+			//値がない場合
+			if (!value)
+				value = ft_calloc(1, sizeof(char));
+			else
+				value = ft_strdup(value);
+			break;
+		}
+		//=も無かった時
+		else if (ft_strncmp(env[i], var, ft_strlen(env[i])) == '\0')
+		{
+			value = ft_calloc(1, sizeof(char));
+			break;
+		}
+		i++;
+	}
+	if (!value)
+		value = ft_calloc(1, sizeof(char));
+	return (value);
 }
 
-static int	set_env(char **env, char *var, char *val)
+bool del_env_var(char **env, char *var)
 {
+	size_t i;
 
-	(void )var;
-	(void )val;
-	//(void )env;
-	if (env == NULL)
-		return (1);
-	return (0);
+	i = 0;
+	if (!var)
+		return (false);
+	while (env && env[i] && ft_strncmp(env[i], var, ft_strlen(env[i]) != '='))
+		i++;
+	free(env[i]);
+	env[i] = NULL;
+	//一個ずらす
+	while (env[i + 1])
+	{
+		env[i] = env[i + 1];
+		i++;
+		if (env[i + 1] == NULL)
+			env[i] = NULL;
+	}
+	return (true);
 }
 
-char	*env_func(char **envp, t_env_mode mode, char *var, char *val)
+//トリプルポインタにしないと、envのアドレスがnewに置き変わらない
+//ダブルポインタのメモリ確保を関数内で行うにはアドレスを渡す必要があるらしい
+bool set_env_var(char ***env, char *var)
 {
-	static char **env = NULL;
+	char **new;
+
+	if (!env || !var)
+		return (false);
+	new = realloc_str_arr(*env, str_arr_len(*env) + 1);
+	new[str_arr_len(new)] = ft_strdup(var);
+	*env = new;
+	return (true);
+}
+
+// char *strに変更
+char *env_func(char ***envp, t_env_mode mode, char *var, char *val)
+{
+	static char ***env = NULL;
+
+	(void)val;
 
 	if (mode == INIT_ENV)
 		env = envp;
 	else if (mode == GET_ENV)
-		return get_env_val(env, var);
+		return get_env_val(*env, var);
 	else if (mode == SET_ENV)
-		set_env(env, var, val);
+		set_env_var(env, var);
+	else if (mode == DEL_ENV)
+		del_env_var(*env, var);
 	return (NULL);
 }

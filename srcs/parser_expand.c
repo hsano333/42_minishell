@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/16 01:34:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/17 15:55:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,11 @@ void	expand_quote(t_token *token, size_t end_no)
 
 static void	expand_doller_asterisk(t_token *token, token_type pre_token)
 {
+	printf("expand_doller_asterisk No.1\n");
 	expand_doller(token, pre_token);
+	printf("expand_doller_asterisk No.2\n");
 	expand_asterisk(token, pre_token);
+	printf("expand_doller_asterisk No.3\n");
 }
 
 size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
