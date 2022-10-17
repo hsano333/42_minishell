@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/18 02:49:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/18 04:30:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 		ft_strlcpy(filename, str, PATH_MAX + 1);
 		printf("test No.3\n");
 
-		*i = (size_t)(p_slash - str);
+		*i = (size_t)(p_slash - str) + 1;
 		printf("test No.4\n");
 		p_slash[0] = '/';
 		printf("test No.5\n");
@@ -61,12 +61,12 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 		return ;
 	}
 
-		printf("get prefix dir No.3\n");
+	printf("get prefix dir No.3\n");
 	ft_strlcpy(filename, "/home/sano/work/42/minishell", PATH_MAX + 1);
 	ft_strlcat(filename, "/", PATH_MAX + 1);
 	p_slash[0] = '\0';
 	ft_strlcat(filename, str, PATH_MAX + 1);
-	*i = (size_t)(p_slash - str);
+	*i = (size_t)(p_slash - str) + 1;
 	p_slash[0] = '/';
 	printf("filename=%s\n", filename);
 	//dir = opendir(str);
@@ -111,9 +111,11 @@ t_ast_end_mode	is_matched_file(char *ast_word, char *dirname, char *filename,  t
 			//printf("is_matched_file No.1 mode=%d, ast_word=%s, dirname=%s, filename=%s, \n",mode, ast_word, dirname, filename);
 			if (filename[i] != ast_word[i] && ast_word[i] == '/' )
 			{
-				ft_strlcpy(dirname, filename, PATH_MAX + 1);
+				len = ft_strlen(dirname);
+				ft_strlcat(dirname, filename, PATH_MAX + 1);
 				printf("is_matched_file No.2 mode=%d, ast_word=%s, dirname=%s, filename=%s, \n",mode, ast_word, dirname, filename);
 				expand_loop(&(ast_word[i + 1]), dirname, filename);
+				dirname[len] = '\0';
 				//printf("is_matched_file No.3 mode=%d, ast_word=%s, dirname=%s, filename=%s, \n",mode, ast_word, dirname, filename);
 			}
 			else if (filename[i] != ast_word[i] && ast_word[i] == '*' )
@@ -132,7 +134,7 @@ t_ast_end_mode	is_matched_file(char *ast_word, char *dirname, char *filename,  t
 				}
 				else if (ast_word[i + 1] == '\0')
 				{
-					printf("true No.1 dirname=%s, filename=%s\n", dirname, filename);
+					//printf("true No.1 dirname=%s, filename=%s\n", dirname, filename);
 					return (true);
 				}
 				else 
@@ -159,13 +161,15 @@ t_ast_end_mode	is_matched_file(char *ast_word, char *dirname, char *filename,  t
 			}
 			else if (filename[i] != ast_word[i])
 				return (false);
+			if (!filename[i] || !ast_word[i])
+				break ;
 		}
 		else if (mode == SUFFIX)
 		{
 			len = ft_strlen(filename);
 			word = (ft_strncmp(ast_word, &(filename[i]), len + 1));
-			//printf("is_matched_file No.6 i=%zu,word=%c, mode=%d, ast_word=%s, dirname=%s, filename=%s, \n",i,word,mode, ast_word, dirname, filename);
-			if (word == '\0')
+			printf("is_matched_file No.6 i=%zu,word=%c, mode=%d, ast_word=%s, dirname=%s, filename=%s, \n",i,word,mode, ast_word, dirname, filename);
+			if (word == '\0' || word == 0)
 			{
 				//printf("is_matched_file No.7 mode=%d, ast_word=%s, dirname=%s, filename=%s, \n",mode, ast_word, dirname, filename);
 				printf("true No.2-1 dirname=%s, filename=%s\n", dirname, filename);
@@ -188,9 +192,9 @@ t_ast_end_mode	is_matched_file(char *ast_word, char *dirname, char *filename,  t
 				//printf("is_matched_file No.9-2 mode=%d, ast_word=%s, dirname=%s, filename=%s, \n",mode, ast_word, dirname, filename);
 			}
 				//return (is_matched_suffix(&(filename[i + 1]), &(ast_word[i + 1]), SUFFIX));
+			if (!filename[i])
+				break ;
 		}
-		if (!filename[i] || !ast_word[i])
-			break ;
 		i++;
 	}
 	//printf("is_matched_file No.10 mode=%d, ast_word=%s, dirname=%s, filename=%s, \n",mode, ast_word, dirname, filename);
@@ -219,14 +223,13 @@ int	expand_loop(char *ast_word, char *dirname, char *filename)
 	while (ent)
 	{
 		ft_strlcpy(filename ,ent->d_name, PATH_MAX + 1);
-		//printf("expand_loop No.2 ast_word=%s, dirname=%s, filename=%s\n", ast_word, dirname, filename);
+		printf("expand_loop No.2 ast_word=%s, dirname=%s, filename=%s\n", ast_word, dirname, filename);
 
 		if (ft_strncmp(filename , ".", 2) == 0 || ft_strncmp(filename , "..", 3) == 0)
 			printf(". and .. is pass\n");
 		else if (is_matched_file(ast_word, dirname, filename, PREFIX) == TRUE_END)
 		{
-			printf("true file\n");
-			printf("add file dirname+filename=%s%s\n", dirname, filename);
+			printf("true file: add file dirname+filename=%s%s\n", dirname, filename);
 
 			//printf("expand_loop No.2:true ast_word=%s, dirname=%s, filename=%s\n", ast_word, dirname, filename);
 			//add_file(dirname + filename);
