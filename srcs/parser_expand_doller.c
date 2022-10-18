@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/19 00:08:58 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/19 00:16:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static void expand(char *str, char **dst_str, size_t i)
 	str[j] = '\0';
 	env_str = env_func(NULL, GET_ENV, str, NULL);
 	str[j] = tmp;
-	printf("str=%s, env_str=%s\n", str, env_str);
 	*dst_str = join_and_free_str(*dst_str, env_str, ft_strlen(env_str), true);
 	if (str[i] == '$' && is_valid_env_char(str[i + 1]))
 		expand_recursive(&(str[i + 1]), DOLLER, dst_str);
