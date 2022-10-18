@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:37:23 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/18 16:46:22 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/18 22:19:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,6 @@ int	parser_expand(t_token *tokens);
 char	*get_finded_file(void);
 void	set_finded_file(char *added_file);
 void	clear_finded_file(void);
+t_ast_end_mode	is_equal_or_asterisk(char *ast_word, char *filename);
+void	get_prefix_dir(char *str, char *filename, size_t *i);
 #endif
