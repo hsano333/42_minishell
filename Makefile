@@ -23,6 +23,7 @@ SRC	:= env.c \
 	parser_expand_asterisk.c \
 	parser_expand_asterisk_util.c \
 	parser_expand_asterisk_saved_file.c \
+	parser_heredoc.c \
 	parser_change_std.c \
 	env_util.c \
 	dir.c
