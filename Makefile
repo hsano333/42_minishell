@@ -17,11 +17,13 @@ SRC	:= env.c \
 	signal.c \
 	lexer.c \
 	lexer_util.c \
+	parser.c \
 	parser_expand.c \
 	parser_expand_doller.c \
 	parser_expand_asterisk.c \
 	parser_expand_asterisk_util.c \
 	parser_expand_asterisk_saved_file.c \
+	parser_change_std.c \
 	env_util.c \
 	dir.c
 	
