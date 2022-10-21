@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:37:23 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/18 22:19:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/21 16:04:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef enum e_ast_fined_file_mode t_ast_fined_file_mode;
 
 enum e_ast_end_mode
 {
-	FALSE_END,
+	FALSE_END = 0,
 	TRUE_END,
 	NEXT_DIR,
 	NEXT_ASTERISK,

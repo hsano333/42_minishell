@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
+/*   Updated: 2022/10/21 16:08:35 by hsano            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #ifndef CMD_H
 # define CMD_H
@@ -20,15 +32,28 @@ enum e_fd
 	ERROR,
 };
 typedef enum e_fd t_fd;
-typedef struct s_cmd {
-	t_fd	in;
-	char	*in_file;
-	char	*hiredoc_eos;
-	char	**cmd;
-	t_fd	out;
-	char	*out_file;
-	size_t	no;
-	int		last;
-}	t_cmd;
 
+typedef struct s_pipe {
+	char	*in_file;
+	char	*out_file;
+	char	*cmd;
+	char	*param;
+	size_t	id;
+}	t_pipe;
+
+typedef struct s_pipes {
+	t_pipe	*pipe;
+	size_t	len;
+}	t_pipes;
+
+typedef struct s_cmds {
+	int		result;
+	size_t		id;
+	//size_t		pipe_len;
+	t_pipes		*pipes;
+	token_type	operator;
+	int		last;
+}	t_cmds;
+
+t_cmds	*parser(t_token *tokens);
 #endif

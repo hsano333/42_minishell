@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/19 16:24:06 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/20 02:27:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "lexer.h"
 #include "lexer_util.h"
 #include "env.h"
+#include "parser.h"
 #include "parser_expand.h"
 #include "parser_heredoc.h"
 #include "dir.h"
@@ -42,8 +43,9 @@ int loop(t_env *env)
 		// lexer parser
 		tokens = lexer(line);
 		put_tokens(tokens);
-		parser_expand(tokens);
-		create_heredoc_file(tokens);
+		//parser_expand(tokens);
+		//create_heredoc_file(tokens);
+		parser(tokens);
 		printf("\n");
 		put_tokens(tokens);
 
