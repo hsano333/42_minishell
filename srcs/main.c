@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/22 16:06:58 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/22 16:22:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int loop(t_env *env)
 		// lexer parser
 		tokens = lexer(line);
 		put_tokens(tokens);
-		parser_expand(tokens);
-		create_heredoc_file(tokens);
+		//parser_expand(tokens);
+		//create_heredoc_file(tokens);
 		cmds = parser(tokens);
 		put_tokens(tokens);
 		clear_tokens(tokens);

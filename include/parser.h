@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/22 14:35:15 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/23 03:30:05 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "lexer.h"
 # include <stdlib.h>
 # include <stdbool.h>
-
+# include <stdio.h>
 
 enum e_fd
 {
@@ -37,8 +37,10 @@ typedef struct s_pipe {
 	char	*in_file;
 	char	*out_file;
 	char	*cmd;
-	char	*param;
+	int	have_param;
+	char	**param;
 	size_t	id;
+	int	builtin;
 }	t_pipe;
 
 typedef struct s_pipes {

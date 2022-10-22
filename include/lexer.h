@@ -6,13 +6,25 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/16 01:29:35 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/22 23:45:11 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 # include <unistd.h>
+
+enum	e_buildin
+{
+	BUIDIN_ECHO,
+	BUIDIN_CD,
+	BUIDIN_PWD,
+	BUIDIN_EXPORT,
+	BUIDIN_UNSET,
+	BUIDIN_ENV,
+	BUIDIN_EXIT,
+	NOT_BUIDIN,
+};
 
 enum	e_token_type
 {
