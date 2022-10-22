@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/21 16:08:35 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/22 14:35:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ typedef struct s_cmds {
 	int		result;
 	size_t		id;
 	//size_t		pipe_len;
-	t_pipes		*pipes;
+	t_pipe		*pipes;
+	size_t		len;
 	token_type	operator;
 	int		last;
 }	t_cmds;

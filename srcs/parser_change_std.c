@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/21 16:48:12 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/22 15:05:44 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 		//cmds->in = SAVED_FILE;
 		if (tokens[i].type == GT)
 		{
-			cmds->pipes->pipe[pipe_i].in_file = tokens[i + 1].literal;
+			cmds->pipes[pipe_i].in_file = tokens[i + 1].literal;
 		}
 		else if (tokens[i].type == D_GT)
 		{
 			//cmds->hiredoc_eos = tokens[i + 1].literal;
-			cmds->pipes->pipe[pipe_i].in_file = HEREDODC_FILE;
+			cmds->pipes[pipe_i].in_file = HEREDODC_FILE;
 		}
 	}
 	//else
@@ -65,19 +65,19 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 
 	if (tokens[i + 1].type == IDENT)
 	{
-		cmds->pipes->pipe[pipe_i].out_file = tokens[i + 1].literal;
+		cmds->pipes[pipe_i].out_file = tokens[i + 1].literal;
 		if (tokens[i].type == LT)
 		{
 			rval = false;
 			//cmds->pipes->pipe[pipe_i].out_file = NULL;
 			//cmds->pipes->pipe[pipe_i].->out = STD_OUT;
-			rval = create_file(cmds->pipes->pipe[pipe_i].out_file, O_WRONLY | O_CREAT);
+			rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_CREAT);
 		}
 		else if (tokens[i].type == D_LT)
 		{
 			rval = false;
 			//cmds->pipes->pipe[pipe_i].out = STD_OUT_APPEND;
-			rval = create_file(cmds->pipes->pipe[pipe_i].out_file, O_WRONLY | O_APPEND);
+			rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_APPEND);
 		}
 	}
 	//if (!rval)

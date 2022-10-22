@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/20 02:27:10 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/22 16:06:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "lexer_util.h"
 #include "env.h"
 #include "parser.h"
+#include "parser_util.h"
 #include "parser_expand.h"
 #include "parser_heredoc.h"
 #include "dir.h"
@@ -26,6 +27,7 @@ int loop(t_env *env)
 	char *line;
 	int exit_code;
 	t_token *tokens;
+	t_cmds	*cmds;
 
 	(void)env;
 
@@ -39,15 +41,17 @@ int loop(t_env *env)
 			free(line);
 			break;
 		}
-
 		// lexer parser
 		tokens = lexer(line);
 		put_tokens(tokens);
-		//parser_expand(tokens);
-		//create_heredoc_file(tokens);
-		parser(tokens);
-		printf("\n");
+		parser_expand(tokens);
+		create_heredoc_file(tokens);
+		cmds = parser(tokens);
 		put_tokens(tokens);
+		clear_tokens(tokens);
+		clear_all_cmds(&cmds);
+		//clear_all_cmds(cmds);
+		printf("\n");
 
 		printf("%s\n", line);
 		add_history(line);
@@ -93,17 +97,17 @@ int main(int argc, char **argv, char **envp)
 	// env_func(&env->env_var, 0, NULL, NULL);
 	env_func(&envv, 0, NULL, NULL);
 
-	printf("env get test:%s\n", env_func(NULL, 1, NULL, NULL));
+	//printf("env get test:%s\n", env_func(NULL, 1, NULL, NULL));
 
-	// get
-	printf("env get test:%s\n", env_func(NULL, GET_ENV, "OLDPWD", NULL));
+	//// get
+	//printf("env get test:%s\n", env_func(NULL, GET_ENV, "OLDPWD", NULL));
 	//存在しないケース
-	printf("env get test:%s\n", env_func(NULL, GET_ENV, "OLDPWDaaaa", NULL));
+	//printf("env get test:%s\n", env_func(NULL, GET_ENV, "OLDPWDaaaa", NULL));
 
 	// set
-	env_func(NULL, SET_ENV, "test=test", NULL);
+	//env_func(NULL, SET_ENV, "test=test", NULL);
 	// set_env_var(&env->env_var, "test==test");
-	printf("env get test:%s\n", env_func(NULL, GET_ENV, "test", NULL));
+	//printf("env get test:%s\n", env_func(NULL, GET_ENV, "test", NULL));
 	print_env2((const char **)envv);
 	// print_env(env);
 
@@ -113,10 +117,10 @@ int main(int argc, char **argv, char **envp)
 	// del_env_var(env->env_var, "test");
 	// del_env_var(env->env_var, "test");
 	// print_env2((const char **)envp);
-	env_func(NULL, DEL_ENV, "test", NULL);
+	//env_func(NULL, DEL_ENV, "test", NULL);
 	// print_env(env);
 	print_env2((const char **)envv);
-	printf("env get test:%s\n", env_func(NULL, GET_ENV, "PWD", NULL));
+	//printf("env get test:%s\n", env_func(NULL, GET_ENV, "PWD", NULL));
 
 	// readline
 	loop(env);

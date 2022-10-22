@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/14 04:09:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/22 13:53:56 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void	clear_tokens(t_token *tokens)
 		free(tokens[i].literal);
 		i++;
 	}
+	free(tokens[i].literal);
 	free(tokens);
-
 }
 
 void	put_tokens(t_token *tokens)
