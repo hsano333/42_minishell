@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/23 03:35:33 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 02:39:32 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,13 @@ t_cmds	*parser(t_token *tokens)
 	cmds = init_parser(tokens);
 	if (!cmds)
 		return (NULL);
-	printf("parser No.1\n");
 	parser_expand(tokens);
-	printf("parser No.2\n");
 	create_heredoc_file(tokens);
-	printf("parser No.3\n");
-	search_std_in_and_out(tokens, cmds);
-	printf("parser No.4\n");
-	search_cmds_and_arg(tokens, cmds);
-	printf("parser No.5\n");
+	if (search_std_in_and_out(tokens, cmds))
+	{
+		search_cmds_and_arg(tokens, cmds);
+	}
 	print_comds(cmds);
-	printf("parser No.6\n");
-
 
 	//cmds_num = count_comds(tokens);
 	//////////cmds = (t_cmd *)malloc(sizeof(t_cmd) * (cmds_num + 1));

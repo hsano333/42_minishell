@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/22 23:45:11 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 01:31:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ enum	e_token_type
 	PIPE,
 	D_PIPE,
 	D_AMPERSAND,
+	GLT,
 	GT,
 	LT,
 	D_GT,

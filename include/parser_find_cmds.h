@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_std.h                                       :+:      :+:    :+:   */
+/*   parser_find_cmds.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 02:41:42 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 02:28:06 by hsano            ###   ########.fr       */
+/*   Created: 2022/10/23 01:49:10 by hsano             #+#    #+#             */
+/*   Updated: 2022/10/23 02:27:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#ifndef PARSER_STD_H
-# define PARSER_STD_H
+#ifndef PARSER_FIND_CMDS_H
+# define PARSER_FIND_CMDS_H
 # include "parser.h"
-# include "lexer.h"
-
-int	search_std_in_and_out(t_token *tokens, t_cmds *cmds);
+# include "libft_str.h"
+int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds);
 #endif

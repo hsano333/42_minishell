@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_std.h                                       :+:      :+:    :+:   */
+/*   parser_util.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 02:41:42 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 02:28:06 by hsano            ###   ########.fr       */
+/*   Created: 2022/10/21 15:49:35 by hsano             #+#    #+#             */
+/*   Updated: 2022/10/22 15:21:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PARSER_UTIL_H
+# define PARSER_UTIL_H
 
-#ifndef PARSER_STD_H
-# define PARSER_STD_H
-# include "parser.h"
-# include "lexer.h"
-
-int	search_std_in_and_out(t_token *tokens, t_cmds *cmds);
+int	is_error_cmds(t_cmds *cmds);
+void	clear_all_cmds(t_cmds **cmds);
 #endif

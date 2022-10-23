@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/22 13:49:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 02:38:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ token_type	identify_token_partial(char c, char next_c)
 		return (D_LT);
 	else if (c == '>')
 		return (LT);
+	else if (c == '<' && next_c == '>')
+		return (GLT);
 	else if (c == '<' && next_c == '<')
 		return (D_GT);
 	else if (c == '<')
