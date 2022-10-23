@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/19 00:16:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 03:08:36 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	expand_doller(t_token *token, token_type pre_token)
 	if (!dst_str)
 		token->error = true;
 	token->literal = dst_str;
+	token->type = IDENT;
 	//if (DOLLER == (token->type & DOLLER))
 		//expand_asterisk(token, pre_token);
 }

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 02:46:34 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 02:52:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 {
 	int	rval;
 
+	rval = true;
 	if (tokens[i + 1].type == IDENT)
 	{
 		cmds->pipes[pipe_i].out_file = tokens[i + 1].literal;

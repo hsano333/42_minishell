@@ -52,7 +52,13 @@ LFLAGS	:= $(addprefix -L,$(LIBDIRS))
 LIBS	:= $(LIBFT) $(PIPEX)
 
 CC	:= cc
-CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined -fsanitize=leak 
+ifeq ($(shell uname),Darwin)
+CFLAGS	:= -Wall -Wextra -Werror
+#CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined
+else
+CFLAGS	:= -Wall -Wextra -Werror
+#CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined -fsanitize=leak 
+endif
 LDFLAGS := $(IFLAGS) $(LFLAGS) -lft -lpipex -lreadline  -L$(shell brew --prefix readline)/lib -lreadline
 
 all:

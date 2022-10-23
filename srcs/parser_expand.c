@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/18 22:39:17 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 03:06:27 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	expand_quote(t_token *token, size_t end_no)
 	}
 	free(token[0].literal);
 	token[0].literal = expanded_str;
+	token[0].type = IDENT;
 }
 
 static void	expand_doller_asterisk(t_token *token, token_type pre_token)
@@ -95,7 +96,5 @@ size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
 int	parser_expand(t_token *tokens)
 {
 	expand_str(tokens, NON, 0);
-	//expand_asterisk(tokens, NON, 0);
 	return (true);
-
 }

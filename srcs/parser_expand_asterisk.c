@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/18 21:42:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 03:09:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ size_t	expand_asterisk(t_token *token, token_type pre_token)
 		return (0);
 	expand_loop(&(token->literal[i]), dir, filename);
 	token->literal = ft_strdup(get_finded_file());
+	token->type = IDENT;
 	clear_finded_file();
 	return (true);
 }
