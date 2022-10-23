@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/23 16:44:30 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 03:39:05 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,15 @@ static char	**allocate_args_memory(t_token *tokens, size_t i, size_t len)
 	return (argv);
 }
 
-static void	set_args(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
+static void	set_args(t_cmds *cmds, t_token *tokens, size_t *tmp_i, size_t pipe_i)
 {
 	//size_t	len;
 	size_t	backup_i;
 	size_t	cnt;
+	size_t	i;
 
-	backup_i = i;
+	i = *tmp_i;
+	backup_i = *tmp_i;
 	//len = 0;
 	cnt = 0;
 	cmds->pipes[pipe_i].have_param = true;
@@ -79,6 +81,7 @@ static void	set_args(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 		i++;
 	}
 	cmds->pipes[pipe_i].param = allocate_args_memory(tokens, backup_i, cnt);
+	*tmp_i = --i;
 }
 
 static int	have_error(t_cmds *cmds)
@@ -128,7 +131,7 @@ int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds)
 		else if (tokens[i].type == IDENT && cmds[cmd_i].pipes[pipe_i].cmd == NULL)
 			set_cmd_name(&(cmds[cmd_i]), &(tokens[i]), pipe_i);
 		else if (tokens[i].type == IDENT && cmds[cmd_i].pipes[pipe_i].cmd != NULL)
-			set_args(&(cmds[cmd_i]), tokens, i, pipe_i);
+			set_args(&(cmds[cmd_i]), tokens, &i, pipe_i);
 		i++;
 	}
 	if (have_error(cmds))
