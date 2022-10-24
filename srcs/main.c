@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/22 16:22:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 23:05:45 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "parser_util.h"
 #include "parser_expand.h"
 #include "parser_heredoc.h"
+#include "exe_cmds.h"
 #include "dir.h"
 
 //簡易的な入力受付
@@ -47,6 +48,8 @@ int loop(t_env *env)
 		//parser_expand(tokens);
 		//create_heredoc_file(tokens);
 		cmds = parser(tokens);
+		exe_cmds(cmds);
+
 		put_tokens(tokens);
 		clear_tokens(tokens);
 		clear_all_cmds(&cmds);

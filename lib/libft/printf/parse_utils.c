@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 15:25:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/08/11 14:14:40 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 23:53:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	set_ascii(const char *str, size_t middle_point, char *ascii_aray)
 		ascii_aray[(int)str[i++]] = true;
 }
 
-void	check_error(const char *str, t_conversion *convs, \
+void	check_error_printf(const char *str, t_conversion *convs, \
 						size_t middle_point, char *ascii_aray)
 {
 	int		sum;

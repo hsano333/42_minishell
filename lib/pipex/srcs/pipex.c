@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/09/17 15:43:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/25 01:28:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "heredoc.h"
 #include "pipex_util.h"
 
-t_fdpid	pipe_main(char *cmds, int fd_in, t_heredoc *heredoc)
+static t_fdpid	pipe_main( int fd_in, t_pipe *pipes, char **environ)
 {
 	int		pipe_fd[2];
 	t_fdpid	fdpid;
@@ -31,25 +31,21 @@ t_fdpid	pipe_main(char *cmds, int fd_in, t_heredoc *heredoc)
 	if (fdpid.pid == 0)
 	{
 		close(pipe_fd[PIPE_IN]);
-		if (heredoc->valid == false)
-			child(cmds, fd_in, pipe_fd);
+		child(fd_in, pipe_fd, pipes, environ);
 		exit(0);
 	}
 	else if (fdpid.pid > 0)
 	{
 		close(pipe_fd[PIPE_OUT]);
-		if (heredoc->valid)
-			fdpid = heredoc_input(heredoc);
-		else
-			fdpid = parent(fdpid.pid, pipe_fd);
+		fdpid = parent(fdpid.pid, pipe_fd, pipes);
 	}
 	if (fd_in > 0)
 		close(fd_in);
 	return (fdpid);
 }
 
-static void	main_child(char **cmds, \
-		char *output_file, t_fdpid *fdpid, t_heredoc *heredoc)
+static void	main_child(char *output_file, t_fdpid *fdpid, \
+		t_cmds *cmds, char **environ)
 {
 	int		i;
 	int		fd_i;
@@ -57,17 +53,14 @@ static void	main_child(char **cmds, \
 
 	i = 0;
 	fd_i = 0;
-	if (heredoc->valid)
-		fd_i++;
-	while (cmds[i])
+	while (i < (int)cmds->len)
 	{
 		fd_i++;
-		fdpid[fd_i] = pipe_main(cmds[i++], fdpid[fd_i - 1].fd, heredoc);
+		fdpid[fd_i] = pipe_main(fdpid[fd_i - 1].fd, &(cmds->pipes[i++]), environ);
 		if (fdpid[fd_i].pid == -1)
 			kill_process(-1, "pipex error:fork() error", NULL);
-		heredoc->valid = false;
 	}
-	write_file(fdpid[fd_i].fd, output_file, heredoc);
+	write_file(fdpid[fd_i].fd, output_file);
 	i = fd_i;
 	while (i > 0)
 	{
@@ -76,21 +69,21 @@ static void	main_child(char **cmds, \
 	}
 }
 
-int	pipex(char *input_file, char *output_file, char **cmds, t_heredoc *heredoc)
+int	pipex(char *input_file, char *output_file, t_cmds *cmds, char **environ)
 {
 	int		pid;
 	int		status;
 	t_fdpid	fdpid[4096];
 
 	fdpid[0].fd = 0;
-	if (heredoc->valid == false)
-		fdpid[0].fd = open(input_file, O_RDONLY);
+	//if (input_file)
+		//fdpid[0].fd = open(input_file, O_RDONLY);
 	if (fdpid[0].fd == -1)
 		kill_process(-1, input_file, NULL);
 	pid = fork();
 	if (pid == 0)
 	{
-		main_child(cmds, output_file, fdpid, heredoc);
+		main_child(output_file, fdpid, cmds, environ);
 		exit(0);
 	}
 	else if (pid == -1)

@@ -6,15 +6,11 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 03:08:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 23:50:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "parser.h"
-#include "libft_str.h"
-#include "minishell.h"
-#include "lexer_util.h"
+#include "parser_expand.h"
 
 static void	expand_recursive(char *str, token_type pre_token, char **dst_str);
 

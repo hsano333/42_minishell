@@ -6,11 +6,15 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:59:33 by hsano             #+#    #+#             */
-/*   Updated: 2022/09/17 00:07:50 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 22:01:51 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHILD_H
 # define CHILD_H
-void	child(char *cmds, int fd_in, int pipe_fd[2]);
+# include "pipex.h"
+# include "pipex_util.h"
+# include "libft_str.h"
+# include "parser.h"
+void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ);
 #endif

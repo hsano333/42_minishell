@@ -22,7 +22,7 @@ SRCS	:= $(addprefix $(SRCDIR), $(SRC))
 OBJS	:= $(SRCS:.c=.o)
 OBJECTS	:= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 DEPS	:= $(OBJECTS:.o=.d)
-INCS	:= ./include $(LIBFTDIR)/include
+INCS	:= ./include $(LIBFTDIR)/include ../../include
 
 LIBDIRS	:= $(LIBFTDIR) $()
 IFLAGS	:= $(addprefix -I,$(INCS))

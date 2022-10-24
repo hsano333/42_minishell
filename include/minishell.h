@@ -6,19 +6,20 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/13 16:20:01 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 23:47:42 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-#include "libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <signal.h>
+#include "libft_str.h"
+#include "libft_mem.h"
 
 #include <readline/readline.h>
 #include <readline/history.h>

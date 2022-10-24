@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write_file.h                                       :+:      :+:    :+:   */
+/*   libft_put.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/16 15:34:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 15:05:14 by hsano            ###   ########.fr       */
+/*   Created: 2022/08/08 15:08:14 by hsano             #+#    #+#             */
+/*   Updated: 2022/08/08 15:12:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WRITE_FILE_H
-# define WRITE_FILE_H
-void	write_file(int fd_in, char *filename);
+#ifndef LIBFT_PUT_H
+# define LIBFT_PUT_H
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putnbr_fd(int n, int fd);
 #endif
