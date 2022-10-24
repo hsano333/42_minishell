@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:57:10 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 22:51:12 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/25 02:41:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	parent_child(int pid, int *pipe_fd, int *pipe_fd_p, t_pipe *pipes)
 	{
 		read_size = read(pipe_fd[PIPE_IN], buf, READ_MAX);
 		if (read_size > 0)
-			write(pipe_fd_p[PIPE_OUT], buf, read_size);
+			write(fd, buf, read_size);
 		else if (read_size <= 0)
 		{
 			close(fd);
