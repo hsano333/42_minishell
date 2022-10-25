@@ -16,7 +16,7 @@ ifdef WITH_BONUS
 ENTRY	:= $(ENTRYBONUS)
 DELENTRY	:= $(OBJDIR)/main.o
 endif
-SRC	+= $(ENTRY)
+SRC	+= 
 
 SRCS	:= $(addprefix $(SRCDIR), $(SRC))
 OBJS	:= $(SRCS:.c=.o)
