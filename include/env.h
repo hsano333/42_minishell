@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:13:58 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 23:46:50 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/25 14:13:42 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@ enum e_env_mode
 {
 	INIT_ENV,
 	GET_ENV,
-	SET_ENV,
-	DEL_ENV,
+	GET_ENV_VAR,
+	SET_ENV_VAR,
+	DEL_ENV_VAR,
 };
-
 typedef enum e_env_mode t_env_mode;
-
-char *env_func(char ***src_env, t_env_mode mode, char *var, char *val);
-
+char	*env_func(char ***src_env, t_env_mode mode, char *var, char *val);
 #endif

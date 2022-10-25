@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/19 03:18:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/25 12:53:57 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static char *get_env_val(char **env, char *var)
 			break;
 		}
 		//=も無かった時
+		//行数制限回避の為、breakだけにする
 		else if (ft_strncmp(env[i], var, ft_strlen(env[i])) == '\0')
 		{
 			value = ft_calloc(1, sizeof(char));
@@ -93,11 +94,11 @@ char *env_func(char ***envp, t_env_mode mode, char *var, char *val)
 
 	if (mode == INIT_ENV)
 		env = envp;
-	else if (mode == GET_ENV)
+	else if (mode == GET_ENV_VAR)
 		return get_env_val(*env, var);
-	else if (mode == SET_ENV)
+	else if (mode == SET_ENV_VAR)
 		set_env_var(env, var);
-	else if (mode == DEL_ENV)
+	else if (mode == DEL_ENV_VAR)
 		del_env_var(*env, var);
 	return (NULL);
 }

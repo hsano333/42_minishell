@@ -22,7 +22,8 @@ void sigint_handler(int sig, siginfo_t *siginfo, void *unused)
 
     if (sig == SIGINT)
     {
-        printf("\n");
+        // printf("\n");
+        ft_putstr_fd("\n", STDERR_FILENO);
         //通常、改行を出力した後、新しい (空の) 行に移動したことを更新ルーチンに伝えます。
         rl_on_new_line();
         //  rl_line_bufferの内容をtextに置き換えます。可能であれば、ポイントとマークは保持されます。clear_undoがゼロ以外の場合、現在の行に関連付けられた取り消しリストがクリアされます 。
