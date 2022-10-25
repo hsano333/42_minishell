@@ -6,13 +6,25 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/14 17:17:29 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 01:31:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 # include <unistd.h>
+
+enum	e_buildin
+{
+	BUIDIN_ECHO,
+	BUIDIN_CD,
+	BUIDIN_PWD,
+	BUIDIN_EXPORT,
+	BUIDIN_UNSET,
+	BUIDIN_ENV,
+	BUIDIN_EXIT,
+	NOT_BUIDIN,
+};
 
 enum	e_token_type
 {
@@ -25,6 +37,7 @@ enum	e_token_type
 	PIPE,
 	D_PIPE,
 	D_AMPERSAND,
+	GLT,
 	GT,
 	LT,
 	D_GT,
@@ -32,6 +45,7 @@ enum	e_token_type
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 	EXIT_STATUS,
+	NON,
 	DOLLER = 256,
 	ASTERISK = 512,
 	//LPAREN,
@@ -44,7 +58,6 @@ enum	e_token_type
 	//BACK_SLASH,
 	//DOT,
 	//D_DOT,
-	NON,
 };
 typedef enum e_token_type token_type;
 

@@ -17,10 +17,19 @@ SRC	:= env.c \
 	signal.c \
 	lexer.c \
 	lexer_util.c \
+	parser.c \
+	parser_util.c \
+	parser_init.c \
 	parser_expand.c \
 	parser_expand_doller.c \
 	parser_expand_asterisk.c \
-	env_util.c 
+	parser_expand_asterisk_util.c \
+	parser_expand_asterisk_saved_file.c \
+	parser_heredoc.c \
+	parser_change_std.c \
+	parser_find_cmds.c \
+	env_util.c \
+	dir.c
 	
 ENTRY	:= main.c
 ENTRYBONUS	:= main_bonus.c
@@ -43,7 +52,13 @@ LFLAGS	:= $(addprefix -L,$(LIBDIRS))
 LIBS	:= $(LIBFT) $(PIPEX)
 
 CC	:= cc
-CFLAGS	:= -Wall -Wextra -Werror 
+ifeq ($(shell uname),Darwin)
+CFLAGS	:= -Wall -Wextra -Werror
+#CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined
+else
+CFLAGS	:= -Wall -Wextra -Werror
+#CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined -fsanitize=leak 
+endif
 LDFLAGS := $(IFLAGS) $(LFLAGS) -lft -lpipex -lreadline  -L$(shell brew --prefix readline)/lib -lreadline
 
 all:

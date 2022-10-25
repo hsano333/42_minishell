@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/14 16:41:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 03:06:27 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ token_type	is_expand(t_token *token)
 {
 	if (token->type == SINGLE_QUOTE 
 		|| token->type == DOUBLE_QUOTE
-		|| (token->type & DOLLER) == DOLLER)
+		|| (token->type & DOLLER) == DOLLER
+		|| (token->type & ASTERISK) == ASTERISK)
 		return (token->type);
 	return (NON);
 }
@@ -56,6 +57,13 @@ void	expand_quote(t_token *token, size_t end_no)
 	}
 	free(token[0].literal);
 	token[0].literal = expanded_str;
+	token[0].type = IDENT;
+}
+
+static void	expand_doller_asterisk(t_token *token, token_type pre_token)
+{
+	expand_doller(token, pre_token);
+	expand_asterisk(token, pre_token);
 }
 
 size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
@@ -69,14 +77,8 @@ size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
 	cur_token = is_expand(&(tokens[i]));
 	if (tokens[i].type == EOS)
 		return (end_no);
-	//if (tokens[i].type == EOS && pre_token != NON)
-		//return (end_no);
-	//else if (tokens[i].type == EOS && pre_token == NON)
-		//return (end_no);
-	else if (DOLLER == (cur_token & DOLLER))
-		expand_doller(&(tokens[i]), pre_token);
-	else if (ASTERISK == (cur_token & ASTERISK))
-		expand_asterisk(&(tokens[i]), pre_token);
+	else if (DOLLER == (cur_token & DOLLER) || ASTERISK == (cur_token & ASTERISK))
+		expand_doller_asterisk(&(tokens[i]), pre_token);
 	else if (cur_token != NON && pre_token == NON)
 		end_no = expand_str(tokens, cur_token, i + 1);
 	else if (cur_token == pre_token)
@@ -91,9 +93,8 @@ size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
 	return (end_no);
 }
 
-void	parser_expand(void)
+int	parser_expand(t_token *tokens)
 {
-	//expand_str(tokens, NON, 0);
-	//expand_asterisk(tokens, NON, 0);
-
+	expand_str(tokens, NON, 0);
+	return (true);
 }

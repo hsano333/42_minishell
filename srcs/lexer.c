@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/14 14:30:54 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 02:38:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ token_type	identify_token_partial(char c, char next_c)
 		return (D_LT);
 	else if (c == '>')
 		return (LT);
+	else if (c == '<' && next_c == '>')
+		return (GLT);
 	else if (c == '<' && next_c == '<')
 		return (D_GT);
 	else if (c == '<')
@@ -89,8 +91,7 @@ size_t	token_len(token_type *type, char *str)
 	return (cnt);
 }
 
-//t_token	*init_token(t_token *token, token_type type, char *str, size_t id)
-void	init_token(t_token *token, token_type type, char *str, size_t id)
+static void	set_token(t_token *token, token_type type, char *str, size_t id)
 {
 	token->len = token_len(&type, str);
 	token->type = type;
@@ -115,10 +116,10 @@ t_token	*lexer(char *str)
 			str++;
 			continue ;
 		}
-		init_token(&(tokens[i]), identify_token(*str, str[1]), str, i);
+		set_token(&(tokens[i]), identify_token(*str, str[1]), str, i);
 		str += tokens[i].len;
 		i++;
 	}
-	init_token(&(tokens[i]), EOS, "", i);
+	set_token(&(tokens[i]), EOS, "", i);
 	return (check_error(tokens));
 }
