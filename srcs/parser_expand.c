@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 02:41:32 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 03:21:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,8 @@ void	expand_quote(t_token *token, size_t end_no)
 
 static void	expand_doller_asterisk(t_token *token, token_type pre_token)
 {
-	printf("expand_doller_asteriski No.1\n");
 	expand_doller(token, pre_token);
-	printf("expand_doller_asteriski No.2\n");
 	expand_asterisk(token, pre_token);
-	printf("expand_doller_asteriski No.2\n");
 }
 
 size_t	parser_expand(t_token *tokens, token_type pre_token, size_t i)
@@ -75,12 +72,9 @@ size_t	parser_expand(t_token *tokens, token_type pre_token, size_t i)
 	token_type	cur_token;
 
 	end_no = false;
-	printf("parser_expand No.1\n");
 	while (tokens[i].type != EOS && is_expand(&(tokens[i])) == NON)
 		i++;
-	printf("parser_expand No.2\n");
 	cur_token = is_expand(&(tokens[i]));
-	printf("parser_expand No.3\n");
 	if (tokens[i].type == EOS)
 		return (end_no);
 	else if (DOLLER == (cur_token & DOLLER) || ASTERISK == (cur_token & ASTERISK))
@@ -89,18 +83,13 @@ size_t	parser_expand(t_token *tokens, token_type pre_token, size_t i)
 		end_no = parser_expand(tokens, cur_token, i + 1);
 	else if (cur_token == pre_token)
 		return (tokens[i].id);
-	printf("parser_expand No.4\n");
 	if (end_no > tokens[i].id)
 	{
-	printf("parser_expand No.5\n");
 		expand_quote(&(tokens[i]), end_no);
-	printf("parser_expand No.6\n");
 		i = end_no;
 	}
-	printf("parser_expand No.7\n");
 	if (tokens[i].type != EOS)
 		end_no = parser_expand(tokens, pre_token, i + 1);
-	printf("parser_expand No.8\n");
 	return (end_no);
 }
 

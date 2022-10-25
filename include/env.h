@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:13:58 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/25 14:13:42 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 03:22:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 enum e_env_mode
 {
 	INIT_ENV,
-	GET_ENV,
 	GET_ENV_VAR,
 	SET_ENV_VAR,
 	DEL_ENV_VAR,
