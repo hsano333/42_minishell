@@ -19,8 +19,9 @@ enum e_env_mode
 {
 	INIT_ENV,
 	GET_ENV,
-	SET_ENV,
-	DEL_ENV,
+	GET_ENV_VAR,
+	SET_ENV_VAR,
+	DEL_ENV_VAR,
 };
 
 typedef enum e_env_mode t_env_mode;
