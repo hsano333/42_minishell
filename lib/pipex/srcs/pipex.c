@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/25 02:35:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/25 23:58:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "ft_printf.h"
 #include "heredoc.h"
 #include "pipex_util.h"
+#include "exit_status.h"
 
 static t_fdpid	pipe_main( int fd_in, t_pipe *pipes, char **environ)
 {
@@ -60,14 +61,14 @@ static void	main_child(char *output_file, t_fdpid *fdpid, \
 		if (fdpid[fd_i].pid == -1)
 			kill_process(-1, "pipex error:fork() error", NULL);
 	}
-	printf("output_file:%s\n", output_file);
 	write_file(fdpid[fd_i].fd, output_file);
-	i = fd_i;
-	while (i > 0)
-	{
-		waitpid(fdpid[i].pid, &status, 0);
-		i--;
-	}
+	i = 0;
+	while (i < fd_i)
+		waitpid(fdpid[i++].pid, &status, 0);
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		exit(WTERMSIG(status));
 }
 
 int	pipex(char *input_file, char *output_file, t_cmds *cmds, char **environ)
@@ -77,20 +78,17 @@ int	pipex(char *input_file, char *output_file, t_cmds *cmds, char **environ)
 	t_fdpid	fdpid[4096];
 
 	fdpid[0].fd = 0;
-	//if (input_file)
-		//fdpid[0].fd = open(input_file, O_RDONLY);
 	if (fdpid[0].fd == -1)
 		kill_process(-1, input_file, NULL);
 	pid = fork();
 	if (pid == 0)
-	{
 		main_child(output_file, fdpid, cmds, environ);
-		exit(0);
-	}
 	else if (pid == -1)
 		kill_process(-1, NULL, NULL);
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		kill_process(0, NULL, NULL);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
 	return (0);
 }

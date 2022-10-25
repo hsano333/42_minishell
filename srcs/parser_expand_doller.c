@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 23:50:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 02:52:11 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*join_and_free_str(char *dst, char *str, int i, int is_free_str)
 	char	*concat_str;
 	char	tmp;
 
-	if (!dst)
+	if (!dst || !str)
 		return (NULL);
 	tmp = str[i];
 	str[i] = '\0';

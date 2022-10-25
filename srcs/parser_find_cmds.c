@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 16:48:32 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 02:52:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 static void	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 {
 	cmds->pipes[pipe_i].cmd = token->literal;
-	if (ft_strncmp(token->literal, "echo", ft_strlen("echo") + 1) == 0)
+	if (token->literal == NULL)
+		cmds->pipes[pipe_i].builtin = NOT_BUIDIN;
+	else if (ft_strncmp(token->literal, "echo", ft_strlen("echo") + 1) == 0)
 		cmds->pipes[pipe_i].builtin = BUIDIN_ECHO;
 	else if (ft_strncmp(token->literal, "cd", ft_strlen("cd") + 1) == 0)
 		cmds->pipes[pipe_i].builtin = BUIDIN_CD;

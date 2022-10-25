@@ -30,6 +30,7 @@ SRC	:= env.c \
 	parser_find_cmds.c \
 	exe_cmds.c \
 	env_util.c \
+	exit_status.c \
 	dir.c
 	
 ENTRY	:= main.c
