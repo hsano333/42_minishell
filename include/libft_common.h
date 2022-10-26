@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write_file.h                                       :+:      :+:    :+:   */
+/*   libft_common.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/16 15:34:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 15:05:14 by hsano            ###   ########.fr       */
+/*   Created: 2022/08/26 06:52:45 by hsano             #+#    #+#             */
+/*   Updated: 2022/09/01 20:50:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WRITE_FILE_H
-# define WRITE_FILE_H
-void	write_file(int fd_in, char *filename);
+#ifndef LIBFT_COMMON_H
+# define LIBFT_COMMON_H
+# include "libft.h"
+
+size_t	remove_zero(const char *str, size_t i);
+size_t	get_digit_len(const char *str, size_t i);
+size_t	ft_iterative_power(long nb, long power);
+size_t	get_start_index(const char *str, int *minus);
 #endif

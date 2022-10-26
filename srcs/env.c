@@ -6,11 +6,11 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 23:28:22 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/10/09 23:28:22 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/10/24 23:45:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "env.h"
 
 //
 

@@ -6,7 +6,11 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/10/26 08:28:41 by maoyagi          ###   ########.fr       */
+=======
+/*   Updated: 2022/10/24 23:05:45 by hsano            ###   ########.fr       */
+>>>>>>> 419ac6356c78aae2a6f21c150125cdbb90609477
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +23,7 @@
 #include "parser_util.h"
 #include "parser_expand.h"
 #include "parser_heredoc.h"
+#include "exe_cmds.h"
 #include "dir.h"
 
 //簡易的な入力受付
@@ -47,6 +52,8 @@ int loop(t_env *env)
 		// parser_expand(tokens);
 		// create_heredoc_file(tokens);
 		cmds = parser(tokens);
+		exe_cmds(cmds);
+
 		put_tokens(tokens);
 		clear_tokens(tokens);
 		clear_all_cmds(&cmds);

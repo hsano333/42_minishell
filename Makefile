@@ -28,7 +28,9 @@ SRC	:= env.c \
 	parser_heredoc.c \
 	parser_change_std.c \
 	parser_find_cmds.c \
+	exe_cmds.c \
 	env_util.c \
+	exit_status.c \
 	dir.c
 	
 ENTRY	:= main.c
@@ -44,7 +46,7 @@ SRCS	:= $(addprefix $(SRCDIR), $(SRC))
 OBJS	:= $(SRCS:.c=.o)
 OBJECTS	:= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 DEPS	:= $(OBJECTS:.o=.d)
-INCS	:= ./include $(LIBFTDIR)/include
+INCS	:= ./include 
 
 LIBDIRS	:= $(LIBFTDIR) $(PIPEDIR)
 IFLAGS	:= $(addprefix -I,$(INCS)) -I$(shell brew --prefix readline)/include
@@ -59,7 +61,7 @@ else
 CFLAGS	:= -Wall -Wextra -Werror
 #CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined -fsanitize=leak 
 endif
-LDFLAGS := $(IFLAGS) $(LFLAGS) -lft -lpipex -lreadline  -L$(shell brew --prefix readline)/lib -lreadline
+LDFLAGS := $(IFLAGS) $(LFLAGS)  -lpipex -lft -lreadline  -L$(shell brew --prefix readline)/lib -lreadline
 
 all:
 	@make -C $(LIBFTDIR)

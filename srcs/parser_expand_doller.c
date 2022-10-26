@@ -6,15 +6,11 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 03:08:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 03:22:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "parser.h"
-#include "libft_str.h"
-#include "minishell.h"
-#include "lexer_util.h"
+#include "parser_expand.h"
 
 static void	expand_recursive(char *str, token_type pre_token, char **dst_str);
 
@@ -33,7 +29,7 @@ static char	*join_and_free_str(char *dst, char *str, int i, int is_free_str)
 	char	*concat_str;
 	char	tmp;
 
-	if (!dst)
+	if (!dst || !str)
 		return (NULL);
 	tmp = str[i];
 	str[i] = '\0';
@@ -58,7 +54,7 @@ static void expand(char *str, char **dst_str, size_t i)
 			j++;
 	tmp = str[j];
 	str[j] = '\0';
-	env_str = env_func(NULL, GET_ENV, str, NULL);
+	env_str = env_func(NULL, GET_ENV_VAR, str, NULL);
 	str[j] = tmp;
 	*dst_str = join_and_free_str(*dst_str, env_str, ft_strlen(env_str), true);
 	if (str[i] == '$' && is_valid_env_char(str[i + 1]))

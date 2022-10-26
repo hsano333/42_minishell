@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 03:39:05 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 02:52:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 static void	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 {
 	cmds->pipes[pipe_i].cmd = token->literal;
-	if (ft_strncmp(token->literal, "echo", ft_strlen("echo") + 1) == 0)
+	if (token->literal == NULL)
+		cmds->pipes[pipe_i].builtin = NOT_BUIDIN;
+	else if (ft_strncmp(token->literal, "echo", ft_strlen("echo") + 1) == 0)
 		cmds->pipes[pipe_i].builtin = BUIDIN_ECHO;
 	else if (ft_strncmp(token->literal, "cd", ft_strlen("cd") + 1) == 0)
 		cmds->pipes[pipe_i].builtin = BUIDIN_CD;
@@ -121,20 +123,18 @@ int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds)
 	{
 		if (!tokens[i].valid && ++i)
 			continue ;
-		else if (tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND)
-		{
-			cmd_i++;
+		else if ((tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND) && cmd_i++)
 			pipe_i = 0;
-		}
 		else if (tokens[i].type == PIPE)
 			pipe_i++;
 		else if (tokens[i].type == IDENT && cmds[cmd_i].pipes[pipe_i].cmd == NULL)
+		{
 			set_cmd_name(&(cmds[cmd_i]), &(tokens[i]), pipe_i);
+			continue ;
+		}
 		else if (tokens[i].type == IDENT && cmds[cmd_i].pipes[pipe_i].cmd != NULL)
 			set_args(&(cmds[cmd_i]), tokens, &i, pipe_i);
 		i++;
 	}
-	if (have_error(cmds))
-		return (false);
-	return (true);
+	return (!have_error(cmds));
 }

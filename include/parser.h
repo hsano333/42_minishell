@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/23 03:30:05 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/25 00:44:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ typedef struct s_pipe {
 	char	*in_file;
 	char	*out_file;
 	char	*cmd;
-	int	have_param;
+	int		have_param;
 	char	**param;
 	size_t	id;
-	int	builtin;
+	size_t	cmd_num;
+	int		builtin;
 }	t_pipe;
 
 typedef struct s_pipes {

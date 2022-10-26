@@ -6,14 +6,10 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 02:41:11 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 23:40:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-#include "libft_str.h"
-#include "parser.h"
-#include "parser_expand.h"
 #include "parser_heredoc.h"
 
 static int	execute_heredoc(t_heredoc *heredoc)

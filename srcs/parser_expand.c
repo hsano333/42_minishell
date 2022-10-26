@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 03:06:27 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 03:21:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	expand_doller_asterisk(t_token *token, token_type pre_token)
 	expand_asterisk(token, pre_token);
 }
 
-size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
+size_t	parser_expand(t_token *tokens, token_type pre_token, size_t i)
 {
 	size_t	end_no;
 	token_type	cur_token;
@@ -80,7 +80,7 @@ size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
 	else if (DOLLER == (cur_token & DOLLER) || ASTERISK == (cur_token & ASTERISK))
 		expand_doller_asterisk(&(tokens[i]), pre_token);
 	else if (cur_token != NON && pre_token == NON)
-		end_no = expand_str(tokens, cur_token, i + 1);
+		end_no = parser_expand(tokens, cur_token, i + 1);
 	else if (cur_token == pre_token)
 		return (tokens[i].id);
 	if (end_no > tokens[i].id)
@@ -89,12 +89,14 @@ size_t	expand_str(t_token *tokens, token_type pre_token, size_t i)
 		i = end_no;
 	}
 	if (tokens[i].type != EOS)
-		end_no = expand_str(tokens, pre_token, i + 1);
+		end_no = parser_expand(tokens, pre_token, i + 1);
 	return (end_no);
 }
 
+/*
 int	parser_expand(t_token *tokens)
 {
-	expand_str(tokens, NON, 0);
+	parser_expand(tokens, NON, 0);
 	return (true);
 }
+*/

@@ -6,13 +6,11 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/09/17 05:24:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 22:51:43 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-#include "pipex_util.h"
-#include "libft_str.h"
+#include "child.h"
 
 static void	put_invalid_command(char *cmds)
 {
@@ -22,30 +20,29 @@ static void	put_invalid_command(char *cmds)
 	exit(0);
 }
 
-void	child(char *cmds, int fd_in, int pipe_fd[2])
+void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 {
-	char		**argv;
 	char		filepath[PATH_MAX + 1];
-	int			r[4];
-	extern char	**environ;
+	int			r[2];
 
-	argv = ft_split(cmds, ' ');
-	if (argv)
+	if (pipes->param)
 	{
-		if (search_path(argv[0], environ, filepath))
+		if (search_path(pipes->param[0], environ, filepath))
 		{
 			close(pipe_fd[PIPE_IN]);
-			r[0] = close(0);
-			r[1] = dup2(fd_in, 0);
-			r[2] = close(1);
-			r[3] = dup2(pipe_fd[PIPE_OUT], 1);
-			if (r[0] == -1 || r[1] == -1 || r[2] == -1 || r[3] == -1)
+			if (pipes->in_file)
+			{
+				close(fd_in);
+				fd_in = open(pipes->in_file, O_RDONLY);;
+			}
+			r[0] = dup2(fd_in, 0);
+			r[1] = dup2(pipe_fd[PIPE_OUT], 1);
+			if (r[0] == -1 || r[1] == -1)
 				exit(EXIT_FAILURE);
-			if (execve(filepath, argv, environ) == -1)
+			if (execve(filepath, pipes->param, environ) == -1)
 				exit(EXIT_FAILURE);
 		}
 		else
-			put_invalid_command(cmds);
+			put_invalid_command(pipes->param[0]);
 	}
-	ft_free_split(argv);
 }

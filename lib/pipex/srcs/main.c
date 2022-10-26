@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/09/17 16:28:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 16:30:13 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv)
 		i = 2;
 		output_file = argv[argc - 1];
 		argv[argc - 1] = NULL;
-		pipex(argv[1], output_file, &(argv[i]), &heredoc);
+		//pipex(argv[1], output_file, &(argv[i]), &heredoc);
 	}
 	return (0);
 }

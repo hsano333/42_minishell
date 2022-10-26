@@ -6,11 +6,16 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:55:37 by hsano             #+#    #+#             */
-/*   Updated: 2022/09/17 00:40:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/24 21:52:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARENT_H
 # define PARENT_H
-t_fdpid	parent(int pid, int *pipe_fd);
+# include "pipex.h"
+# include "pipex_util.h"
+# include "libft_str.h"
+# include "ft_printf.h"
+
+t_fdpid	parent(int pid, int *pipe_fd, t_pipe *pipes);
 #endif
