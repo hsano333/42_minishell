@@ -48,4 +48,7 @@ char **str_arr_dup(char **arr);
 void free_str_array(char ***arr);
 char **realloc_str_arr(char **arr, size_t size);
 
+// cmd
+int cmd_env(char **env);
+
 #endif

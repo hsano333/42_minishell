@@ -26,6 +26,6 @@ enum e_env_mode
 
 typedef enum e_env_mode t_env_mode;
 
-char *env_func(char ***src_env, t_env_mode mode, char *var, char *val);
+char **env_func(char ***src_env, t_env_mode mode, char *var, char *val);
 
 #endif

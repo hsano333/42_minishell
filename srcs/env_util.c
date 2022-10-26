@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/25 12:53:57 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/10/26 11:09:44 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,34 @@ bool del_env_var(char **env, char *var)
 //ダブルポインタのメモリ確保を関数内で行うにはアドレスを渡す必要があるらしい
 bool set_env_var(char ***env, char *var)
 {
+	size_t i;
 	char **new;
 
 	if (!env || !var)
 		return (false);
-	new = realloc_str_arr(*env, str_arr_len(*env) + 1);
-	new[str_arr_len(new)] = ft_strdup(var);
-	*env = new;
+	//変更
+	while (env && env[i] && ft_strncmp(env[i], var, ft_strlen(env[i]) != '='))
+		i++;
+	if (i < str_arr_len(*env))
+	{
+		free(env[i]);
+		env[i] = ft_strdup(var);
+		if (!env[i])
+			return (false);
+	}
+	else
+	{
+		new = realloc_str_arr(*env, str_arr_len(*env) + 1);
+		new[str_arr_len(new)] = ft_strdup(var);
+		if (!new[str_arr_len(new)])
+			return (false);
+		*env = new;
+	}
 	return (true);
 }
 
 // char *strに変更
-char *env_func(char ***envp, t_env_mode mode, char *var, char *val)
+char **env_func(char ***envp, t_env_mode mode, char *var, char *val)
 {
 	static char ***env = NULL;
 
@@ -94,6 +110,8 @@ char *env_func(char ***envp, t_env_mode mode, char *var, char *val)
 
 	if (mode == INIT_ENV)
 		env = envp;
+	else if (mode == GET_ENV)
+		return *env;
 	else if (mode == GET_ENV_VAR)
 		return get_env_val(*env, var);
 	else if (mode == SET_ENV_VAR)
