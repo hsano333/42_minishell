@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 11:09:44 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:00:02 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,26 +78,32 @@ bool set_env_var(char ***env, char *var)
 	size_t i;
 	char **new;
 
-	if (!env || !var)
+	i = 0;
+	if (!(*env) || !var)
 		return (false);
 	//変更
-	while (env && env[i] && ft_strncmp(env[i], var, ft_strlen(env[i]) != '='))
+
+	while ((*env) && (*env)[i] && ft_strncmp((*env)[i], var, ft_strlen((*env)[i])) != '=')
 		i++;
-	if (i < str_arr_len(*env))
-	{
-		free(env[i]);
-		env[i] = ft_strdup(var);
-		if (!env[i])
-			return (false);
-	}
-	else
-	{
-		new = realloc_str_arr(*env, str_arr_len(*env) + 1);
-		new[str_arr_len(new)] = ft_strdup(var);
-		if (!new[str_arr_len(new)])
-			return (false);
-		*env = new;
-	}
+	/*
+if (i < (size_t)str_arr_len(*env))
+{
+	free((*env)[i]);
+	(*env)[i] = ft_strdup(var);
+	if (!(*env)[i])
+		return (false);
+}
+*/
+	// else
+	//{
+	new = realloc_str_arr(*env, str_arr_len(*env) + 1);
+	if (!new)
+		return (false);
+	new[str_arr_len(new)] = ft_strdup(var);
+	if (!new[str_arr_len(new) - 1])
+		return (false);
+	*env = new;
+	//}
 	return (true);
 }
 
@@ -105,15 +111,19 @@ bool set_env_var(char ***env, char *var)
 char **env_func(char ***envp, t_env_mode mode, char *var, char *val)
 {
 	static char ***env = NULL;
+	char **value;
 
 	(void)val;
-
+	value = NULL;
 	if (mode == INIT_ENV)
 		env = envp;
 	else if (mode == GET_ENV)
 		return *env;
 	else if (mode == GET_ENV_VAR)
-		return get_env_val(*env, var);
+	{
+		*value = get_env_val(*env, var);
+		return (value);
+	}
 	else if (mode == SET_ENV_VAR)
 		set_env_var(env, var);
 	else if (mode == DEL_ENV_VAR)
