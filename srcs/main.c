@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 13:49:05 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/10/27 08:37:33 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,41 +95,24 @@ int main(int argc, char **argv, char **envp)
 	// char **に後で変更する
 	env = init_env(envp); //後で消す
 	envv = str_arr_dup(envp);
+	env_store(envv, INIT_ENV);
 
-	// print_env(env);
-	// env_func(&env->env_var, 0, NULL, NULL);
-	env_func(&envv, 0, NULL, NULL);
+	print_env2((const char **)env_store(NULL, GET_ENV));
+	printf("env get test:%s\n", get_env_val("USER"));
+	set_env_var("test=test");
+	print_env2((const char **)env_store(NULL, GET_ENV));
+	del_env_var("test");
+	print_env2((const char **)env_store(NULL, GET_ENV));
+	set_env_var("test=test");
 
-	// printf("env get test:%s\n", env_func(NULL, 1, NULL, NULL));
+	set_env_var("test=test2");
+	print_env2((const char **)env_store(NULL, GET_ENV));
 
-	//// get
-	// printf("env get test:%s\n", env_func(NULL, GET_ENV, "OLDPWD", NULL));
-	//存在しないケース
-	// printf("env get test:%s\n", env_func(NULL, GET_ENV, "OLDPWDaaaa", NULL));
-
-	// set
-	// env_func(NULL, SET_ENV, "test=test", NULL);
-	// set_env_var(&env->env_var, "test==test");
-	// printf("env get test:%s\n", env_func(NULL, GET_ENV, "test", NULL));
-	// print_env2((const char **)envv);
-	// print_env(env);
-
-	// del
-	// del_env_var(env->env_var, "test1");
-	// print_env(env);
-	// del_env_var(env->env_var, "test");
-	// del_env_var(env->env_var, "test");
-	// print_env2((const char **)envp);
-	// env_func(NULL, DEL_ENV, "test", NULL);
-	// print_env(env);
-	// print_env2((const char **)envv);
-	// printf("env get test:%s\n", env_func(NULL, GET_ENV, "PWD", NULL));
-
-	cmd_env("env");
 	// readline
-	loop(env);
+	loop(NULL);
 
 	free_env(env);
+	envv = env_store(NULL, GET_ENV);
 	free_str_array(&envv);
 	// system("leaks minishell");
 

@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 16:00:02 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/10/27 08:38:41 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 #include "env.h"
 #include <minishell.h>
 
-static char *get_env_val(char **env, char *var)
+char *get_env_val(char *var)
 {
 	size_t i;
 	char *value;
+	char **env;
 
+	env = env_store(NULL, GET_ENV);
 	i = 0;
 	value = NULL;
 	//環境変数の最後まで読む
@@ -49,15 +51,19 @@ static char *get_env_val(char **env, char *var)
 	return (value);
 }
 
-bool del_env_var(char **env, char *var)
+bool del_env_var(char *var)
 {
 	size_t i;
+	char **env;
 
+	env = env_store(NULL, GET_ENV);
 	i = 0;
 	if (!var)
 		return (false);
-	while (env && env[i] && ft_strncmp(env[i], var, ft_strlen(env[i]) != '='))
+	while (env && env[i] && ft_strncmp(env[i], var, ft_strlen(env[i])) != '=')
 		i++;
+	if (!env[i])
+		return (false);
 	free(env[i]);
 	env[i] = NULL;
 	//一個ずらす
@@ -71,62 +77,52 @@ bool del_env_var(char **env, char *var)
 	return (true);
 }
 
-//トリプルポインタにしないと、envのアドレスがnewに置き変わらない
-//ダブルポインタのメモリ確保を関数内で行うにはアドレスを渡す必要があるらしい
-bool set_env_var(char ***env, char *var)
+bool add_env_var(char **env, char *var_val)
 {
-	size_t i;
 	char **new;
 
-	i = 0;
-	if (!(*env) || !var)
+	if (!env || !var_val)
 		return (false);
-	//変更
-
-	while ((*env) && (*env)[i] && ft_strncmp((*env)[i], var, ft_strlen((*env)[i])) != '=')
-		i++;
-	/*
-if (i < (size_t)str_arr_len(*env))
-{
-	free((*env)[i]);
-	(*env)[i] = ft_strdup(var);
-	if (!(*env)[i])
-		return (false);
-}
-*/
-	// else
-	//{
-	new = realloc_str_arr(*env, str_arr_len(*env) + 1);
+	new = realloc_str_arr(env, str_arr_len(env) + 1);
 	if (!new)
 		return (false);
-	new[str_arr_len(new)] = ft_strdup(var);
+	new[str_arr_len(new)] = ft_strdup(var_val);
 	if (!new[str_arr_len(new) - 1])
 		return (false);
-	*env = new;
-	//}
+	env_store(new, INIT_ENV);
 	return (true);
 }
 
-// char *strに変更
-char **env_func(char ***envp, t_env_mode mode, char *var, char *val)
+bool update_env_var(char **env, char *var_val, size_t i)
 {
-	static char ***env = NULL;
-	char **value;
+	if (!env[i])
+		return (false);
+	free((env)[i]);
+	(env)[i] = ft_strdup(var_val);
+	if (!(env)[i])
+		return (false);
+	return (true);
+}
 
-	(void)val;
-	value = NULL;
-	if (mode == INIT_ENV)
-		env = envp;
-	else if (mode == GET_ENV)
-		return *env;
-	else if (mode == GET_ENV_VAR)
-	{
-		*value = get_env_val(*env, var);
-		return (value);
-	}
-	else if (mode == SET_ENV_VAR)
-		set_env_var(env, var);
-	else if (mode == DEL_ENV_VAR)
-		del_env_var(*env, var);
-	return (NULL);
+//トリプルポインタにしないと、envのアドレスがnewに置き変わらない
+//ダブルポインタのメモリ確保を関数内で行うにはアドレスを渡す必要があるらしい
+bool set_env_var(char *var_val)
+{
+	size_t i;
+	char **env;
+	char **split;
+
+	env = env_store(NULL, GET_ENV);
+	if (!(env) || !var_val)
+		return (false);
+	i = 0;
+	split = ft_split(var_val, '=');
+	while ((env) && (env)[i] && ft_strncmp((env)[i], split[0], ft_strlen(env[i])) != '=')
+		i++;
+	free(split);
+	if (i < (size_t)str_arr_len(env))
+		return (update_env_var(env, var_val, i));
+	else
+		return (add_env_var(env, var_val));
+	return (true);
 }

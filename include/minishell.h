@@ -21,6 +21,7 @@
 #include "libft_str.h"
 #include "libft_mem.h"
 #include "libft_put.h"
+#include "libft_isto.h"
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -51,6 +52,10 @@ void free_str_array(char ***arr);
 char **realloc_str_arr(char **arr, size_t size);
 
 // cmd
-int cmd_env(char **env);
+int env(char **cmd);
+int pwd(void);
+int echo(char **cmd);
+int export_only(const char **env);
+int export(char **cmd);
 
 #endif
