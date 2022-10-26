@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:13:58 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/14 02:54:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 14:07:44 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define ENV_H
 
 #include <stdbool.h>
+#include <stdio.h>
+#include <minishell.h>
 
 enum e_env_mode
 {

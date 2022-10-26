@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 03:22:37 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 14:08:00 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void expand(char *str, char **dst_str, size_t i)
 			j++;
 	tmp = str[j];
 	str[j] = '\0';
-	env_str = env_func(NULL, GET_ENV_VAR, str, NULL);
+	env_str = *env_func(NULL, GET_ENV_VAR, str, NULL);
 	str[j] = tmp;
 	*dst_str = join_and_free_str(*dst_str, env_str, ft_strlen(env_str), true);
 	if (str[i] == '$' && is_valid_env_char(str[i + 1]))
