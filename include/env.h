@@ -21,13 +21,13 @@ enum e_env_mode
 {
 	INIT_ENV,
 	GET_ENV,
-	GET_ENV_VAR,
-	SET_ENV_VAR,
-	DEL_ENV_VAR,
 };
 
 typedef enum e_env_mode t_env_mode;
 
-char **env_func(char ***src_env, t_env_mode mode, char *var, char *val);
+char **env_store(char **src_env, t_env_mode mode);
 
+bool set_env_var(char *var_val);
+bool del_env_var(char *var);
+char *get_env_val(char *var);
 #endif

@@ -31,8 +31,11 @@ SRC	:= env.c \
 	parser_find_cmds.c \
 	exe_cmds.c \
 	env_util.c \
+	env_store.c \
 	exit_status.c \
-	dir.c
+	dir.c \
+
+
 	
 ENTRY	:= main.c
 ENTRYBONUS	:= main_bonus.c
