@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 02:41:02 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 16:25:04 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,15 @@ size_t token_len_helper(token_type type)
 	return (1);
 }
 
-t_token	*check_error(t_token *tokens)
+t_token	*check_lexer_error(t_token *tokens)
 {
 	int	err;
 	size_t	i;
-	//t_deque	*queue;
-	//t_token *tmp_token;
 	
 	err = false;
 	i = 0;
-	//queue = search_nil(tokens);
 	while (tokens[i].type != EOS)
 	{
-		//tmp_token = ((t_deque *)(queue->next))->content;
-		//if (tmp_token->type == EOS)
-			//break ;
 		if (tokens[i].literal == NULL)
 		{
 			err = true;
@@ -82,10 +76,13 @@ void	clear_tokens(t_token *tokens)
 	while (tokens[i].type != EOS)
 	{
 		free(tokens[i].literal);
+		tokens[i].literal = NULL;
 		i++;
 	}
 	free(tokens[i].literal);
+	tokens[i].literal = NULL;
 	free(tokens);
+	tokens = NULL;
 }
 
 void	put_tokens(t_token *tokens)

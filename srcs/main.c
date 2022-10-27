@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 14:53:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 16:35:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include "parser_heredoc.h"
 #include "exe_cmds.h"
 #include "dir.h"
+#include "kill_myprocess.h"
+
 
 //簡易的な入力受付
 int loop(t_env *env)
@@ -44,15 +46,15 @@ int loop(t_env *env)
 		}
 		// lexer parser
 		tokens = lexer(line);
-		//put_tokens(tokens);
-		// parser_expand(tokens);
-		// create_heredoc_file(tokens);
+		if (!tokens)
+			kill_myprocess(-1, NULL, NULL, NULL);
 		cmds = parser(tokens);
 		exe_cmds(cmds);
 
 		//put_tokens(tokens);
 		clear_tokens(tokens);
 		clear_all_cmds(&cmds);
+		//kill_myprocess(-1, NULL, tokens, cmds);
 		// clear_all_cmds(cmds);
 		//printf("\n");
 

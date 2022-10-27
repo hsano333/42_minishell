@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:06:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/23 16:42:09 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 16:15:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	clear_all_cmds(t_cmds **cmds)
 		while (j < (*cmds)[i].len)
 		{
 			free((*cmds)[i].pipes[j].param);
+			(*cmds)[i].pipes[j].param = NULL;
 			j++;
 		}
 		free((*cmds)[i].pipes);

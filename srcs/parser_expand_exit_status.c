@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:59:35 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 14:40:41 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 16:34:55 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,12 @@ static	size_t	expanded_str_len(char *str, char *e_status)
 	return (len);
 }
 
-int	expand_exit_status(t_token *token)
+static void	expand(t_token *token, char *str, size_t len, char *e_status)
 {
 	char	*p_doller;
-	//char	*base_p;
-	size_t	len;
-	char	e_status[20];
-	char	*str;
 	char	*backup;
-	//char	*str;
 
-	//base_p = token->literal;
 	backup = token->literal;
-	get_exit_status_str(e_status);
-	len = expanded_str_len(token->literal, e_status);
-	str = (char *)malloc(len + 1);
-	str[0] = '\0';
-	str[len] = '\0';
-	if (!str)
-		return (false);
 	p_doller = ft_strnstr(token->literal, "$?", ft_strlen(token->literal));
 	while (p_doller)
 	{
@@ -68,5 +55,23 @@ int	expand_exit_status(t_token *token)
 	free(backup);
 	token->literal = str;
 	token->type = IDENT;
+}
+
+int	expand_exit_status(t_token *token)
+{
+	size_t	len;
+	char	e_status[20];
+	char	*str;
+
+	if (EXIT_STATUS != (token->type & EXIT_STATUS))
+		return (true);
+	get_exit_status_str(e_status);
+	len = expanded_str_len(token->literal, e_status);
+	str = (char *)malloc(len + 1);
+	str[0] = '\0';
+	str[len] = '\0';
+	if (!str)
+		return (false);
+	expand(token, str, len, e_status);
 	return (true);
 }

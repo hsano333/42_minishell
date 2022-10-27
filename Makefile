@@ -33,6 +33,7 @@ SRC	:= env.c \
 	env_util.c \
 	env_store.c \
 	exit_status.c \
+	kill_myprocess.c \
 	dir.c \
 
 
