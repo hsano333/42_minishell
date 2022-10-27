@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 23:41:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 15:33:22 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ size_t	token_len(token_type *type, char *str)
 	size_t	cnt;
 	token_type	tmp_type;
 
-	if (!(*type == IDENT || *type == DOLLER || *type == ASTERISK))
+	if (!(*type == IDENT || *type == DOLLER || *type == ASTERISK || *type == EXIT_STATUS))
 		return (token_len_helper(*type));
 	i = 0;
 	cnt = 1;
@@ -79,9 +79,15 @@ size_t	token_len(token_type *type, char *str)
 		if (is_whitespace(str[i]))
 			break ;
 		tmp_type = identify_token(str[i], str[i + 1]);
-		if (tmp_type == IDENT || tmp_type == DOLLER || tmp_type == ASTERISK)
+		if (tmp_type == IDENT || tmp_type == DOLLER || tmp_type == ASTERISK || tmp_type == EXIT_STATUS)
 		{
-			cnt++;
+			if (tmp_type == EXIT_STATUS)
+			{
+				cnt += 2;
+				i++;
+			}
+			else
+				cnt++;
 			//if (tmp_type == DOLLER || tmp_type == ASTERISK)
 			*type= (*type | tmp_type);
 		}

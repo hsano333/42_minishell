@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 01:31:35 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 15:23:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ enum	e_token_type
 	D_LT,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
-	EXIT_STATUS,
 	NON,
 	DOLLER = 256,
 	ASTERISK = 512,
+	EXIT_STATUS = 1024,
 	//LPAREN,
 	//RPAREN,
 	//COMMA,

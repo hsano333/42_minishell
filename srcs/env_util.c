@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 16:00:02 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/10/26 22:50:31 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,17 @@ char **env_func(char ***envp, t_env_mode mode, char *var, char *val)
 	char **value;
 
 	(void)val;
-	value = NULL;
+	//value = NULL;
 	if (mode == INIT_ENV)
 		env = envp;
 	else if (mode == GET_ENV)
 		return *env;
 	else if (mode == GET_ENV_VAR)
 	{
+		value = (char **)malloc(sizeof(char *));
 		*value = get_env_val(*env, var);
 		return (value);
+		//return (get_env_val(*env, var));
 	}
 	else if (mode == SET_ENV_VAR)
 		set_env_var(env, var);

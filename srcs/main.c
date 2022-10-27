@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 13:49:05 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/10/26 18:49:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int main(int argc, char **argv, char **envp)
 	// print_env2((const char **)envv);
 	// printf("env get test:%s\n", env_func(NULL, GET_ENV, "PWD", NULL));
 
-	cmd_env("env");
+	//cmd_env("env");
 	// readline
 	loop(env);
 

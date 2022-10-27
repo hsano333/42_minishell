@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 23:51:46 by hsano             #+#    #+#             */
-/*   Updated: 2022/08/25 20:02:25 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/26 15:57:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static size_t	get_count(char *p, int n)
 	return (cnt);
 }
 
-static void	ft_itoa_no_memory(int n, char *p, char *r)
+void	ft_itoa_no_memory(int n, char *p, char *r)
 {
 	size_t	i;
 	size_t	cnt;
