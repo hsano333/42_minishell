@@ -6,12 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 23:30:56 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 16:04:21 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 14:15:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXIT_STATUS_H
 # define EXIT_STATUS_H
+# include <stdlib.h>
+# include <stdbool.h>
 # include "libft_str.h"
 void	set_exit_status(int e_stat);
 int	get_exit_status(void);

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 15:33:22 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 14:26:41 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ token_type	identify_token(char c, char next_c)
 		//return (EQUAL);
 	if (c == '*')
 		return (ASTERISK);
-	else if (c == '$')
-		return (DOLLER);
 	else if (c == '$' && next_c == '\?')
 		return (EXIT_STATUS);
+	else if (c == '$')
+		return (DOLLER);
 	else if (c == '\0')
 		return (EOS);
 	return (IDENT);

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 11:18:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 14:29:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ token_type	is_expand(t_token *token)
 	if (token->type == SINGLE_QUOTE 
 		|| token->type == DOUBLE_QUOTE
 		|| (token->type & DOLLER) == DOLLER
-		|| (token->type & ASTERISK) == ASTERISK)
+		|| (token->type & ASTERISK) == ASTERISK
+		|| (token->type & EXIT_STATUS) == EXIT_STATUS)
 		return (token->type);
 	return (NON);
 }
@@ -63,7 +64,7 @@ void	expand_quote(t_token *token, size_t end_no)
 
 static void	expand_doller_asterisk(t_token *token, token_type pre_token)
 {
-	//expand_exit_status(token);
+	expand_exit_status(token);
 	expand_doller(token, pre_token);
 	expand_asterisk(token, pre_token);
 }
