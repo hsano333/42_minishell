@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 15:41:04 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:12:22 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 16:45:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	kill_myprocess(int no, char *message1, t_token *tokens, t_cmds *cmds)
 	}
 	else if (no == -1)
 	{
-		perror(message1);
+		if (message1)
+			perror(message1);
+		else
+			strerror(errno);
 		exit(EXIT_FAILURE);
 	}
 	errno = no;

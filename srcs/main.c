@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:35:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 19:02:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int loop(t_env *env)
 		}
 		// lexer parser
 		tokens = lexer(line);
-		if (!tokens)
-			kill_myprocess(-1, NULL, NULL, NULL);
 		cmds = parser(tokens);
 		exe_cmds(cmds);
 
@@ -100,7 +98,7 @@ int main(int argc, char **argv, char **envp)
 	env_store(envv, INIT_ENV);
 
 	print_env2((const char **)env_store(NULL, GET_ENV));
-	printf("env get test:%s\n", get_env_val("USER"));
+	//printf("env get test:%s\n", get_env_val("USER"));
 	set_env_var("test=test");
 	print_env2((const char **)env_store(NULL, GET_ENV));
 	del_env_var("test");

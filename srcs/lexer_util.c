@@ -6,12 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:25:04 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 16:50:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_util.h"
-#include "lexer.h"
+//#include "lexer.h"
+# include "kill_myprocess.h"
 
 int	is_whitespace(char c)
 {
@@ -61,10 +62,7 @@ t_token	*check_lexer_error(t_token *tokens)
 		i++;
 	}
 	if (err)
-	{
-		clear_tokens(tokens);
-		return (NULL);
-	}
+		kill_myprocess(-1, NULL, tokens, NULL);
 	return (tokens);
 }
 

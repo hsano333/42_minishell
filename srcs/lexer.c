@@ -6,12 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:23:43 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 19:29:43 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "lexer_util.h"
+# include "kill_myprocess.h"
 
 token_type	identify_token_partial(char c, char next_c)
 {
@@ -115,7 +116,7 @@ t_token	*lexer(char *str)
 	len = ft_strlen(str) - whitespace_len(str);
 	tokens = (t_token *)malloc(sizeof(t_token) * (len + 1));
 	if (!tokens)
-		return (NULL);
+		kill_myprocess(-1, NULL, NULL, NULL);
 	i = 0;
 	while (*str)
 	{
@@ -129,5 +130,6 @@ t_token	*lexer(char *str)
 		i++;
 	}
 	set_token(&(tokens[i]), EOS, "", i);
-	return (check_lexer_error(tokens));
+	check_lexer_error(tokens);
+	return (tokens);
 }

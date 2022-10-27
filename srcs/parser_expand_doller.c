@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 11:20:47 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 19:18:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	expand_doller(t_token *token, token_type pre_token)
 	expand_recursive(token->literal, NON, &dst_str);
 	if (!dst_str)
 		token->error = true;
+	free(token->literal);
 	token->literal = dst_str;
 	token->type = IDENT;
 	//if (DOLLER == (token->type & DOLLER))

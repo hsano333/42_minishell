@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:59:35 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:34:55 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/27 19:29:09 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,20 @@ static	size_t	expanded_str_len(char *str, char *e_status)
 static void	expand(t_token *token, char *str, size_t len, char *e_status)
 {
 	char	*p_doller;
-	char	*backup;
+	char	*p_str;
 
-	backup = token->literal;
-	p_doller = ft_strnstr(token->literal, "$?", ft_strlen(token->literal));
+	p_str = token->literal;
+	p_doller = ft_strnstr(p_str, "$?", ft_strlen(p_str));
 	while (p_doller)
 	{
 		p_doller[0] = '\0';
-		ft_strlcat(str, token->literal, len + 1);
+		ft_strlcat(str, p_str, len + 1);
 		ft_strlcat(str, e_status, len + 1);
-		token->literal = p_doller += 2;
-		p_doller = ft_strnstr(token->literal, "$?", 2);
+		p_str = p_doller += 2;
+		p_doller = ft_strnstr(p_str, "$?", 2);
 	}
-	ft_strlcat(str, token->literal, len + 1);
-	free(backup);
+	ft_strlcat(str, p_str, len + 1);
+	free(token->literal);
 	token->literal = str;
 	token->type = IDENT;
 }
