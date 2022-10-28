@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:41:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 15:18:59 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 03:33:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,3 +75,27 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 	p_slash[0] = '/';
 	free(path);
 }
+
+void	add_expanding_asterisk_str(char *dst, char *src, size_t max, int is_absolute)
+{
+	char	*pwd_str;
+	size_t	len;
+
+	pwd_str = get_env_val("PWD");
+	if (!pwd_str)
+	{
+		paraser_expand_asterisk_error(SET_AST_ERROR);
+		return ;
+	}
+	ft_strlcat(dst, " ", max);
+	if (is_absolute)
+	{
+		ft_strlcat(dst, src, max);
+	}
+	else
+	{
+		len = ft_strlen(pwd_str);
+		ft_strlcat(dst, &src[len + 1], max);
+	}
+}
+

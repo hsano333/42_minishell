@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 16:09:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 03:21:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include "lexer_util.h"
 #include "dir.h"
 
-int	expand_loop(char *ast_word, char *dirname, char *filename);
-t_ast_end_mode	is_matched_file_suffix(char *ast_word, char *dirname, char *filename);
-t_ast_end_mode	is_matched_file_prefix(char *ast_word, char *dirname, char *filename);
+int	expand_loop(char *ast_word, char *dirname, char *filename, int is_absolute);
+t_ast_end_mode	is_matched_file_suffix(char *ast_word, char *dirname, char *filename, int is_absolute);
+t_ast_end_mode	is_matched_file_prefix(char *ast_word, char *dirname, char *filename, int is_absolute);
 
-t_ast_end_mode	is_matched_file_prefix(char *ast_word, char *dirname, char *filename)
+t_ast_end_mode	is_matched_file_prefix(char *ast_word, char *dirname, char *filename, int is_absolute)
 {
 	size_t	i;
 	t_ast_end_mode	rval;
@@ -33,18 +33,18 @@ t_ast_end_mode	is_matched_file_prefix(char *ast_word, char *dirname, char *filen
 			if (ast_word[i + 1] == '/')
 			{
 				ft_strlcat(dirname,filename, PATH_MAX + 1);
-				return (expand_loop(&(ast_word[i + 2]), dirname, filename));
+				return (expand_loop(&(ast_word[i + 2]), dirname, filename, is_absolute));
 			}
 			else if (ast_word[i + 1] == '\0')
 				return (true);
 			else 
 			{
-				rval = is_matched_file_suffix(&(ast_word[i + 1]), dirname, &(filename[i]));
+				rval = is_matched_file_suffix(&(ast_word[i + 1]), dirname, &(filename[i]), is_absolute);
 				if (rval == NEXT_DIR)
 				{
 
 					ft_strlcat(dirname, filename, PATH_MAX + 1);
-					return ( expand_loop((char *)(ft_strchr(ast_word, '/') + 1), dirname, filename));
+					return (expand_loop((char *)(ft_strchr(ast_word, '/') + 1), dirname, filename, is_absolute));
 				}
 				else
 					return (rval);
@@ -62,7 +62,7 @@ t_ast_end_mode	is_matched_file_prefix(char *ast_word, char *dirname, char *filen
 	return (FALSE_END);
 }
 
-t_ast_end_mode	is_matched_file_suffix(char *ast_word, char *dirname, char *filename)
+t_ast_end_mode	is_matched_file_suffix(char *ast_word, char *dirname, char *filename, int is_absolute)
 {
 	size_t	i;
 	t_ast_end_mode	rval;
@@ -77,7 +77,7 @@ t_ast_end_mode	is_matched_file_suffix(char *ast_word, char *dirname, char *filen
 			if (rval == TRUE_END)
 				return (TRUE_END);
 			else if (rval == NEXT_ASTERISK)
-				rval = is_matched_file_prefix(&(ast_word[1]), dirname, &(filename[i + 1]));
+				rval = is_matched_file_prefix(&(ast_word[1]), dirname, &(filename[i + 1]), is_absolute);
 			else if (rval == NEXT_DIR)
 				return (NEXT_DIR);
 			if (rval != FALSE_END)
@@ -90,7 +90,7 @@ t_ast_end_mode	is_matched_file_suffix(char *ast_word, char *dirname, char *filen
 	return (FALSE_END);
 }
 
-int	expand_loop(char *ast_word, char *dirname, char *filename)
+int	expand_loop(char *ast_word, char *dirname, char *filename, int is_absolute)
 {
 	struct dirent	*ent;
 	DIR	*dir;
@@ -106,11 +106,11 @@ int	expand_loop(char *ast_word, char *dirname, char *filename)
 		ft_strlcpy(filename ,ent->d_name, PATH_MAX + 1);
 		if (ft_strncmp(filename , ".", 2) == 0 || ft_strncmp(filename , "..", 3) == 0)
 			len = 0;
-		else if (is_matched_file_prefix(ast_word, dirname, filename) == TRUE_END)
+		else if (is_matched_file_prefix(ast_word, dirname, filename, is_absolute) == TRUE_END)
 		{
 			len = ft_strlen(dirname);
 			ft_strlcat(dirname, filename, PATH_MAX + 1);
-			set_finded_file(dirname);
+			set_finded_file(dirname, is_absolute);
 			dirname[len] = '\0';
 		}
 		ent = readdir(dir);
@@ -131,7 +131,7 @@ int	expand_asterisk(t_token *token, token_type pre_token)
 	get_prefix_dir(token->literal, dir, &i);
 	if (!dir[0])
 		return (true);
-	expand_loop(&(token->literal[i]), dir, filename);
+	expand_loop(&(token->literal[i]), dir, filename, token->literal[0] == '/');
 	if (paraser_expand_asterisk_error(GET_AST_ERROR))
 		return (false);
 	free(token->literal);
