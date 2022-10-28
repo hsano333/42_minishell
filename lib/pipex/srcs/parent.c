@@ -6,12 +6,11 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:57:10 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/25 02:41:47 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 20:29:22 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parent.h"
-
 
 static void	parent_child(int pid, int *pipe_fd, int *pipe_fd_p, t_pipe *pipes)
 {
@@ -24,7 +23,7 @@ static void	parent_child(int pid, int *pipe_fd, int *pipe_fd_p, t_pipe *pipes)
 	if (pipes->out_file)
 	{
 		close(pipe_fd_p[PIPE_OUT]);
-		fd = open(pipes->out_file, O_WRONLY);
+		fd = open(pipes->out_file, pipes->write_option);
 	}
 	while (1)
 	{

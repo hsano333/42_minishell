@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/25 23:58:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 20:31:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static void	main_child(char *output_file, t_fdpid *fdpid, \
 		if (fdpid[fd_i].pid == -1)
 			kill_process(-1, "pipex error:fork() error", NULL);
 	}
+	//todo
 	write_file(fdpid[fd_i].fd, output_file);
 	i = 0;
 	while (i < fd_i)

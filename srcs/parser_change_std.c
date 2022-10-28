@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/25 02:42:17 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 21:20:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,16 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 		if (tokens[i].type == LT)
 		{
 			rval = false;
+			unlink(cmds->pipes[pipe_i].out_file);
 			rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_CREAT);
+			cmds->pipes[pipe_i].write_option = O_WRONLY;
 			tokens[i + 1].valid = false;
 		}
 		else if (tokens[i].type == D_LT)
 		{
 			rval = false;
 			rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_APPEND);
+			cmds->pipes[pipe_i].write_option = O_WRONLY | O_APPEND;
 			tokens[i + 1].valid = false;
 		}
 	}
