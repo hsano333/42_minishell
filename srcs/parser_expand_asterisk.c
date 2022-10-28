@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 19:15:47 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 16:09:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,11 @@ int	expand_loop(char *ast_word, char *dirname, char *filename)
 		}
 		ent = readdir(dir);
 	}
+	closedir(dir);
 	return (0);
 }
 
-size_t	expand_asterisk(t_token *token, token_type pre_token)
+int	expand_asterisk(t_token *token, token_type pre_token)
 {
 	size_t	i;
 	char	dir[PATH_MAX + 1];
@@ -126,14 +127,18 @@ size_t	expand_asterisk(t_token *token, token_type pre_token)
 
 	filename[0] = '\0';
 	if (pre_token == SINGLE_QUOTE || !token->valid || ASTERISK != (token->type & ASTERISK))
-		return (false);
+		return (true);
 	get_prefix_dir(token->literal, dir, &i);
 	if (!dir[0])
-		return (0);
+		return (true);
 	expand_loop(&(token->literal[i]), dir, filename);
+	if (paraser_expand_asterisk_error(GET_AST_ERROR))
+		return (false);
 	free(token->literal);
 	token->literal = ft_strdup(get_finded_file());
 	token->type = IDENT;
 	clear_finded_file();
+	if (!token->literal)
+		return (false);
 	return (true);
 }

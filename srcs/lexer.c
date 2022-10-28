@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 19:29:43 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 16:01:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ t_token	*lexer(char *str)
 	len = ft_strlen(str) - whitespace_len(str);
 	tokens = (t_token *)malloc(sizeof(t_token) * (len + 1));
 	if (!tokens)
-		kill_myprocess(-1, NULL, NULL, NULL);
+		kill_myprocess(13, NULL, NULL, NULL);
 	i = 0;
 	while (*str)
 	{

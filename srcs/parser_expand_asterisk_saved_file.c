@@ -6,11 +6,22 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 14:04:25 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 15:53:12 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_expand.h"
+
+int	paraser_expand_asterisk_error(t_ast_fined_file_mode mode)
+{
+	static int	error = false;
+
+	if (mode == SET_AST_ERROR)
+		error = true;
+	else if (mode == GET_AST_ERROR)
+		return (error);
+	return (true);
+}
 
 static char	*finded_file_func(t_ast_fined_file_mode mode, char *finded_file, size_t *used, size_t *max)
 {
@@ -36,16 +47,16 @@ static char	*finded_file_func(t_ast_fined_file_mode mode, char *finded_file, siz
 		finded_file_p = NULL;
 	}
 	return (NULL);
-
 }
 
 char	*get_finded_file(void)
 {
 	size_t	tmp;
 
+	if (paraser_expand_asterisk_error(GET_AST_ERROR))
+		return (NULL);
 	return (finded_file_func(GET_AST_FINDED_FILE, NULL, &tmp, &tmp));
 }
-
 
 void	set_finded_file(char *added_file)
 {
@@ -57,12 +68,11 @@ void	set_finded_file(char *added_file)
 
 	saved_filename = finded_file_func(GET_AST_FINDED_FILE, NULL, &used, &max);
 	added_len = ft_strlen(added_file);
-	//printf("set_finded_file No.3 added_len=%zu, max - used=%zu\n", added_len, max - used);
 	if (added_len > (max - used) * 0.75 || saved_filename == NULL)
 	{
 		max = max + PATH_MAX * 4;
 		tmp_malloc = malloc(max);
-		if (!tmp_malloc)
+		if (!tmp_malloc && paraser_expand_asterisk_error(SET_AST_ERROR))
 			return ;
 		if (saved_filename )
 			ft_strlcpy(tmp_malloc, saved_filename ,max);

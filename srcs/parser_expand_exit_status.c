@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:59:35 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 19:29:09 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 14:29:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ int	expand_exit_status(t_token *token)
 	get_exit_status_str(e_status);
 	len = expanded_str_len(token->literal, e_status);
 	str = (char *)malloc(len + 1);
-	str[0] = '\0';
-	str[len] = '\0';
 	if (!str)
 		return (false);
+	str[0] = '\0';
+	str[len] = '\0';
 	expand(token, str, len, e_status);
 	return (true);
 }

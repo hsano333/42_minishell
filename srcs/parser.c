@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:35:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 16:14:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "parser_heredoc.h"
 #include "stdio.h"
 #include "parser_find_cmds.h"
+#include "kill_myprocess.h"
 
 void	print_comds(t_cmds *cmds)
 {
@@ -52,12 +53,15 @@ void	print_comds(t_cmds *cmds)
 t_cmds	*parser(t_token *tokens)
 {
 	t_cmds	*cmds;
+	int	error;
 	//size_t	cmds_num;
 
-	cmds = init_parser(tokens);
+	parser_expand(tokens, NON, 0);
+	cmds = init_parser(tokens, &error);
+	if (error)
+		kill_myprocess(16, NULL, tokens, NULL);
 	if (!cmds)
 		return (NULL);
-	parser_expand(tokens, NON, 0);
 	create_heredoc_file(tokens);
 	if (search_std_in_and_out(tokens, cmds))
 	{

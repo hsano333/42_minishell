@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:50:57 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 16:02:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_token	*check_lexer_error(t_token *tokens)
 		i++;
 	}
 	if (err)
-		kill_myprocess(-1, NULL, tokens, NULL);
+		kill_myprocess(15, NULL, tokens, NULL);
 	return (tokens);
 }
 

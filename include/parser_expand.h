@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:37:23 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 22:26:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 15:59:39 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ enum e_ast_fined_file_mode
 	GET_AST_FINDED_FILE,
 	SET_AST_FINDED_FILE,
 	CLEAR_AST_FINDED_FILE,
+	SET_AST_ERROR,
+	GET_AST_ERROR,
 };
 
 typedef enum e_ast_fined_file_mode t_ast_fined_file_mode;
@@ -48,13 +50,14 @@ enum e_ast_end_mode
 };
 typedef enum e_ast_end_mode t_ast_end_mode;
 
-void	expand_exit_status(t_token *token);
-void	expand_doller(t_token *token, token_type pre_token);
-size_t	expand_asterisk(t_token *tokens, token_type pre_token);
+int	expand_exit_status(t_token *token);
+int	expand_doller(t_token *token, token_type pre_token);
+int	expand_asterisk(t_token *tokens, token_type pre_token);
 size_t	parser_expand(t_token *tokens, token_type pre_token, size_t i);
 //int	parser_expand(t_token *tokens)
 
 char	*get_finded_file(void);
+int	paraser_expand_asterisk_error(t_ast_fined_file_mode mode);
 void	set_finded_file(char *added_file);
 void	clear_finded_file(void);
 t_ast_end_mode	is_equal_or_asterisk(char *ast_word, char *filename);

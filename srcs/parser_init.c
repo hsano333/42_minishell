@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:43:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/23 01:38:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 16:13:06 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ static t_cmds	*init_pipes(t_token *tokens, t_cmds *cmds, size_t cnt_cmds, size_t
 		if (tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND)
 		{
 			cmds[cnt_cmds].pipes = init_pipe(cnt_pipes);
+			if (!cmds[cnt_cmds].pipes)
+				return (cmds);
 			cmds[cnt_cmds].len = cnt_pipes;
 			cmds[cnt_cmds].operator = tokens[i].type;
-			if (!cmds[cnt_cmds].pipes)
-				break ;
 			cnt_pipes = 1;
 			cnt_cmds++;
 		}
@@ -103,7 +103,7 @@ static t_cmds	*init_pipes(t_token *tokens, t_cmds *cmds, size_t cnt_cmds, size_t
 	return (cmds);
 }
 
-t_cmds	*init_parser(t_token *tokens)
+t_cmds	*init_parser(t_token *tokens, int *error)
 {
 	t_cmds	*cmds;
 	size_t	cmds_num;
@@ -111,6 +111,7 @@ t_cmds	*init_parser(t_token *tokens)
 	cmds_num = count_comds(tokens);
 	if (cmds_num == 0)
 		return (NULL);
+	*error = true;
 	cmds = (t_cmds *)malloc(sizeof(t_cmds) * (cmds_num));
 	if (!cmds)
 		return (NULL);
@@ -118,9 +119,7 @@ t_cmds	*init_parser(t_token *tokens)
 	cmds[cmds_num - 1].last = true;
 	cmds = init_pipes(tokens, cmds, 0, 1);
 	if (is_error_cmds(cmds))
-	{
-		clear_tokens(tokens);
 		clear_all_cmds(&cmds);
-	}
+	*error = false;
 	return (cmds);
 }

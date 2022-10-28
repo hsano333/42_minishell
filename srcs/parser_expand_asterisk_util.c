@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:41:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 11:20:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 15:18:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 		path = get_env_val("PWD");
 		ft_strlcpy(filename, path, PATH_MAX + 1);
 		free(path);
-		//char *tmp = "/home/sano/work/42/minishell";
 		return ;
 	}
 	else if (str[0] == '/')
@@ -63,12 +62,10 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 
 		p_slash[0] = '\0';
 		ft_strlcpy(filename, str, PATH_MAX + 1);
-
 		*i = (size_t)(p_slash - str) + 1;
 		p_slash[0] = '/';
 		return ;
 	}
-
 	path = get_env_val("PWD");
 	ft_strlcpy(filename, path, PATH_MAX + 1);
 	ft_strlcat(filename, "/", PATH_MAX + 1);
