@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 22:51:43 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 22:21:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 			r[1] = dup2(pipe_fd[PIPE_OUT], 1);
 			if (r[0] == -1 || r[1] == -1)
 				exit(EXIT_FAILURE);
+			printf("filepath=%s, pipes->param=%s,%s \n",filepath,  pipes->param[0], pipes->param[1]);
 			if (execve(filepath, pipes->param, environ) == -1)
 				exit(EXIT_FAILURE);
 		}

@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 20:31:35 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 22:14:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "ft_printf.h"
 #include "heredoc.h"
 #include "pipex_util.h"
-#include "exit_status.h"
 
 static t_fdpid	pipe_main( int fd_in, t_pipe *pipes, char **environ)
 {
