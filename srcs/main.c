@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 16:13:38 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 03:56:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ int loop(t_env *env)
 		}
 		// lexer parser
 		tokens = lexer(line);
+		put_tokens(tokens);
 		cmds = parser(tokens);
 		exe_cmds(cmds);
 
-		//put_tokens(tokens);
+		put_tokens(tokens);
 		clear_tokens(tokens);
 		clear_all_cmds(&cmds);
 		//kill_myprocess(-1, NULL, tokens, cmds);

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 16:01:59 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 14:11:22 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ token_type	identify_token(char c, char next_c)
 		return (DOLLER);
 	else if (c == '\0')
 		return (EOS);
+	else if (is_whitespace(c))
+		return (WHITE_SPACE);
 	return (IDENT);
 }
 
@@ -77,8 +79,6 @@ size_t	token_len(token_type *type, char *str)
 	cnt = 1;
 	while (str[++i])
 	{
-		if (is_whitespace(str[i]))
-			break ;
 		tmp_type = identify_token(str[i], str[i + 1]);
 		if (tmp_type == IDENT || tmp_type == DOLLER || tmp_type == ASTERISK || tmp_type == EXIT_STATUS)
 		{
@@ -89,7 +89,6 @@ size_t	token_len(token_type *type, char *str)
 			}
 			else
 				cnt++;
-			//if (tmp_type == DOLLER || tmp_type == ASTERISK)
 			*type= (*type | tmp_type);
 		}
 		else
@@ -113,18 +112,13 @@ t_token	*lexer(char *str)
 	size_t	len;
 	t_token	*tokens;
 	
-	len = ft_strlen(str) - whitespace_len(str);
+	len = ft_strlen(str);
 	tokens = (t_token *)malloc(sizeof(t_token) * (len + 1));
 	if (!tokens)
 		kill_myprocess(13, NULL, NULL, NULL);
 	i = 0;
 	while (*str)
 	{
-		if (is_whitespace(*str))
-		{
-			str++;
-			continue ;
-		}
 		set_token(&(tokens[i]), identify_token(*str, str[1]), str, i);
 		str += tokens[i].len;
 		i++;

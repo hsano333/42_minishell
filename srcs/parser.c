@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 16:14:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 03:57:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_cmds	*parser(t_token *tokens)
 	//size_t	cmds_num;
 
 	parser_expand(tokens, NON, 0);
+	put_tokens(tokens);
 	cmds = init_parser(tokens, &error);
 	if (error)
 		kill_myprocess(16, NULL, tokens, NULL);
@@ -67,7 +68,8 @@ t_cmds	*parser(t_token *tokens)
 	{
 		search_cmds_and_arg(tokens, cmds);
 	}
-	//print_comds(cmds);
+	printf("print test No.2\n");
+	print_comds(cmds);
 
 	//cmds_num = count_comds(tokens);
 	//////////cmds = (t_cmd *)malloc(sizeof(t_cmd) * (cmds_num + 1));
