@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 15:11:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 16:32:42 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	print_comds(t_cmds *cmds)
 			k = 0;
 			while (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param[k])
 			{
-				printf("pipes[%zu].param=%s\n", j, cmds[i].pipes[j].param[k]);
+				//printf("i=%zu,j=%zu,k=%zu\n", i,j,k);
+				printf("pipes[%zu].param[%zu]=%s\n", j,k, cmds[i].pipes[j].param[k]);
 				k++;
 				//i++;
 			}
@@ -57,7 +58,7 @@ t_cmds	*parser(t_token *tokens)
 	//size_t	cmds_num;
 
 	parser_expand(tokens, NON, 0);
-	put_tokens(tokens);
+	//put_tokens(tokens);
 	cmds = init_parser(tokens, &error);
 	if (error)
 		kill_myprocess(12, NULL, tokens, NULL);
@@ -68,8 +69,7 @@ t_cmds	*parser(t_token *tokens)
 	{
 		search_cmds_and_arg(tokens, cmds);
 	}
-	printf("print cmds test No.2\n");
-	print_comds(cmds);
+	//print_comds(cmds);
 
 	//cmds_num = count_comds(tokens);
 	//////////cmds = (t_cmd *)malloc(sizeof(t_cmd) * (cmds_num + 1));

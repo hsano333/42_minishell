@@ -29,6 +29,7 @@ SRC	:= env.c \
 	parser_heredoc.c \
 	parser_change_std.c \
 	parser_find_cmds.c \
+	parser_find_cmds_util.c \
 	exe_cmds.c \
 	env_util.c \
 	env_store.c \
