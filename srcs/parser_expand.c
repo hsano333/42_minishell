@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 16:03:22 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 15:08:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ static void	expand_doller_asterisk(t_token *tokens, token_type pre_token, size_t
 
 	token = (t_token *)(&tokens[i]);
 	if (!expand_exit_status(token))
-		kill_myprocess(20, NULL, tokens, NULL);
+		kill_myprocess(12, NULL, tokens, NULL);
 	if (!expand_doller(token, pre_token))
-		kill_myprocess(21, NULL, tokens, NULL);
+		kill_myprocess(12, NULL, tokens, NULL);
 	if (!expand_asterisk(token, pre_token))
-		kill_myprocess(22, NULL, tokens, NULL);
+		kill_myprocess(12, NULL, tokens, NULL);
 }
 
 size_t	parser_expand(t_token *tokens, token_type pre_token, size_t i)

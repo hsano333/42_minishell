@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 03:57:30 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 15:08:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_cmds	*parser(t_token *tokens)
 	put_tokens(tokens);
 	cmds = init_parser(tokens, &error);
 	if (error)
-		kill_myprocess(16, NULL, tokens, NULL);
+		kill_myprocess(12, NULL, tokens, NULL);
 	if (!cmds)
 		return (NULL);
 	create_heredoc_file(tokens);
@@ -68,7 +68,7 @@ t_cmds	*parser(t_token *tokens)
 	{
 		search_cmds_and_arg(tokens, cmds);
 	}
-	printf("print test No.2\n");
+	printf("print cmds test No.2\n");
 	print_comds(cmds);
 
 	//cmds_num = count_comds(tokens);

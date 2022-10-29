@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 14:11:22 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 15:08:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ static void	set_token(t_token *token, token_type type, char *str, size_t id)
 	token->literal = ft_substr(str, 0, token->len);
 	token->id = id;
 	token->valid = true;
+	token->expand = false;
+	token->error = false;
 }
 
 t_token	*lexer(char *str)
@@ -115,7 +117,7 @@ t_token	*lexer(char *str)
 	len = ft_strlen(str);
 	tokens = (t_token *)malloc(sizeof(t_token) * (len + 1));
 	if (!tokens)
-		kill_myprocess(13, NULL, NULL, NULL);
+		kill_myprocess(12, NULL, NULL, NULL);
 	i = 0;
 	while (*str)
 	{
