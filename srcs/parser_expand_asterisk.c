@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 15:09:23 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 15:17:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,9 @@ int	expand_asterisk(t_token *token, token_type pre_token)
 	char	filename[PATH_MAX + 1];
 
 	filename[0] = '\0';
-	if (pre_token == SINGLE_QUOTE || !token->valid || ASTERISK != (token->type & ASTERISK))
+	if (pre_token == SINGLE_QUOTE || pre_token == DOUBLE_QUOTE)
+		return (true);
+	if (!token->valid || ASTERISK != (token->type & ASTERISK))
 		return (true);
 	get_prefix_dir(token->literal, dir, &i);
 	if (!dir[0])
