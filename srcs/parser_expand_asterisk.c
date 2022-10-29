@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 15:33:45 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 16:50:41 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	expand_loop(char *ast_word, char *dirname, char *filename, int is_absolute)
 	while (ent)
 	{
 		ft_strlcpy(filename ,ent->d_name, PATH_MAX + 1);
-		if (ft_strncmp(filename , ".", 2) == 0 || ft_strncmp(filename , "..", 3) == 0)
+		if (ast_word[0] != '.' && ft_strncmp(filename , ".", 1) == 0)
 			len = 0;
 		else if (is_matched_file_prefix(ast_word, dirname, filename, is_absolute) == TRUE_END)
 		{
