@@ -17,6 +17,7 @@ SRC	:= env.c \
 	signal.c \
 	lexer.c \
 	lexer_util.c \
+	lexer_quote_flag.c \
 	parser.c \
 	parser_util.c \
 	parser_init.c \

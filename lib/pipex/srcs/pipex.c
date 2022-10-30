@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 22:14:01 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 00:57:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "heredoc.h"
 #include "pipex_util.h"
 
-static t_fdpid	pipe_main( int fd_in, t_pipe *pipes, char **environ)
+static t_fdpid	pipe_main( int fd_in, t_pipe *pipes, char **environ, int is_last)
 {
 	int		pipe_fd[2];
 	t_fdpid	fdpid;
@@ -31,13 +31,14 @@ static t_fdpid	pipe_main( int fd_in, t_pipe *pipes, char **environ)
 	if (fdpid.pid == 0)
 	{
 		close(pipe_fd[PIPE_IN]);
-		child(fd_in, pipe_fd, pipes, environ);
+		child(fd_in, pipe_fd, pipes, environ, is_last);
 		exit(0);
 	}
 	else if (fdpid.pid > 0)
 	{
 		close(pipe_fd[PIPE_OUT]);
-		fdpid = parent(fdpid.pid, pipe_fd, pipes);
+		printf("start fork:%d\n", fdpid.pid);
+		fdpid = parent(fdpid.pid, pipe_fd, pipes, is_last);
 	}
 	if (fd_in > 0)
 		close(fd_in);
@@ -56,19 +57,29 @@ static void	main_child(char *output_file, t_fdpid *fdpid, \
 	while (i < (int)cmds->len)
 	{
 		fd_i++;
-		fdpid[fd_i] = pipe_main(fdpid[fd_i - 1].fd, &(cmds->pipes[i++]), environ);
+		fdpid[fd_i] = pipe_main(fdpid[fd_i - 1].fd, &(cmds->pipes[i]), environ, i == (int)cmds->len - 1);
+		i++;
 		if (fdpid[fd_i].pid == -1)
 			kill_process(-1, "pipex error:fork() error", NULL);
 	}
 	//todo
-	write_file(fdpid[fd_i].fd, output_file);
-	i = 0;
+	printf("last output_file=%s\n", output_file);
+	if (output_file)
+		write_file(fdpid[fd_i].fd, output_file);
+	//else
+		//waitpid(fdpid[i].pid, &status, 0);
+	close(fdpid[fd_i].fd);
+	i = 1;
+	printf("end test_no.1\n");
 	while (i < fd_i)
 		waitpid(fdpid[i++].pid, &status, 0);
+	printf("end test_no.2\n");
 	if (WIFEXITED(status))
 		exit(WEXITSTATUS(status));
+	printf("end test_no.3\n");
 	if (WIFSIGNALED(status))
 		exit(WTERMSIG(status));
+	printf("end test_no.4\n");
 }
 
 int	pipex(char *input_file, char *output_file, t_cmds *cmds, char **environ)

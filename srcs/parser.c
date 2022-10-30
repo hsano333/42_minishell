@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 16:32:42 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 02:40:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,42 @@ void	print_comds(t_cmds *cmds)
 	}
 }
 
+//static void	copy_token(t_token *dst, t_token *src)
+//{
+////
+//}
+
+static void	disable_space(t_token *tokens)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	while (tokens[i].type != EOS)
+	{
+		if (tokens[i].type == WHITE_SPACE)
+		{
+			if (j == 0)
+				j = i + 1;
+			while (tokens[j].type != EOS)
+			{
+				if (tokens[i].type != WHITE_SPACE)
+				//copy_token(&(tokens[i]), &(tokens[j]));
+					j++;
+			}
+		}
+		i++;
+	}
+}
+
 t_cmds	*parser(t_token *tokens)
 {
 	t_cmds	*cmds;
 	int	error;
-	//size_t	cmds_num;
 
 	parser_expand(tokens, NON, 0);
-	//put_tokens(tokens);
+	disable_space(tokens);
 	cmds = init_parser(tokens, &error);
 	if (error)
 		kill_myprocess(12, NULL, tokens, NULL);
@@ -69,7 +97,7 @@ t_cmds	*parser(t_token *tokens)
 	{
 		search_cmds_and_arg(tokens, cmds);
 	}
-	//print_comds(cmds);
+	print_comds(cmds);
 
 	//cmds_num = count_comds(tokens);
 	//////////cmds = (t_cmd *)malloc(sizeof(t_cmd) * (cmds_num + 1));

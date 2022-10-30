@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 14:30:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 03:41:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ enum	e_buildin
 
 enum	e_token_type
 {
+	NON = 0,
 	IDENT = 1,
 	ILLEGAL,
 	EOS,
@@ -45,7 +46,6 @@ enum	e_token_type
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 	WHITE_SPACE,
-	NON,
 	DOLLER = 256,
 	ASTERISK = 512,
 	EXIT_STATUS = 1024,

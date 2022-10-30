@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:49:35 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:08:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 01:37:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,5 @@
 
 int	is_error_cmds(t_cmds *cmds);
 void	clear_all_cmds(t_cmds **cmds);
+size_t	pass_space(t_token *toknes, size_t i);
 #endif

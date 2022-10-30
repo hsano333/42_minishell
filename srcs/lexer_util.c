@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 15:08:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 04:04:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,61 @@
 //#include "lexer.h"
 # include "kill_myprocess.h"
 
-int	is_whitespace(char c)
+static token_type	identify_token_partial(char c, char next_c)
 {
-	if (c == ' ' || (0x09 <= c && c <= 0x0D))
-		return (true);
-	return (false);
+	if (c == '|' && next_c == '|')
+		return (D_PIPE);
+	else if (c == '|')
+		return (PIPE);
+	else if (c == '&' && next_c == '&')
+		return (D_AMPERSAND);
+	else if (c == '>' && next_c == '>')
+		return (D_LT);
+	else if (c == '>')
+		return (LT);
+	else if (c == '<' && next_c == '>')
+		return (GLT);
+	else if (c == '<' && next_c == '<')
+		return (D_GT);
+	else if (c == '<')
+		return (GT);
+	else if (c == '\'')
+		return (SINGLE_QUOTE);
+	else if (c == '\"')
+		return (DOUBLE_QUOTE);
+	return (NON);
 }
 
+token_type	identify_token(char c, char next_c)
+{
+	token_type	type;
+
+	type = identify_token_partial(c, next_c);
+	if (type != NON)
+		return (type);
+	//if (c == '.' && next_c == '.')
+		//return (D_DOT);
+	//else if (c == '.')
+		//return (DOT);
+	//else if (c == ';')
+		//return (SEMICOLON);
+	//else if (c == '=')
+		//return (EQUAL);
+	if (c == '*')
+		return (ASTERISK);
+	else if (c == '$' && next_c == '\?')
+		return (EXIT_STATUS);
+	else if (c == '$')
+		return (DOLLER);
+	else if (c == '\0')
+		return (EOS);
+	else if (ft_isspace(c))
+		return (WHITE_SPACE);
+	return (IDENT);
+}
+
+
+/*
 size_t	whitespace_len(char *str)
 {
 	size_t	i;
@@ -36,6 +84,7 @@ size_t	whitespace_len(char *str)
 	}
 	return (cnt);
 }
+*/
 
 size_t token_len_helper(token_type type)
 {

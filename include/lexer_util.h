@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 01:08:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:21:44 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 02:45:55 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@
 #include <stdbool.h>
 #include "lexer.h"
 #include "libft_str.h"
+#include "libft_isto.h"
 #include <stdio.h>
 
-int		is_whitespace(char c);
-size_t	whitespace_len(char *str);
-size_t	token_len_helper(token_type type);
-t_token	*check_lexer_error(t_token *tokens);
-void	put_tokens(t_token *tokens);
-void	clear_tokens(t_token *tokens);
+//int		is_whitespace(char c);
+//size_t	whitespace_len(char *str);
+size_t		token_len_helper(token_type type);
+void		put_tokens(t_token *tokens);
+void		clear_tokens(t_token *tokens);
+t_token		*check_lexer_error(t_token *tokens);
+token_type	identify_token(char c, char next_c);
 #endif
 

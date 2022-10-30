@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 02:36:27 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 01:03:27 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	exe_cmds(t_cmds *cmds)
 		in_file = cmds[i].pipes[0].in_file;
 		if (cmds[i].len > 0)
 			out_file = cmds[i].pipes[cmds[i].len - 1].out_file;
+		printf("exe_cmds:outfile:%s\n", out_file);
 		rval = pipex(in_file, out_file, &(cmds[i]), environ);
+		printf("rval=%d\n", rval);
 		set_exit_status(rval);
 		i++;
 	}

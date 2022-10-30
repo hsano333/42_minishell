@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:06:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:15:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 01:52:38 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,20 @@ void	clear_all_cmds(t_cmds **cmds)
 	}
 	free(*cmds);
 	*cmds = NULL;
+}
+
+size_t	pass_space(t_token *tokens, size_t i)
+{
+	int	flag;
+
+	flag = false;
+	i++;
+	while (tokens[i].type == WHITE_SPACE)
+	{
+		flag = true;
+		i++;
+	}
+	if (flag)
+		return (i - 1);
+	return (i);
 }
