@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/01 14:27:06 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/01 14:56:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void	put_invalid_command(char *cmds)
 	exit(0);
 }
 
-void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ, int is_last)
+void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 {
 	char		filepath[PATH_MAX + 1];
 	int			r[2];
 
-	printf("is_last=%d\n", is_last);
+	//printf("is_last=%d\n", is_last);
 	if (pipes->param)
 	{
 		if (search_path(pipes->param[0], environ, filepath))

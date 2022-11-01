@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:57:10 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/01 14:51:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/01 14:54:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_fdpid	parent(int pid, int *pipe_fd, t_pipe *pipes, int is_last)
 	//int		status;
 	t_fdpid	fdpid;
 
-	printf("is_last=%d\n", is_last);
+	//printf("is_last=%d\n", is_last);
 	if (pipe(pipe_fd_p) != 0)
 		kill_process(0, "parent():pipe() error\n", NULL);
 	fdpid.pid = fork();
@@ -56,7 +56,7 @@ t_fdpid	parent(int pid, int *pipe_fd, t_pipe *pipes, int is_last)
 		//if ((!is_last || (is_last && pipes->out_file)))
 		if (!pipes->out_file && !is_last)
 		{
-			printf("parent_child No.,1\n");
+			//printf("parent_child No.,1\n");
 			parent_child(pid, pipe_fd, pipe_fd_p, pipes);
 		}
 		else
