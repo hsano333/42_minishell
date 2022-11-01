@@ -100,7 +100,7 @@ void fork_handler(int sig, siginfo_t *siginfo, void *unused)
 
     // set_error_code
 
-    else if (sig == SIGINT || sig == SIGQUIT)
+    if (sig == SIGINT || sig == SIGQUIT)
     {
         // printf("\n");
         ft_putstr_fd("\n", STDERR_FILENO);

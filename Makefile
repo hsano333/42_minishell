@@ -37,6 +37,17 @@ SRC	:= env.c \
 	exit_status.c \
 	kill_myprocess.c \
 	dir.c \
+	cmd_builtin.c \
+	cmd_cd.c \
+	cmd_echo.c \
+	cmd_env.c \
+	cmd_exit.c \
+	cmd_export.c \
+	cmd_export2.c \
+	cmd_option_validate.c \
+	cmd_pwd.c \
+	cmd_unset.c \
+	env_store.c \
 
 
 	
