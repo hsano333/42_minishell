@@ -26,8 +26,11 @@ enum e_env_mode
 typedef enum e_env_mode t_env_mode;
 
 char **env_store(char **src_env, t_env_mode mode);
+void initialize_env(char **envp);
+char **get_env();
 
 bool set_env_var(char *var_val);
 bool del_env_var(char *var);
 char *get_env_val(char *var);
+
 #endif

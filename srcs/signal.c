@@ -70,3 +70,70 @@ bool init_signal(t_sigaction *act)
     // CTRL + \ -> do not nothing
     return (true);
 }
+
+void default_handler(int sig, siginfo_t *siginfo, void *unused)
+{
+    (void)unused;
+    //(void)sig;
+    (void)siginfo;
+
+    // set_error_code
+
+    if (sig == SIGINT)
+    {
+        // printf("\n");
+        ft_putstr_fd("\n", STDERR_FILENO);
+        //通常、改行を出力した後、新しい (空の) 行に移動したことを更新ルーチンに伝えます。
+        rl_on_new_line();
+        //  rl_line_bufferの内容をtextに置き換えます。可能であれば、ポイントとマークは保持されます。clear_undoがゼロ以外の場合、現在の行に関連付けられた取り消しリストがクリアされます 。
+        rl_replace_line("", 0);
+        // rl_line_bufferの現在の内容を反映するように、画面に表示される内容を変更します。
+        rl_redisplay();
+    }
+}
+
+void fork_handler(int sig, siginfo_t *siginfo, void *unused)
+{
+    (void)unused;
+    //(void)sig;
+    (void)siginfo;
+
+    // set_error_code
+
+    else if (sig == SIGINT || sig == SIGQUIT)
+    {
+        // printf("\n");
+        ft_putstr_fd("\n", STDERR_FILENO);
+        //通常、改行を出力した後、新しい (空の) 行に移動したことを更新ルーチンに伝えます。
+        rl_on_new_line();
+        //  rl_line_bufferの内容をtextに置き換えます。可能であれば、ポイントとマークは保持されます。clear_undoがゼロ以外の場合、現在の行に関連付けられた取り消しリストがクリアされます 。
+        rl_replace_line("", 0);
+    }
+}
+
+bool set_signal(t_signal_mode mode)
+{
+    static t_sigaction act;
+
+    sigemptyset(&(act.sa_mask));
+    sigaddset(&(act.sa_mask), SIGINT);
+    act.sa_flags = SA_SIGINFO;
+
+    if (mode == DEFAULT_MODE)
+    {
+        act.sa_sigaction = default_handler;
+        if (sigaction(SIGINT, &act, NULL) < 0)
+            return (false);
+        signal(SIGQUIT, SIG_IGN);
+    }
+    else if (mode == FORK_MODE)
+    {
+        act.sa_sigaction = fork_handler;
+        if (sigaction(SIGINT, &act, NULL) < 0)
+            return (false);
+        if (sigaction(SIGQUIT, &act, NULL) < 0)
+            return (false);
+    }
+
+    return (true);
+}

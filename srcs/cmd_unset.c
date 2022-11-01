@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_store.c                                        :+:      :+:    :+:   */
+/*   cmd_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/27 08:34:37 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/10/27 08:34:37 by maoyagi          ###   ########.fr       */
+/*   Created: 2022/10/27 10:52:28 by maoyagi           #+#    #+#             */
+/*   Updated: 2022/10/27 10:52:28 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_str.h"
+#include "minishell.h"
 #include "env.h"
-#include <minishell.h>
 
-char **get_env()
+int cmd_unset(char **cmd)
 {
-    char **env;
+    size_t i;
 
-    env = env_store(NULL, GET_ENV);
-    return (env);
-}
-
-void initialize_env(char **envp)
-{
-    env_store(envp, INIT_ENV);
-}
-
-char **env_store(char **envp, t_env_mode mode)
-{
-    static char **env = NULL;
-
-    if (mode == GET_ENV)
-        return (env);
-    else if (mode == INIT_ENV)
-        env = envp;
-    return (NULL);
+    i = 1;
+    if (!cmd[i])
+        return (EXIT_FAILURE);
+    while (cmd[i])
+    {
+        if (del_env_var(cmd[i]))
+            return (EXIT_FAILURE);
+        i++;
+    }
+    return (EXIT_SUCCESS);
 }

@@ -22,6 +22,7 @@
 #include "libft_mem.h"
 #include "libft_put.h"
 #include "libft_isto.h"
+#include <dirent.h>
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -36,6 +37,14 @@ typedef struct s_env
     t_sigaction act;
 } t_env;
 
+enum e_signal_mode
+{
+    DEFAULT_MODE,
+    FORK_MODE,
+};
+
+typedef enum e_signal_mode t_signal_mode;
+
 // env
 t_env *init_env(char **envp);
 void free_env(t_env *env);
@@ -44,6 +53,7 @@ void print_env2(const char **env);
 
 // signal
 bool init_signal(t_sigaction *act);
+bool set_signal(t_signal_mode mode);
 
 // utils
 int str_arr_len(char **arr);
@@ -52,10 +62,16 @@ void free_str_array(char ***arr);
 char **realloc_str_arr(char **arr, size_t size);
 
 // cmd
-int env(char **cmd);
-int pwd(void);
-int echo(char **cmd);
+int exec_builtin_cmd(char **cmd);
+int cmd_env(char **cmd);
+int cmd_pwd(void);
+int cmd_echo(char **cmd);
 int export_only(const char **env);
-int export(char **cmd);
+int cmd_export(char **cmd);
+int cmd_unset(char **cmd);
+int cmd_cd(char **cmd);
+int cmd_exit(char **cmd);
+int is_builtin(char **cmd);
+bool has_option(char **cmd);
 
 #endif
