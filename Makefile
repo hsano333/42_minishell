@@ -47,7 +47,6 @@ SRC	:= env.c \
 	cmd_option_validate.c \
 	cmd_pwd.c \
 	cmd_unset.c \
-	env_store.c \
 
 
 	
