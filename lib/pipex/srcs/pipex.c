@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/01 15:08:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 00:12:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static t_fdpid	pipe_main(int fd_in, t_pipe *pipes, char **environ, int is_last)
 {
 	int		pipe_fd[2];
 	t_fdpid	fdpid;
-	//int	status;
 
 	fdpid.pid = -1;
 	if (pipe(pipe_fd) != 0)
@@ -58,7 +57,6 @@ static t_fdpid	pipe_main(int fd_in, t_pipe *pipes, char **environ, int is_last)
 	{
 		if (pipe_fd[PIPE_OUT] != 1)
 			close(pipe_fd[PIPE_OUT]);
-		//waitpid(fdpid.pid, &status, 0);
 		fdpid = parent(fdpid.pid, pipe_fd, pipes, is_last);
 	}
 	if (fd_in > 0)

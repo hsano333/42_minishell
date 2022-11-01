@@ -6,14 +6,14 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 10:39:31 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/10/28 10:39:31 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/02 02:17:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "env.h"
 
-int exec_builtin_cmd(char **cmd)
+int	exec_builtin_cmd(char **cmd)
 {
     if (has_option(cmd))
         return (EXIT_FAILURE);
@@ -34,7 +34,7 @@ int exec_builtin_cmd(char **cmd)
     return (EXIT_FAILURE);
 }
 
-int is_builtin(char **cmd)
+int	is_builtin(char **cmd)
 {
     const char *commands[] = {
         "exit", "cd", "echo", "pwd", "env", "export", "unset", NULL};
