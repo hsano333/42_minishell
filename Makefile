@@ -17,6 +17,7 @@ SRC	:= env.c \
 	signal.c \
 	lexer.c \
 	lexer_util.c \
+	lexer_quote_flag.c \
 	parser.c \
 	parser_util.c \
 	parser_init.c \
@@ -25,13 +26,16 @@ SRC	:= env.c \
 	parser_expand_asterisk.c \
 	parser_expand_asterisk_util.c \
 	parser_expand_asterisk_saved_file.c \
+	parser_expand_exit_status.c \
 	parser_heredoc.c \
 	parser_change_std.c \
 	parser_find_cmds.c \
+	parser_find_cmds_util.c \
 	exe_cmds.c \
 	env_util.c \
 	env_store.c \
 	exit_status.c \
+	kill_myprocess.c \
 	dir.c \
 
 

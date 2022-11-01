@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.h                                      :+:      :+:    :+:   */
+/*   kill_myprocess.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/25 23:30:56 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 14:15:07 by hsano            ###   ########.fr       */
+/*   Created: 2022/10/27 16:10:43 by hsano             #+#    #+#             */
+/*   Updated: 2022/10/27 16:12:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXIT_STATUS_H
-# define EXIT_STATUS_H
-# include <stdlib.h>
-# include <stdbool.h>
-# include "libft_str.h"
-void	set_exit_status(int e_stat);
-int	get_exit_status(void);
-void	get_exit_status_str(char *e_status);
+#ifndef KILL_MYPROCESS_H
+# define KILL_MYPROCESS_H
+# include "minishell.h"
+# include "lexer_util.h"
+# include "parser_util.h"
+# include <errno.h>
+void	kill_myprocess(int no, char *message1, t_token *tokens, t_cmds *cmds);
 #endif

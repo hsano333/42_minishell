@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 14:08:00 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/28 15:59:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void expand(char *str, char **dst_str, size_t i)
 			j++;
 	tmp = str[j];
 	str[j] = '\0';
-	env_str = *env_func(NULL, GET_ENV_VAR, str, NULL);
+	env_str = get_env_val(str);
 	str[j] = tmp;
 	*dst_str = join_and_free_str(*dst_str, env_str, ft_strlen(env_str), true);
 	if (str[i] == '$' && is_valid_env_char(str[i + 1]))
@@ -85,20 +85,24 @@ static void	expand_recursive(char *str, token_type pre_token, char **dst_str)
 	}
 }
 
-void	expand_doller(t_token *token, token_type pre_token)
+int	expand_doller(t_token *token, token_type pre_token)
 {
 	char	*dst_str;
 
 	if (pre_token == SINGLE_QUOTE)
-		return ;
+		return (true);
 	if (DOLLER != (token->type & DOLLER))
-		return ;
+		return (true);
 	dst_str = ft_strdup("");
-	expand_recursive(token->literal, NON, &dst_str);
+	if (dst_str)
+		expand_recursive(token->literal, NON, &dst_str);
 	if (!dst_str)
+	{
 		token->error = true;
+		return (false);
+	}
+	free(token->literal);
 	token->literal = dst_str;
 	token->type = IDENT;
-	//if (DOLLER == (token->type & DOLLER))
-		//expand_asterisk(token, pre_token);
+	return (true);
 }

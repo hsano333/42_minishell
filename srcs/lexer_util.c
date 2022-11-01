@@ -6,20 +6,69 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 02:41:02 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 04:04:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_util.h"
-#include "lexer.h"
+//#include "lexer.h"
+# include "kill_myprocess.h"
 
-int	is_whitespace(char c)
+static token_type	identify_token_partial(char c, char next_c)
 {
-	if (c == ' ' || (0x09 <= c && c <= 0x0D))
-		return (true);
-	return (false);
+	if (c == '|' && next_c == '|')
+		return (D_PIPE);
+	else if (c == '|')
+		return (PIPE);
+	else if (c == '&' && next_c == '&')
+		return (D_AMPERSAND);
+	else if (c == '>' && next_c == '>')
+		return (D_LT);
+	else if (c == '>')
+		return (LT);
+	else if (c == '<' && next_c == '>')
+		return (GLT);
+	else if (c == '<' && next_c == '<')
+		return (D_GT);
+	else if (c == '<')
+		return (GT);
+	else if (c == '\'')
+		return (SINGLE_QUOTE);
+	else if (c == '\"')
+		return (DOUBLE_QUOTE);
+	return (NON);
 }
 
+token_type	identify_token(char c, char next_c)
+{
+	token_type	type;
+
+	type = identify_token_partial(c, next_c);
+	if (type != NON)
+		return (type);
+	//if (c == '.' && next_c == '.')
+		//return (D_DOT);
+	//else if (c == '.')
+		//return (DOT);
+	//else if (c == ';')
+		//return (SEMICOLON);
+	//else if (c == '=')
+		//return (EQUAL);
+	if (c == '*')
+		return (ASTERISK);
+	else if (c == '$' && next_c == '\?')
+		return (EXIT_STATUS);
+	else if (c == '$')
+		return (DOLLER);
+	else if (c == '\0')
+		return (EOS);
+	else if (ft_isspace(c))
+		return (WHITE_SPACE);
+	return (IDENT);
+}
+
+
+/*
 size_t	whitespace_len(char *str)
 {
 	size_t	i;
@@ -35,6 +84,7 @@ size_t	whitespace_len(char *str)
 	}
 	return (cnt);
 }
+*/
 
 size_t token_len_helper(token_type type)
 {
@@ -44,21 +94,15 @@ size_t token_len_helper(token_type type)
 	return (1);
 }
 
-t_token	*check_error(t_token *tokens)
+t_token	*check_lexer_error(t_token *tokens)
 {
 	int	err;
 	size_t	i;
-	//t_deque	*queue;
-	//t_token *tmp_token;
 	
 	err = false;
 	i = 0;
-	//queue = search_nil(tokens);
 	while (tokens[i].type != EOS)
 	{
-		//tmp_token = ((t_deque *)(queue->next))->content;
-		//if (tmp_token->type == EOS)
-			//break ;
 		if (tokens[i].literal == NULL)
 		{
 			err = true;
@@ -67,10 +111,7 @@ t_token	*check_error(t_token *tokens)
 		i++;
 	}
 	if (err)
-	{
-		clear_tokens(tokens);
-		return (NULL);
-	}
+		kill_myprocess(12, NULL, tokens, NULL);
 	return (tokens);
 }
 
@@ -82,10 +123,13 @@ void	clear_tokens(t_token *tokens)
 	while (tokens[i].type != EOS)
 	{
 		free(tokens[i].literal);
+		tokens[i].literal = NULL;
 		i++;
 	}
 	free(tokens[i].literal);
+	tokens[i].literal = NULL;
 	free(tokens);
+	tokens = NULL;
 }
 
 void	put_tokens(t_token *tokens)

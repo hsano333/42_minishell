@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/25 02:42:17 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 01:52:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	change_std_glt(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 	int	rval;
 
 	rval = true;
+	//i = pass_space(tokens, i);
 	if (tokens[i + 1].type == IDENT)
 	{
 		if (access(tokens[i + 1].literal, F_OK) != 0)
@@ -54,16 +55,19 @@ int	change_std_glt(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 {
 	int	rval;
+	int	pre_type;
 
 	rval = true;
+	pre_type = tokens[i].type;
+	//i = pass_space(tokens, i);
 	if (tokens[i + 1].type == IDENT)
 	{
-		if (tokens[i].type == GT)
+		if (pre_type == GT)
 		{
 			cmds->pipes[pipe_i].in_file = tokens[i + 1].literal;
 			tokens[i + 1].valid = false;
 		}
-		else if (tokens[i].type == D_GT)
+		else if (pre_type == D_GT)
 		{
 			cmds->pipes[pipe_i].in_file = HEREDODC_FILE;
 			tokens[i + 1].valid = false;
@@ -75,21 +79,25 @@ int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 {
 	int	rval;
+	int	pre_type;
 
 	rval = true;
+	pre_type = tokens[i].type;
+	//i = pass_space(tokens, i);
 	if (tokens[i + 1].type == IDENT)
 	{
 		cmds->pipes[pipe_i].out_file = tokens[i + 1].literal;
-		if (tokens[i].type == LT)
+		if (pre_type == LT)
 		{
-			rval = false;
+			unlink(cmds->pipes[pipe_i].out_file);
 			rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_CREAT);
+			cmds->pipes[pipe_i].write_option = O_WRONLY;
 			tokens[i + 1].valid = false;
 		}
-		else if (tokens[i].type == D_LT)
+		else if (pre_type == D_LT)
 		{
-			rval = false;
 			rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_APPEND);
+			cmds->pipes[pipe_i].write_option = O_WRONLY | O_APPEND;
 			tokens[i + 1].valid = false;
 		}
 	}

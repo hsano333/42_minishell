@@ -31,6 +31,7 @@ LIBS	:= $(LIBFT)
 
 CC	:= cc
 CFLAGS	:= -Wall -Wextra -Werror
+#CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined -fsanitize=leak 
 LDFLAGS := $(IFLAGS) $(LFLAGS) -lft 
 
 all:

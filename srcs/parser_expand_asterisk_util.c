@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:41:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 14:08:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/29 03:33:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,9 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 	*i = 0;
 	if (p_slash == NULL)
 	{
-		path = *env_func(NULL, GET_ENV_VAR, "PWD", NULL);
+		path = get_env_val("PWD");
 		ft_strlcpy(filename, path, PATH_MAX + 1);
 		free(path);
-		//char *tmp = "/home/sano/work/42/minishell";
 		return ;
 	}
 	else if (str[0] == '/')
@@ -63,13 +62,11 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 
 		p_slash[0] = '\0';
 		ft_strlcpy(filename, str, PATH_MAX + 1);
-
 		*i = (size_t)(p_slash - str) + 1;
 		p_slash[0] = '/';
 		return ;
 	}
-
-	path = *env_func(NULL, GET_ENV_VAR, "PWD", NULL);
+	path = get_env_val("PWD");
 	ft_strlcpy(filename, path, PATH_MAX + 1);
 	ft_strlcat(filename, "/", PATH_MAX + 1);
 	p_slash[0] = '\0';
@@ -78,3 +75,27 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 	p_slash[0] = '/';
 	free(path);
 }
+
+void	add_expanding_asterisk_str(char *dst, char *src, size_t max, int is_absolute)
+{
+	char	*pwd_str;
+	size_t	len;
+
+	pwd_str = get_env_val("PWD");
+	if (!pwd_str)
+	{
+		paraser_expand_asterisk_error(SET_AST_ERROR);
+		return ;
+	}
+	ft_strlcat(dst, " ", max);
+	if (is_absolute)
+	{
+		ft_strlcat(dst, src, max);
+	}
+	else
+	{
+		len = ft_strlen(pwd_str);
+		ft_strlcat(dst, &src[len + 1], max);
+	}
+}
+

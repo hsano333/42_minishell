@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 08:37:33 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/01 15:50:13 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include "parser_heredoc.h"
 #include "exe_cmds.h"
 #include "dir.h"
+#include "kill_myprocess.h"
+
 
 //簡易的な入力受付
 int loop(t_env *env)
@@ -44,19 +46,18 @@ int loop(t_env *env)
 		}
 		// lexer parser
 		tokens = lexer(line);
-		put_tokens(tokens);
-		// parser_expand(tokens);
-		// create_heredoc_file(tokens);
+		//put_tokens(tokens);
 		cmds = parser(tokens);
 		exe_cmds(cmds);
 
-		put_tokens(tokens);
+		//put_tokens(tokens);
 		clear_tokens(tokens);
 		clear_all_cmds(&cmds);
+		//kill_myprocess(-1, NULL, tokens, cmds);
 		// clear_all_cmds(cmds);
-		printf("\n");
+		//printf("\n");
 
-		printf("%s\n", line);
+		//printf("%s\n", line);
 		add_history(line);
 		free(line);
 	}
@@ -98,7 +99,7 @@ int main(int argc, char **argv, char **envp)
 	env_store(envv, INIT_ENV);
 
 	print_env2((const char **)env_store(NULL, GET_ENV));
-	printf("env get test:%s\n", get_env_val("USER"));
+	//printf("env get test:%s\n", get_env_val("USER"));
 	set_env_var("test=test");
 	print_env2((const char **)env_store(NULL, GET_ENV));
 	del_env_var("test");

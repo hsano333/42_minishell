@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.h                                      :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/25 23:30:56 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 14:15:07 by hsano            ###   ########.fr       */
+/*   Created: 2022/10/31 02:30:45 by hsano             #+#    #+#             */
+/*   Updated: 2022/10/31 02:37:00 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXIT_STATUS_H
-# define EXIT_STATUS_H
-# include <stdlib.h>
-# include <stdbool.h>
-# include "libft_str.h"
-void	set_exit_status(int e_stat);
-int	get_exit_status(void);
-void	get_exit_status_str(char *e_status);
-#endif
+#include "libft.h"
+
+int	ft_isspace(int c)
+{
+	if (c == ' ' || (0x09 <= c && c <= 0x0D))
+		return (true);
+	return (false);
+}

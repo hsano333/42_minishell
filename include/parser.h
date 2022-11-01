@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/25 00:44:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/10/31 01:36:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ typedef enum e_fd t_fd;
 typedef struct s_pipe {
 	char	*in_file;
 	char	*out_file;
+	int	write_option;
 	char	*cmd;
-	int		have_param;
+	int	have_param;
 	char	**param;
 	size_t	id;
 	size_t	cmd_num;
-	int		builtin;
+	int	builtin;
 }	t_pipe;
 
 typedef struct s_pipes {

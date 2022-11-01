@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 22:51:43 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/01 14:56:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 	char		filepath[PATH_MAX + 1];
 	int			r[2];
 
+	//printf("is_last=%d\n", is_last);
 	if (pipes->param)
 	{
 		if (search_path(pipes->param[0], environ, filepath))
@@ -36,7 +37,10 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 				fd_in = open(pipes->in_file, O_RDONLY);;
 			}
 			r[0] = dup2(fd_in, 0);
-			r[1] = dup2(pipe_fd[PIPE_OUT], 1);
+			r[1] = 1;
+			//if ((!is_last && !pipes->out_file))
+			if (pipe_fd[PIPE_OUT] != 1)
+				r[1] = dup2(pipe_fd[PIPE_OUT], 1);
 			if (r[0] == -1 || r[1] == -1)
 				exit(EXIT_FAILURE);
 			if (execve(filepath, pipes->param, environ) == -1)
