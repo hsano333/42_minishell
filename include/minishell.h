@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:11:45 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 21:43:05 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
+
+int	g_pid;
 
 typedef struct sigaction t_sigaction;
 
