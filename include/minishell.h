@@ -41,6 +41,7 @@ enum e_signal_mode
 {
     DEFAULT_MODE,
     FORK_MODE,
+    CHILD_MODE,
 };
 
 typedef enum e_signal_mode t_signal_mode;

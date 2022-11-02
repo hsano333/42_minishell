@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "exit_status.h"
 
 void sigint_handler(int sig, siginfo_t *siginfo, void *unused)
 {
@@ -100,7 +101,7 @@ void fork_handler(int sig, siginfo_t *siginfo, void *unused)
 
     // set_error_code
 
-    if (sig == SIGINT || sig == SIGQUIT)
+    if (sig == SIGINT)
     {
         // printf("\n");
         ft_putstr_fd("\n", STDERR_FILENO);
@@ -108,6 +109,19 @@ void fork_handler(int sig, siginfo_t *siginfo, void *unused)
         rl_on_new_line();
         //  rl_line_bufferの内容をtextに置き換えます。可能であれば、ポイントとマークは保持されます。clear_undoがゼロ以外の場合、現在の行に関連付けられた取り消しリストがクリアされます 。
         rl_replace_line("", 0);
+
+        // pid kill
+    }
+    else if (sig == SIGQUIT)
+    {
+        // printf("\n");
+        ft_putstr_fd("quit\n", STDERR_FILENO);
+        //通常、改行を出力した後、新しい (空の) 行に移動したことを更新ルーチンに伝えます。
+        rl_on_new_line();
+        //  rl_line_bufferの内容をtextに置き換えます。可能であれば、ポイントとマークは保持されます。clear_undoがゼロ以外の場合、現在の行に関連付けられた取り消しリストがクリアされます 。
+        rl_replace_line("", 0);
+
+        // pid kill
     }
 }
 
@@ -129,10 +143,17 @@ bool set_signal(t_signal_mode mode)
     else if (mode == FORK_MODE)
     {
         act.sa_sigaction = fork_handler;
+        signal(SIGQUIT, SIG_IGN);
         if (sigaction(SIGINT, &act, NULL) < 0)
             return (false);
         if (sigaction(SIGQUIT, &act, NULL) < 0)
             return (false);
+    }
+    else if (mode == CHILD_MODE)
+    {
+        // act.sa_sigaction = SIG_IGN;
+        signal(SIGQUIT, SIG_IGN);
+        signal(SIGINT, SIG_IGN);
     }
 
     return (true);
