@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 00:12:57 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 21:43:45 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "ft_printf.h"
 #include "heredoc.h"
 #include "pipex_util.h"
+#include "minishell.h"
 
 static void	change_fd(int *pipe_fd, t_pipe *pipes, int is_last)
 {
@@ -109,10 +110,14 @@ int	pipex(t_cmds *cmds, char **environ)
 		//kill_process(-1, input_file, NULL);
 	pid = fork();
 	if (pid == 0)
+	{
+		//set_signal(CHILD_MODE);
 		main_child(fdpid, cmds, environ);
+	}
 	else if (pid == -1)
 		kill_process(-1, NULL, NULL);
 	waitpid(pid, &status, 0);
+	g_pid = pid;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))

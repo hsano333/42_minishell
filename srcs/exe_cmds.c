@@ -6,12 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 11:29:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 21:43:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe_cmds.h"
 #include "cmd_builtin.h"
+#include "minishell.h"
 
 void	exe_cmds(t_cmds *cmds)
 {
@@ -35,10 +36,12 @@ void	exe_cmds(t_cmds *cmds)
 		else if (i > 0 && (cmds[i - 1].operator == D_AMPERSAND && rval >  0 && rval < 256 && ++i))
 			continue ;
 		}
+		set_signal(FORK_MODE);
 		if (cmds[i].len > 1 || (cmds[i].len == 1 && !cmds[i].pipes[0].is_builtin_cmd))
 			rval = pipex(&(cmds[i]), environ);
 		else
 			rval = exec_builtin_cmd(cmds[i].pipes[0].param);
+		set_signal(DEFAULT_MODE);
 		set_exit_status(rval);
 		i++;
 	}
