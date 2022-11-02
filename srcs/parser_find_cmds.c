@@ -6,35 +6,18 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 01:52:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 11:30:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_find_cmds.h"
 #include "parser_find_cmds_util.h"
+#include "cmd_builtin.h"
 
 static void	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 {
 	cmds->pipes[pipe_i].cmd = token->literal;
-
-	if (token->literal == NULL)
-		cmds->pipes[pipe_i].builtin = NOT_BUIDIN;
-	else if (ft_strncmp(token->literal, "echo", ft_strlen("echo") + 1) == 0)
-		cmds->pipes[pipe_i].builtin = BUIDIN_ECHO;
-	else if (ft_strncmp(token->literal, "cd", ft_strlen("cd") + 1) == 0)
-		cmds->pipes[pipe_i].builtin = BUIDIN_CD;
-	else if (ft_strncmp(token->literal, "pwd", ft_strlen("pwd") + 1) == 0)
-		cmds->pipes[pipe_i].builtin = BUIDIN_PWD;
-	else if (ft_strncmp(token->literal, "export", ft_strlen("export") + 1) == 0)
-		cmds->pipes[pipe_i].builtin = BUIDIN_EXPORT;
-	else if (ft_strncmp(token->literal, "unset", ft_strlen("unset") + 1) == 0)
-		cmds->pipes[pipe_i].builtin = BUIDIN_UNSET;
-	else if (ft_strncmp(token->literal, "env", ft_strlen("env") + 1) == 0)
-		cmds->pipes[pipe_i].builtin = BUIDIN_ENV;
-	else if (ft_strncmp(token->literal, "exit", ft_strlen("exit") + 1) == 0)
-		cmds->pipes[pipe_i].builtin = BUIDIN_EXIT;
-	else
-		cmds->pipes[pipe_i].builtin = NOT_BUIDIN;
+	cmds->pipes[pipe_i].is_builtin_cmd = is_builtin(&token->literal);
 }
 
 #include <stdio.h>

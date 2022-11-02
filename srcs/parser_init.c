@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:43:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/01 15:49:44 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 11:29:36 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_pipe	*init_pipe(size_t len)
 		pipes[i].have_param = false;
 		pipes[i].param = NULL;
 		pipes[i].id = 0;
-		pipes[i].builtin = NOT_BUIDIN;
+		pipes[i].is_builtin_cmd = false;
 		i++;
 	}
 	return (pipes);

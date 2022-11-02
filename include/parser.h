@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/31 01:36:54 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 11:13:16 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_pipe {
 	char	**param;
 	size_t	id;
 	size_t	cmd_num;
-	int	builtin;
+	int	is_builtin_cmd;
 }	t_pipe;
 
 typedef struct s_pipes {
