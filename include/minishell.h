@@ -27,7 +27,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int	g_pid;
+int g_pid;
 
 typedef struct sigaction t_sigaction;
 
@@ -57,6 +57,8 @@ void print_env2(const char **env);
 // signal
 bool init_signal(t_sigaction *act);
 bool set_signal(t_signal_mode mode);
+void handle_global_signals(void);
+void handle_cmd_signals(void);
 
 // utils
 int str_arr_len(char **arr);
