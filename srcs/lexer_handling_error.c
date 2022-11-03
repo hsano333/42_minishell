@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 01:44:54 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 03:54:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,12 @@ static int	begin_token_error(t_token *tokens)
 
 t_token	*lexer_handling_error(t_token *tokens)
 {
-	int	error[4];
+	int	error[2];
 
 	check_lexer_memmory_error(tokens);
 	error[0] = have_quote_error(tokens);
 	error[1] = begin_token_error(tokens);
-	//error[1] = have_quote_error(tokens);
-	if (error[0])
+	if (error[0] || error[1])
 	{
 		clear_tokens(tokens);
 		return (NULL);

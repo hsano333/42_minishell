@@ -6,14 +6,15 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 22:41:58 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 02:47:40 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe_cmds.h"
 #include "env.h"
 #include "cmd_builtin.h"
-#include "minishell.h"
+#include "signal_minishell.h"
+//#include "minishell.h"
 
 void	exe_cmds(t_cmds *cmds)
 {
@@ -23,7 +24,6 @@ void	exe_cmds(t_cmds *cmds)
 	//extern char	**environ;
 	char **envv;
 
-	
 	envv = env_store(NULL, GET_ENV);
 	int	rval;
 

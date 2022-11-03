@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 01:42:29 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:07:42 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,33 @@
 #include "exe_cmds.h"
 #include "dir.h"
 #include "kill_myprocess.h"
+#include "lexer_continue_input.h"
+
+static char	*analyze_and_execute(char *line)
+{
+	t_token *tokens;
+	t_cmds *cmds;
+
+	tokens = lexer(line);
+	if (tokens)
+	{
+		while (tokens && is_continue_input(tokens))
+			tokens = continued_input(tokens, &line);
+		if (!tokens)
+			return (line);
+		cmds = parser(tokens);
+		exe_cmds(cmds);
+		clear_tokens(tokens);
+		clear_all_cmds(&cmds);
+	}
+	return (line);
+}
 
 //簡易的な入力受付
 int loop(t_env *env)
 {
 	char *line;
 	int exit_code;
-	t_token *tokens;
-	t_cmds *cmds;
-
 	(void)env;
 
 	exit_code = 0;
@@ -43,25 +61,7 @@ int loop(t_env *env)
 			free(line);
 			break;
 		}
-		// lexer parser
-		tokens = lexer(line);
-		if (tokens)
-		{
-			//while (is_continue_input(tokens))
-				//tokens = continued_input(tokens, &line);
-			//put_tokens(tokens);
-			cmds = parser(tokens);
-			exe_cmds(cmds);
-
-			// put_tokens(tokens);
-			clear_tokens(tokens);
-			clear_all_cmds(&cmds);
-		}
-		// kill_myprocess(-1, NULL, tokens, cmds);
-		//  clear_all_cmds(cmds);
-		// printf("\n");
-
-		// printf("%s\n", line);
+		line = analyze_and_execute(line);
 		add_history(line);
 		free(line);
 	}
