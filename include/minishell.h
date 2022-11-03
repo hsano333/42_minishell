@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:46:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:15:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <readline/history.h>
 
 int	g_pid;
-typedef struct sigaction	t_sigactio;
+typedef struct sigaction	t_sigaction;
 typedef struct s_env
 {
 	char		**env_var;

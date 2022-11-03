@@ -6,13 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 15:59:21 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:08:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_expand.h"
 
-static void	expand_recursive(char *str, token_type pre_token, char **dst_str);
+static void	expand_recursive(char *str, t_token_type pre_token, char **dst_str);
 
 static int	is_valid_env_char(char c)
 {
@@ -64,7 +64,7 @@ static void expand(char *str, char **dst_str, size_t i)
 
 }
 
-static void	expand_recursive(char *str, token_type pre_token, char **dst_str)
+static void	expand_recursive(char *str, t_token_type pre_token, char **dst_str)
 {
 	size_t	i;
 
@@ -85,7 +85,7 @@ static void	expand_recursive(char *str, token_type pre_token, char **dst_str)
 	}
 }
 
-int	expand_doller(t_token *token, token_type pre_token)
+int	expand_doller(t_token *token, t_token_type pre_token)
 {
 	char	*dst_str;
 

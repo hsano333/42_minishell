@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:27:32 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:08:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	expand_loop(char *ast_word, char *dirname, char *filename, int is_absolute)
 	return (0);
 }
 
-int	expand_asterisk(t_token *token, token_type pre_token)
+int	expand_asterisk(t_token *token, t_token_type pre_token)
 {
 	size_t	i;
 	char	dir[PATH_MAX + 1];

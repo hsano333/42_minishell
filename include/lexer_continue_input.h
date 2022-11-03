@@ -6,12 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 00:54:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 03:36:21 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:10:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONTINUE_INPUT_H
-# define CONTINUE_INPUT_H
+#ifndef LEXER_CONTINUE_INPUT_H
+# define LEXER_CONTINUE_INPUT_H
 # include "lexer.h"
 # include "lexer_util.h"
 # include <stdbool.h>

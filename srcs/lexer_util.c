@@ -6,15 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 14:49:48 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:07:39 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_util.h"
-//#include "lexer.h"
-# include "kill_myprocess.h"
+#include "kill_myprocess.h"
 
-static token_type	identify_token_partial(char c, char next_c)
+static	t_token_type	identify_token_partial(char c, char next_c)
 {
 	if (c == '|' && next_c == '|')
 		return (D_PIPE);
@@ -39,9 +38,9 @@ static token_type	identify_token_partial(char c, char next_c)
 	return (NON);
 }
 
-token_type	identify_token(char c, char next_c)
+t_token_type	identify_token(char c, char next_c)
 {
-	token_type	type;
+	t_token_type	type;
 
 	type = identify_token_partial(c, next_c);
 	if (type != NON)
@@ -86,7 +85,7 @@ size_t	whitespace_len(char *str)
 }
 */
 
-size_t token_len_helper(token_type type)
+size_t	token_len_helper(t_token_type type)
 {
 	if (type == D_PIPE || type == D_AMPERSAND || type == D_LT \
 			|| type == D_GT || type == GLT || type == EXIT_STATUS)

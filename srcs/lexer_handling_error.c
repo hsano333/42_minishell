@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 03:54:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:06:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ static void	put_quote_error(t_token *tokens)
 
 static int	have_quote_error(t_token *tokens)
 {
-	size_t	i;
-	size_t	j;
-	const	token_type error_token[] = {PIPE, D_PIPE, D_AMPERSAND, GLT, GT, LT, D_GT, D_LT, EOS};
+	size_t					i;
+	size_t					j;
+	const	t_token_type	error_token[] = {PIPE, D_PIPE, D_AMPERSAND, GLT, GT, LT, D_GT, D_LT, EOS};
 	
 	i = 0;
 	while (tokens[i].type != EOS)
@@ -81,9 +81,9 @@ static int	begin_token_error(t_token *tokens)
 {
 	size_t	j;
 	size_t	len;
-	const	token_type error_token[] = {PIPE, D_PIPE, D_AMPERSAND};
+	const	t_token_type error_token[] = {PIPE, D_PIPE, D_AMPERSAND};
 	
-	len = sizeof(error_token) / sizeof(token_type);
+	len = sizeof(error_token) / sizeof(t_token_type);
 	j = 0;
 	while (j < len)
 	{

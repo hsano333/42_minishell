@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 00:49:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:03:16 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:06:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ t_token	*continued_input(t_token *tokens, char **str)
 
 int	is_continue_input(t_token *tokens)
 {
-	size_t				i;
-	size_t				j;
-	size_t				len;
-	token_type			last_token;
-	const	token_type	continued_token[] = {PIPE, D_PIPE, D_AMPERSAND};
+	size_t					i;
+	size_t					j;
+	size_t					len;
+	t_token_type			last_token;
+	const	t_token_type	continued_token[] = {PIPE, D_PIPE, D_AMPERSAND};
 
 	i = 0;
-	len = sizeof(continued_token) / sizeof(token_type);
+	len = sizeof(continued_token) / sizeof(t_token_type);
 	while (tokens[i].type != EOS)
 		i++;
 	if (i > 0)

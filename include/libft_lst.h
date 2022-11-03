@@ -6,12 +6,13 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:38:53 by hsano             #+#    #+#             */
-/*   Updated: 2022/08/08 15:13:34 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:01:22 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_LST_H
 # define LIBFT_LST_H
+
 typedef struct s_list
 {
 	void			*content;
