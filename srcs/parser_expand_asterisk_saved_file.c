@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 22:31:48 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/03 23:01:41 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*get_finded_file(void)
 	len = ft_strlen(str);
 	if (len > 0)
 	{
-		if ((unsigned char)str[len - 1] == PARSER_DELIMITER)
+		if (str[len - 1] == PARSER_DELIMITER)
 			str[len - 1] = '\0';
 	}
 	return (str);
@@ -84,7 +84,7 @@ void	set_finded_file(char *added_file, int is_absolute)
 		tmp_malloc = malloc(max);
 		if (!tmp_malloc && paraser_expand_asterisk_error(SET_AST_ERROR))
 			return ;
-		if (saved_filename )
+		if (saved_filename)
 			ft_strlcpy(tmp_malloc, saved_filename ,max);
 		free(saved_filename);
 		saved_filename = tmp_malloc;
