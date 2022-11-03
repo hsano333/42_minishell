@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 15:07:11 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 01:44:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	have_quote_error(t_token *tokens)
 	i = 0;
 	while (tokens[i].type != EOS)
 	{
-		if (tokens[i].type == GLT || tokens[i].type == GT || tokens[i].type == D_GT || tokens[i].type == LT || tokens[i].type == D_LT)
+		if ((tokens[i].type == GLT || tokens[i].type == GT || tokens[i].type == D_GT || tokens[i].type == LT || tokens[i].type == D_LT))
 		{
 			j = 0;
 			while (1)
@@ -77,12 +77,34 @@ static int	have_quote_error(t_token *tokens)
 	return (false);
 }
 
+static int	begin_token_error(t_token *tokens)
+{
+	size_t	j;
+	size_t	len;
+	const	token_type error_token[] = {PIPE, D_PIPE, D_AMPERSAND};
+	
+	len = sizeof(error_token) / sizeof(token_type);
+	j = 0;
+	while (j < len)
+	{
+		if (tokens[0].type == error_token[j])
+		{
+			put_quote_error(&(tokens[0]));
+			set_exit_status(258);
+			return (true);
+		}
+		j++;
+	}
+	return (false);
+}
+
 t_token	*lexer_handling_error(t_token *tokens)
 {
 	int	error[4];
 
 	check_lexer_memmory_error(tokens);
 	error[0] = have_quote_error(tokens);
+	error[1] = begin_token_error(tokens);
 	//error[1] = have_quote_error(tokens);
 	if (error[0])
 	{

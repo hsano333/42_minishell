@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 22:42:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 01:42:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int loop(t_env *env)
 		tokens = lexer(line);
 		if (tokens)
 		{
+			//while (is_continue_input(tokens))
+				//tokens = continued_input(tokens, &line);
 			//put_tokens(tokens);
 			cmds = parser(tokens);
 			exe_cmds(cmds);
