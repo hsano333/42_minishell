@@ -11,65 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void sigint_handler(int sig, siginfo_t *siginfo, void *unused)
-{
-    (void)unused;
-    //(void)sig;
-    (void)siginfo;
-
-    // set_error_code
-
-    if (sig == SIGINT)
-    {
-        // printf("\n");
-        ft_putstr_fd("\n", STDERR_FILENO);
-        //通常、改行を出力した後、新しい (空の) 行に移動したことを更新ルーチンに伝えます。
-        rl_on_new_line();
-        //  rl_line_bufferの内容をtextに置き換えます。可能であれば、ポイントとマークは保持されます。clear_undoがゼロ以外の場合、現在の行に関連付けられた取り消しリストがクリアされます 。
-        rl_replace_line("", 0);
-        // rl_line_bufferの現在の内容を反映するように、画面に表示される内容を変更します。
-        rl_redisplay();
-    }
-}
-
-bool set_sighandler(t_sigaction *act, void (*handler)(int, siginfo_t *, void *))
-{
-    (*act).sa_sigaction = handler;
-    if (sigaction(SIGINT, act, NULL) < 0)
-        return (false);
-    return (true);
-}
-
-bool init_signal(t_sigaction *act)
-{
-    sigemptyset(&(act)->sa_mask);
-    sigaddset(&(act)->sa_mask, SIGINT);
-    // sigaddset(&(act)->sa_mask, SIGQUIT);
-
-    (*act).sa_flags = SA_SIGINFO;
-    if (!set_sighandler(act, &sigint_handler))
-        return (false);
-
-    /*
-    (*act).sa_sigaction = sig_handler;
-    if (sigaction(SIGINT, act, NULL) < 0)
-        return (false);
-    */
-    signal(SIGQUIT, SIG_IGN);
-
-    // CTRL + D ->exit
-
-    /*
-    sigaddset(&(act)->sa_mask, SIGQUIT);
-
-    if (sigaction(SIGQUIT, act, NULL))
-        return (false);
-    */
-
-    // CTRL + \ -> do not nothing
-    return (true);
-}
+#include "exit_status.h"
 
 void default_handler(int sig, siginfo_t *siginfo, void *unused)
 {
@@ -100,7 +42,7 @@ void fork_handler(int sig, siginfo_t *siginfo, void *unused)
 
     // set_error_code
 
-    if (sig == SIGINT || sig == SIGQUIT)
+    if (sig == SIGINT)
     {
         // printf("\n");
         ft_putstr_fd("\n", STDERR_FILENO);
@@ -108,31 +50,141 @@ void fork_handler(int sig, siginfo_t *siginfo, void *unused)
         rl_on_new_line();
         //  rl_line_bufferの内容をtextに置き換えます。可能であれば、ポイントとマークは保持されます。clear_undoがゼロ以外の場合、現在の行に関連付けられた取り消しリストがクリアされます 。
         rl_replace_line("", 0);
+
+        // pid kill
+        // kill(g_pid, SIGINT);
+        printf("signal: %d\n", g_pid);
+        // exit(130);
+    }
+    else if (sig == SIGQUIT)
+    {
+        // printf("\n");
+        ft_putstr_fd("quit\n", STDERR_FILENO);
+        //通常、改行を出力した後、新しい (空の) 行に移動したことを更新ルーチンに伝えます。
+        rl_on_new_line();
+        //  rl_line_bufferの内容をtextに置き換えます。可能であれば、ポイントとマークは保持されます。clear_undoがゼロ以外の場合、現在の行に関連付けられた取り消しリストがクリアされます 。
+        rl_replace_line("", 0);
+
+        //  pid kill
+        kill(g_pid, SIGINT);
+        printf("signal: %d\n", g_pid);
+        // exit(130);
     }
 }
 
+void exit_handler(int sig, siginfo_t *siginfo, void *unused)
+{
+    (void)unused;
+    //(void)sig;
+    (void)siginfo;
+
+    // set_error_code
+    kill(-1, SIGINT);
+    if (sig == SIGINT)
+    {
+        printf("exit handler\n");
+        exit(130);
+        printf("exit\n");
+    }
+}
+
+static void handle_cmd_signal(int sig)
+{
+    if (sig == SIGINT || sig == SIGQUIT)
+    {
+        // set_err_code(130);
+        printf("\n");
+        // rl_on_new_line
+        //通常、改行を出力した後、新しい (空の) 行に移動したことを更新ルーチンに伝えます。
+        rl_on_new_line();
+        // rl_replace_line (const char *text, int clear_undo)
+        //  rl_line_bufferの内容をtextに置き換えます。可能であれば、ポイントとマークは保持されます。clear_undoがゼロ以外の場合、現在の行に関連付けられた取り消しリストがクリアされます 。
+        rl_replace_line("", 0);
+    }
+}
+
+static void handle_global_signal(int sig)
+{
+    if (sig == SIGINT)
+    {
+        // set_err_code(1);
+        printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        // rl_redisplay
+        // readlineの内容を表示
+        // rl_line_bufferの現在の内容を反映するように、画面に表示される内容を変更します。
+        rl_redisplay();
+    }
+}
+
+void handle_cmd_signals(void)
+{
+    // signal(SIGQUIT, SIG_IGN);
+    signal(SIGQUIT, handle_cmd_signal);
+    // signal(SIGINT, SIG_IGN);
+    signal(SIGINT, handle_cmd_signal);
+}
+
+void handle_global_signals(void)
+{
+    signal(SIGQUIT, SIG_IGN);
+    // signal(SIGINT, SIG_IGN);
+    signal(SIGINT, handle_global_signal);
+}
+
+// t_sigaction act;
+
 bool set_signal(t_signal_mode mode)
 {
-    static t_sigaction act;
+    t_sigaction act;
 
     sigemptyset(&(act.sa_mask));
-    sigaddset(&(act.sa_mask), SIGINT);
+    // sigaddset(&(act.sa_mask), SIGINT);
     act.sa_flags = SA_SIGINFO;
 
     if (mode == DEFAULT_MODE)
     {
-        act.sa_sigaction = default_handler;
+        sigaddset(&(act.sa_mask), SIGINT);
+        // act.sa_sigaction = default_handler;
+        act.sa_handler = handle_global_signal;
         if (sigaction(SIGINT, &act, NULL) < 0)
             return (false);
         signal(SIGQUIT, SIG_IGN);
     }
     else if (mode == FORK_MODE)
     {
-        act.sa_sigaction = fork_handler;
+        sigaddset(&(act.sa_mask), SIGINT);
+        sigaddset(&(act.sa_mask), SIGQUIT);
+
+        act.sa_handler = handle_cmd_signal;
+        // act.sa_sigaction = fork_handler;
+        //  signal(SIGQUIT, SIG_IGN);
         if (sigaction(SIGINT, &act, NULL) < 0)
             return (false);
         if (sigaction(SIGQUIT, &act, NULL) < 0)
             return (false);
+    }
+    else if (mode == CHILD_MODE)
+    {
+        sigaddset(&(act.sa_mask), SIGINT);
+        sigaddset(&(act.sa_mask), SIGQUIT);
+
+        // act.sa_sigaction = SIG_IGN;
+        // signal(SIGQUIT, SIG_IGN);
+        // signal(SIGINT, SIG_IGN);
+        // act.sa_sigaction = exit_handler;
+        // act.sa_sigaction = NULL;
+        act.sa_handler = handle_cmd_signal;
+        // signal(SIGQUIT, SIG_IGN);
+
+        if (sigaction(SIGINT, &act, NULL) < 0)
+            return (false);
+        if (sigaction(SIGQUIT, &act, NULL) < 0)
+            return (false);
+
+        // signal(SIGINT, exit_handler);
+        // signal(SIGQUIT, exit_handler);
     }
 
     return (true);

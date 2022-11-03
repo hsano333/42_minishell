@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 16:11:45 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 21:43:05 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+int g_pid;
+
 typedef struct sigaction t_sigaction;
 
 typedef struct s_env
@@ -41,6 +43,7 @@ enum e_signal_mode
 {
     DEFAULT_MODE,
     FORK_MODE,
+    CHILD_MODE,
 };
 
 typedef enum e_signal_mode t_signal_mode;
@@ -54,6 +57,8 @@ void print_env2(const char **env);
 // signal
 bool init_signal(t_sigaction *act);
 bool set_signal(t_signal_mode mode);
+void handle_global_signals(void);
+void handle_cmd_signals(void);
 
 // utils
 int str_arr_len(char **arr);

@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 22:36:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/03 22:42:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int main(int argc, char **argv, char **envp)
 
 	// char **に後で変更する
 	// env = init_env(envp); //後で消す
-	set_signal(FORK_MODE);
+	// set_signal(DEFAULT_MODE);
+	handle_global_signals();
 	envv = str_arr_dup(envp);
 	// env_store(envv, INIT_ENV);
 	initialize_env(envv);
