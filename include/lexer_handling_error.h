@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_builtin.h                                      :+:      :+:    :+:   */
+/*   lexer_handling_error.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 01:55:22 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 22:50:48 by hsano            ###   ########.fr       */
+/*   Created: 2022/11/02 14:10:04 by hsano             #+#    #+#             */
+/*   Updated: 2022/11/02 14:12:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_BUILTIN_H
-# define CMD_BUILTIN_H
-
-int	exec_builtin_cmd(char **cmd);
-int	is_builtin(char **cmd);
+#ifndef LEXER_HANDLING_ERROR_H
+#define LEXER_HANDLING_ERROR_H
+#include "lexer.h"
+#include "lexer_util.h"
+#include "lexer_util.h"
+#include "kill_myprocess.h"
+#include "stdbool.h"
+t_token	*lexer_handling_error(t_token *tokens);
 #endif
-

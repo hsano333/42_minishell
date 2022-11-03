@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 22:35:13 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/03 22:51:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 static void	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 {
 	cmds->pipes[pipe_i].cmd = token->literal;
-	cmds->pipes[pipe_i].is_builtin_cmd = not_use_piped(&token->literal);
+	cmds->pipes[pipe_i].is_builtin_cmd = is_builtin(&token->literal);
 }
 
 #include <stdio.h>
