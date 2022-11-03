@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 21:43:45 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/03 18:25:55 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "ft_printf.h"
 #include "heredoc.h"
 #include "pipex_util.h"
-#include "minishell.h"
+#include "signal_minishell.h"
 
 static void	change_fd(int *pipe_fd, t_pipe *pipes, int is_last)
 {
@@ -96,7 +96,7 @@ static void	main_child(t_fdpid *fdpid, t_cmds *cmds, char **environ)
 	if (WIFEXITED(status))
 		exit(WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
-		exit(WTERMSIG(status));
+		exit(128 + WTERMSIG(status));
 }
 
 int	pipex(t_cmds *cmds, char **environ)
@@ -117,7 +117,7 @@ int	pipex(t_cmds *cmds, char **environ)
 	else if (pid == -1)
 		kill_process(-1, NULL, NULL);
 	waitpid(pid, &status, 0);
-	g_pid = pid;
+	//g_pid = pid;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))

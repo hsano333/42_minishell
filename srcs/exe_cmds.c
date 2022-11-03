@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 21:43:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/03 18:22:09 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ void	exe_cmds(t_cmds *cmds)
 	{
 		if (i > 0)
 		{
-		if (i > 0 && cmds[i - 1].last)
-			break ;
-		else if (i > 0 && (cmds[i - 1].operator == D_PIPE && rval == 0) && ++i)
-			continue ;
-		else if (i > 0 && (cmds[i - 1].operator == D_AMPERSAND && rval >  0 && rval < 256 && ++i))
-			continue ;
+			if (i > 0 && cmds[i - 1].last)
+				break ;
+			else if (i > 0 && (cmds[i - 1].operator == D_PIPE && rval == 0) && ++i)
+				continue ;
+			else if (i > 0 && (cmds[i - 1].operator == D_AMPERSAND && rval >  0 && rval < 256 && ++i))
+				continue ;
 		}
-		set_signal(FORK_MODE);
+		handle_cmd_signals();
 		if (cmds[i].len > 1 || (cmds[i].len == 1 && !cmds[i].pipes[0].is_builtin_cmd))
 			rval = pipex(&(cmds[i]), environ);
 		else
 			rval = exec_builtin_cmd(cmds[i].pipes[0].param);
-		set_signal(DEFAULT_MODE);
+		handle_global_signals();
 		set_exit_status(rval);
 		i++;
 	}
