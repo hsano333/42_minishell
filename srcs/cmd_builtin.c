@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 10:39:31 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/02 11:29:57 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/03 21:40:11 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,24 @@ int	is_builtin(char **cmd)
 {
     const char *commands[] = {
         "exit", "cd", "echo", "pwd", "env", "export", "unset", NULL};
+    int i;
+
+    i = 0;
+    if (cmd[0] == NULL)
+        return (0);
+    while (commands[i])
+    {
+        if (ft_strncmp(cmd[0], (char *)commands[i], ft_strlen(cmd[0])) == 0)
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
+int	not_use_piped(char **cmd)
+{
+    const char *commands[] = {
+        "exit", "cd", "pwd", "env", "export", "unset", NULL};
     int i;
 
     i = 0;

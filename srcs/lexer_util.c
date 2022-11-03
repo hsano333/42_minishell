@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/31 04:04:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 14:49:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,27 +92,6 @@ size_t token_len_helper(token_type type)
 			|| type == D_GT || type == GLT || type == EXIT_STATUS)
 		return (2);
 	return (1);
-}
-
-t_token	*check_lexer_error(t_token *tokens)
-{
-	int	err;
-	size_t	i;
-	
-	err = false;
-	i = 0;
-	while (tokens[i].type != EOS)
-	{
-		if (tokens[i].literal == NULL)
-		{
-			err = true;
-			break ;
-		}
-		i++;
-	}
-	if (err)
-		kill_myprocess(12, NULL, tokens, NULL);
-	return (tokens);
 }
 
 void	clear_tokens(t_token *tokens)

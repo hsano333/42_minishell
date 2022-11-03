@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 02:18:15 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/03 22:39:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_comds(t_cmds *cmds)
 			k = 0;
 			while (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param[k])
 			{
-				//printf("i=%zu,j=%zu,k=%zu\n", i,j,k);
+				printf("i=%zu,j=%zu,k=%zu\n", i,j,k);
 				printf("pipes[%zu].param[%zu]=%s\n", j,k, cmds[i].pipes[j].param[k]);
 				k++;
 				//i++;
@@ -49,6 +49,7 @@ void	print_comds(t_cmds *cmds)
 			break ;
 		i++;
 	}
+	printf("print cmds end\n");
 }
 
 //static void	copy_token(t_token *dst, t_token *src)
@@ -92,6 +93,8 @@ t_cmds	*parser(t_token *tokens)
 		kill_myprocess(12, NULL, tokens, NULL);
 	if (!cmds)
 		return (NULL);
+	//if (parser_handling_error(cmds))
+		//return (NULL);
 	create_heredoc_file(tokens);
 	if (search_std_in_and_out(tokens, cmds))
 	{

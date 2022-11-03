@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/31 04:10:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/02 14:11:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft_isto.h"
 #include "kill_myprocess.h"
 #include "lexer_quote_flag.h"
+#include "lexer_handling_error.h"
 
 
 size_t	token_len(token_type *type, char *str)
@@ -87,6 +88,5 @@ t_token	*lexer(char *str)
 		str += tokens[i++].len;
 	}
 	set_token(&(tokens[i]), EOS, "", i);
-	check_lexer_error(tokens);
-	return (tokens);
+	return (lexer_handling_error(tokens));
 }

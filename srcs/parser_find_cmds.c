@@ -6,9 +6,10 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 11:30:10 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/03 22:35:13 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "parser_find_cmds.h"
 #include "parser_find_cmds_util.h"
@@ -17,7 +18,7 @@
 static void	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 {
 	cmds->pipes[pipe_i].cmd = token->literal;
-	cmds->pipes[pipe_i].is_builtin_cmd = is_builtin(&token->literal);
+	cmds->pipes[pipe_i].is_builtin_cmd = not_use_piped(&token->literal);
 }
 
 #include <stdio.h>
@@ -39,7 +40,7 @@ static char	**allocate_args_memory(t_token *tokens, size_t i, size_t len)
 			break ;
 		else if (tokens[i].type == IDENT && tokens[i].valid && tokens[i].expand)
 		{
-			split = ft_split(tokens[i].literal, ' ');
+			split = ft_split(tokens[i].literal, PARSER_DELIMITER);
 			k = 0;
 			while (split && split[k])
 				argv[j++] = split[k++];
