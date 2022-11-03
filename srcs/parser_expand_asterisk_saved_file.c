@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 23:01:41 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:27:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ void	set_finded_file(char *added_file, int is_absolute)
 		free(saved_filename);
 		saved_filename = tmp_malloc;
 	}
-	//ft_strlcat(saved_filename, " ", max);
-	//ft_strlcat(saved_filename, added_file, max);
 	add_expanding_asterisk_str(saved_filename, added_file, max, is_absolute);
 	used = ft_strlen(saved_filename);
 	finded_file_func(SET_AST_FINDED_FILE, saved_filename, &used, &max);

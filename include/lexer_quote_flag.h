@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 03:26:39 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/31 03:43:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:32:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 
 #define LEXER_GET_FLAG 0
 #define LEXER_SET_FLAG 1
-//#define LEXER_NOT_FLAG 0
-//#define LEXER_S_FLAG 1
-//#define LEXER_D_FLAG 2
 token_type	get_lexer_quote(void);
 void		set_lexer_quote(token_type flag);
 

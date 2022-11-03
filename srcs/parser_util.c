@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:06:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/31 01:52:38 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:29:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	is_error_cmds(t_cmds *cmds)
 	}
 	return (true);
 }
-
-#include <stdio.h>
 
 void	clear_all_cmds(t_cmds **cmds)
 {

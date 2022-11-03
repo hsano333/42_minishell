@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 23:57:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:32:51 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,6 @@ enum	e_token_type
 	DOLLER = 256,
 	ASTERISK = 512,
 	EXIT_STATUS = 1024,
-	//LPAREN,
-	//RPAREN,
-	//COMMA,
-	//INT,
-	//EQUAL,
-	//SEMICOLON,
-	//SLASH,
-	//BACK_SLASH,
-	//DOT,
-	//D_DOT,
 };
 typedef enum e_token_type token_type;
 

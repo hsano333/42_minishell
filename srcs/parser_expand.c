@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 15:12:55 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:27:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,3 @@ size_t	parser_expand(t_token *tokens, token_type pre_token, size_t i)
 		end_no = parser_expand(tokens, pre_token, i + 1);
 	return (end_no);
 }
-
-/*
-int	parser_expand(t_token *tokens)
-{
-	parser_expand(tokens, NON, 0);
-	return (true);
-}
-*/

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 22:51:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:28:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 	cmds->pipes[pipe_i].is_builtin_cmd = is_builtin(&token->literal);
 }
 
-#include <stdio.h>
 static char	**allocate_args_memory(t_token *tokens, size_t i, size_t len)
 {
 	char	**argv;

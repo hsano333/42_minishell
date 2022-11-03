@@ -6,10 +6,9 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 11:13:16 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:32:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CMD_H
 # define CMD_H
@@ -53,7 +52,6 @@ typedef struct s_pipes {
 typedef struct s_cmds {
 	int		result;
 	size_t		id;
-	//size_t		pipe_len;
 	t_pipe		*pipes;
 	size_t		len;
 	token_type	operator;

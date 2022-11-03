@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 22:39:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:26:41 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,6 @@ void	print_comds(t_cmds *cmds)
 	printf("print cmds end\n");
 }
 
-//static void	copy_token(t_token *dst, t_token *src)
-//{
-////
-//}
-
 static void	disable_space(t_token *tokens)
 {
 	size_t	i;
@@ -73,7 +68,6 @@ static void	disable_space(t_token *tokens)
 			while (tokens[j].type != EOS)
 			{
 				if (tokens[i].type != WHITE_SPACE)
-				//copy_token(&(tokens[i]), &(tokens[j]));
 					j++;
 			}
 		}
@@ -93,21 +87,8 @@ t_cmds	*parser(t_token *tokens)
 		kill_myprocess(12, NULL, tokens, NULL);
 	if (!cmds)
 		return (NULL);
-	//if (parser_handling_error(cmds))
-		//return (NULL);
 	create_heredoc_file(tokens);
 	if (search_std_in_and_out(tokens, cmds))
-	{
 		search_cmds_and_arg(tokens, cmds);
-	}
-	//print_comds(cmds);
-
-	//cmds_num = count_comds(tokens);
-	//////////cmds = (t_cmd *)malloc(sizeof(t_cmd) * (cmds_num + 1));
-	//parser_expand(tokens);
-	//create_heredoc_file(tokens);
-	//search_std_in_and_out(tokens, cmds);
-	//cmds[cmds_num].last = true;
-	//cmds[0].in = (int)(tokens[0].type);
 	return (cmds);
 }

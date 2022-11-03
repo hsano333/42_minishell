@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:41:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 23:02:44 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:28:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	add_expanding_asterisk_str(char *dst, char *src, size_t max, int is_absolut
 		paraser_expand_asterisk_error(SET_AST_ERROR);
 		return ;
 	}
-	//ft_strlcat(dst, " ", max);
 	if (is_absolute)
 		ft_strlcat(dst, src, max);
 	else
@@ -97,7 +96,6 @@ void	add_expanding_asterisk_str(char *dst, char *src, size_t max, int is_absolut
 		ft_strlcat(dst, &src[len + 1], max);
 	}
 	len = ft_strlen(dst);
-	//printf("dst=%s, len=%zu, src=%s\n", dst, len, src);
 	dst[len] = PARSER_DELIMITER;
 	dst[len + 1] = '\0';
 	free(pwd_str);
