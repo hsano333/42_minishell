@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 21:46:06 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/04 22:14:16 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,10 @@ static char *analyze_and_execute(char *line)
 }
 
 //簡易的な入力受付
-int loop(t_env *env)
+int loop()
 {
 	char *line;
 	int exit_code;
-	(void)env;
 
 	exit_code = 0;
 	while (true)
@@ -126,7 +125,7 @@ int main(int argc, char **argv, char **envp)
 	}
 
 	// readline
-	loop(NULL);
+	loop();
 
 	// free_env(env);
 	envv = env_store(NULL, GET_ENV);

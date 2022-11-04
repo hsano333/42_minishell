@@ -109,9 +109,10 @@ static void handle_global_signal(int sig)
         ft_putstr_fd("\n", STDERR_FILENO);
         rl_on_new_line();
         rl_replace_line("", 0);
-        // rl_redisplay
-        // readlineの内容を表示
-        // rl_line_bufferの現在の内容を反映するように、画面に表示される内容を変更します。
+        // kill(0, SIGHUP);
+        //  rl_redisplay
+        //  readlineの内容を表示
+        //  rl_line_bufferの現在の内容を反映するように、画面に表示される内容を変更します。
         rl_redisplay();
     }
 }
