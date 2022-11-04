@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:29:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 18:26:13 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static int	execute_heredoc(t_heredoc *heredoc)
 {
-	char *line;
-	int	fd;
-	int	error;
+	char	*line;
+	int		fd;
+	int		error;
 
 	unlink(HEREDODC_FILE);
 	fd = open(HEREDODC_FILE, O_CREAT | O_WRONLY, 0744);
@@ -31,7 +31,8 @@ static int	execute_heredoc(t_heredoc *heredoc)
 			error = true;
 			break ;
 		}
-		if (ft_strncmp(line, heredoc->limiter, ft_strlen(heredoc->limiter) + 1) == 0)
+		if (ft_strncmp(line, heredoc->limiter, ft_strlen(heredoc->limiter) + 1) \
+				== 0)
 			break ;
 		ft_putendl_fd(line, fd);
 	}
@@ -54,8 +55,8 @@ static void	get_heredoc_setting(t_heredoc *heredoc, t_token *tokens, size_t i)
 
 int	create_heredoc_file(t_token *tokens)
 {
-	size_t	i;
-	t_heredoc heredoc;
+	size_t		i;
+	t_heredoc	heredoc;
 
 	i = 0;
 	while (tokens[i].type != EOS)

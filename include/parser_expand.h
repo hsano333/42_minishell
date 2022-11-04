@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:37:23 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 05:08:56 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/05 00:28:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef enum e_ast_end_mode
 	TRUE_END,
 	NEXT_DIR,
 	NEXT_ASTERISK,
+	CONTINUE,
 }	t_ast_end_mode;
 
 int				expand_exit_status(t_token *token);

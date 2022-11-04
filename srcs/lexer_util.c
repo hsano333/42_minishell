@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 05:07:39 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/05 03:52:36 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,6 @@ t_token_type	identify_token(char c, char next_c)
 	type = identify_token_partial(c, next_c);
 	if (type != NON)
 		return (type);
-	//if (c == '.' && next_c == '.')
-		//return (D_DOT);
-	//else if (c == '.')
-		//return (DOT);
-	//else if (c == ';')
-		//return (SEMICOLON);
-	//else if (c == '=')
-		//return (EQUAL);
 	if (c == '*')
 		return (ASTERISK);
 	else if (c == '$' && next_c == '\?')
@@ -66,25 +58,6 @@ t_token_type	identify_token(char c, char next_c)
 	return (IDENT);
 }
 
-
-/*
-size_t	whitespace_len(char *str)
-{
-	size_t	i;
-	size_t	cnt;
-
-	i = 0;
-	cnt = 0;
-	while (str[i])
-	{
-		if (is_whitespace(str[i]))
-			cnt++;
-		i++;
-	}
-	return (cnt);
-}
-*/
-
 size_t	token_len_helper(t_token_type type)
 {
 	if (type == D_PIPE || type == D_AMPERSAND || type == D_LT \
@@ -96,7 +69,7 @@ size_t	token_len_helper(t_token_type type)
 void	clear_tokens(t_token *tokens)
 {
 	size_t	i;
-	
+
 	i = 0;
 	while (tokens[i].type != EOS)
 	{
@@ -114,13 +87,15 @@ void	put_tokens(t_token *tokens)
 {
 	size_t	i;
 	t_token	*tmp_token;
-	
+
 	i = 0;
 	while (tokens[i].type != EOS)
 	{
 		tmp_token = &(tokens[i]);
 		if (tmp_token->valid)
-			printf("id=%zu,type=%d, len=%zu str=[%s], valid=%d\n ", tmp_token->id, tmp_token->type, tmp_token->len, tmp_token->literal, tmp_token->valid);
+			printf("id=%zu,type=%d, len=%zu str=[%s], valid=%d\n " \
+					, tmp_token->id, tmp_token->type, tmp_token->len \
+					, tmp_token->literal, tmp_token->valid);
 		i++;
 	}
 }

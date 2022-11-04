@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:59:35 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:28:38 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 18:50:55 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static	size_t	expanded_str_len(char *str, char *e_status)
 {
 	size_t	len;
-	int	len_status;
+	int		len_status;
 	char	*base_p;
 
 	get_exit_status_str(e_status);
@@ -47,7 +47,8 @@ static void	expand(t_token *token, char *str, size_t len, char *e_status)
 		p_doller[0] = '\0';
 		ft_strlcat(str, p_str, len + 1);
 		ft_strlcat(str, e_status, len + 1);
-		p_str = p_doller += 2;
+		p_doller += 2;
+		p_str = p_doller;
 		p_doller = ft_strnstr(p_str, "$?", 2);
 	}
 	ft_strlcat(str, p_str, len + 1);

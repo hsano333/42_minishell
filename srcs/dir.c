@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 16:27:03 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/15 16:55:53 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/05 04:27:13 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static char	*dir_func(char *src_dir, t_dir_mode mode)
 {
-	static char *curdir = NULL;
+	static char	*curdir = NULL;
 
 	if (mode == GET_DIR)
 		return (curdir);
@@ -28,6 +28,7 @@ char	*get_cur_dir(void)
 {
 	return (dir_func(NULL, GET_DIR));
 }
+
 void	set_cur_dir(char *dir)
 {
 	dir_func(dir, SET_DIR);

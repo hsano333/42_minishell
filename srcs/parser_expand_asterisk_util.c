@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:41:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:28:08 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/05 03:25:22 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 t_ast_end_mode	is_equal_or_asterisk(char *ast_word, char *filename)
 {
-
 	size_t	i;
 
 	i = 0;
@@ -40,6 +39,29 @@ t_ast_end_mode	is_equal_or_asterisk(char *ast_word, char *filename)
 	return (FALSE_END);
 }
 
+static int	get_prefix_dir_common(char *p_slash \
+		, char *str, char *filename, size_t *i)
+{
+	char	*path;
+
+	if (p_slash == NULL)
+	{
+		path = get_env_val("PWD");
+		ft_strlcpy(filename, path, PATH_MAX + 1);
+		free(path);
+		return (true);
+	}
+	else if (str[0] == '/')
+	{
+		p_slash[0] = '\0';
+		ft_strlcpy(filename, str, PATH_MAX + 1);
+		*i = (size_t)(p_slash - str) + 1;
+		p_slash[0] = '/';
+		return (true);
+	}
+	return (false);
+}
+
 void	get_prefix_dir(char *str, char *filename, size_t *i)
 {
 	char	*p_ast;
@@ -51,22 +73,8 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 	p_slash = ft_strrchr(str, '/');
 	p_ast[0] = '*';
 	*i = 0;
-	if (p_slash == NULL)
-	{
-		path = get_env_val("PWD");
-		ft_strlcpy(filename, path, PATH_MAX + 1);
-		free(path);
+	if (get_prefix_dir_common(p_slash, str, filename, i))
 		return ;
-	}
-	else if (str[0] == '/')
-	{
-
-		p_slash[0] = '\0';
-		ft_strlcpy(filename, str, PATH_MAX + 1);
-		*i = (size_t)(p_slash - str) + 1;
-		p_slash[0] = '/';
-		return ;
-	}
 	path = get_env_val("PWD");
 	ft_strlcpy(filename, path, PATH_MAX + 1);
 	ft_strlcat(filename, "/", PATH_MAX + 1);
@@ -77,7 +85,8 @@ void	get_prefix_dir(char *str, char *filename, size_t *i)
 	free(path);
 }
 
-void	add_expanding_asterisk_str(char *dst, char *src, size_t max, int is_absolute)
+void	add_expanding_asterisk_str(char *dst, char *src \
+		, size_t max, int is_absolute)
 {
 	char	*pwd_str;
 	size_t	len;
@@ -100,4 +109,3 @@ void	add_expanding_asterisk_str(char *dst, char *src, size_t max, int is_absolut
 	dst[len + 1] = '\0';
 	free(pwd_str);
 }
-

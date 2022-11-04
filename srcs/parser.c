@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:26:41 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/05 03:50:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	print_comds(t_cmds *cmds)
 	i = 0;
 	while (cmds)
 	{
-		printf("\ni=%zu, id=%zu, len=%zu, operator=%d, last=%d\n", i, cmds[i].id, cmds[i].len, cmds[i].operator, cmds[i].last);
 		j = 0;
 		while (j < cmds[i].len)
 		{
@@ -38,18 +37,15 @@ void	print_comds(t_cmds *cmds)
 			k = 0;
 			while (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param[k])
 			{
-				printf("i=%zu,j=%zu,k=%zu\n", i,j,k);
-				printf("pipes[%zu].param[%zu]=%s\n", j,k, cmds[i].pipes[j].param[k]);
+				printf("pipes[%zu].param[%zu]=%s\n", j, k \
+						, cmds[i].pipes[j].param[k]);
 				k++;
-				//i++;
 			}
 			j++;
 		}
-		if (cmds[i].last)
+		if (cmds[i++].last)
 			break ;
-		i++;
 	}
-	printf("print cmds end\n");
 }
 
 static void	disable_space(t_token *tokens)
@@ -78,7 +74,7 @@ static void	disable_space(t_token *tokens)
 t_cmds	*parser(t_token *tokens)
 {
 	t_cmds	*cmds;
-	int	error;
+	int		error;
 
 	parser_expand(tokens, NON, 0);
 	disable_space(tokens);
@@ -88,7 +84,7 @@ t_cmds	*parser(t_token *tokens)
 	if (!cmds)
 		return (NULL);
 	create_heredoc_file(tokens);
-	if (search_std_in_and_out(tokens, cmds))
-		search_cmds_and_arg(tokens, cmds);
+	if (search_std_in_and_out(tokens, cmds, 0))
+		search_cmds_and_arg(tokens, cmds, 0);
 	return (cmds);
 }

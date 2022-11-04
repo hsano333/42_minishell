@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:27:52 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 19:01:41 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ int	paraser_expand_asterisk_error(t_ast_fined_file_mode mode)
 	return (true);
 }
 
-static char	*finded_file_func(t_ast_fined_file_mode mode, char *finded_file, size_t *used, size_t *max)
+static char	*finded_file_func(t_ast_fined_file_mode mode, char *finded_file \
+		, size_t *used, size_t *max)
 {
-	static char	*finded_file_p = NULL;
+	static char		*finded_file_p = NULL;
 	static size_t	cur_used = 0;
 	static size_t	cur_max = 0;
 
@@ -85,7 +86,7 @@ void	set_finded_file(char *added_file, int is_absolute)
 		if (!tmp_malloc && paraser_expand_asterisk_error(SET_AST_ERROR))
 			return ;
 		if (saved_filename)
-			ft_strlcpy(tmp_malloc, saved_filename ,max);
+			ft_strlcpy(tmp_malloc, saved_filename, max);
 		free(saved_filename);
 		saved_filename = tmp_malloc;
 	}

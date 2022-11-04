@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:27:06 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/05 04:15:40 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,15 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 		if (pre_type == LT)
 		{
 			unlink(cmds->pipes[pipe_i].out_file);
-			rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_CREAT);
+			rval = create_file(cmds->pipes[pipe_i].out_file \
+					, O_WRONLY | O_CREAT);
 			cmds->pipes[pipe_i].write_option = O_WRONLY;
 			tokens[i + 1].valid = false;
 		}
 		else if (pre_type == D_LT)
 		{
-			rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_APPEND);
+			rval = create_file(cmds->pipes[pipe_i].out_file \
+					, O_WRONLY | O_APPEND);
 			cmds->pipes[pipe_i].write_option = O_WRONLY | O_APPEND;
 			tokens[i + 1].valid = false;
 		}
@@ -101,32 +103,30 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 	return (rval);
 }
 
-
-int	search_std_in_and_out(t_token *tokens, t_cmds *cmds)
+int	search_std_in_and_out(t_token *tokens, t_cmds *cmds, size_t i)
 {
-	size_t	i;
-	size_t	cmd_i;
+	size_t	ci;
 	size_t	pipe_i;
-	int	rval;
+	int		rval;
 
 	i = 0;
-	cmd_i = 0;
+	ci = 0;
 	pipe_i = 0;
 	rval = true;
 	while (tokens[i].type != EOS)
 	{
 		if ((!tokens[i].valid || !rval) && ++i)
 			continue ;
-		if ((tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND) && cmd_i++)
+		if ((tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND) && ++ci)
 			pipe_i = 0;
 		else if (tokens[i].type == PIPE)
 			pipe_i++;
 		else if (tokens[i].type == GLT)
-			rval = change_std_glt(&(cmds[cmd_i]), tokens, i, pipe_i);
+			rval = change_std_glt(&(cmds[ci]), tokens, i, pipe_i);
 		else if (tokens[i].type == GT || tokens[i].type == D_GT)
-			rval = change_std_in(&(cmds[cmd_i]), tokens, i, pipe_i);
+			rval = change_std_in(&(cmds[ci]), tokens, i, pipe_i);
 		else if (tokens[i].type == LT || tokens[i].type == D_LT)
-			rval = change_std_out(&(cmds[cmd_i]), tokens, i, pipe_i);
+			rval = change_std_out(&(cmds[ci]), tokens, i, pipe_i);
 		i++;
 	}
 	return (rval);
