@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:31:57 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 21:46:06 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 #include "kill_myprocess.h"
 #include "lexer_continue_input.h"
 
-static char	*analyze_and_execute(char *line)
+static char *analyze_and_execute(char *line)
 {
-	t_token	*tokens;
-	t_cmds	*cmds;
+	t_token *tokens;
+	t_cmds *cmds;
 
 	tokens = lexer(line);
 	if (tokens)
@@ -55,14 +55,22 @@ int loop(t_env *env)
 	while (true)
 	{
 		line = readline("\033[31mminishell$ \033[0m");
-		if (!line || ft_strlen(line) == 0)
+		// NULLポインタ
+		if (!line)
 		{
 			printf("exit\n");
 			free(line);
 			break;
 		}
+		// NULL文字
+		if (*line == '\0')
+		{
+			free(line);
+			continue;
+		}
+		if (ft_strlen(line) > 0)
+			add_history(line);
 		line = analyze_and_execute(line);
-		add_history(line);
 		free(line);
 	}
 	return (exit_code);
