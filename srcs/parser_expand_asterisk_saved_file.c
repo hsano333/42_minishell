@@ -6,11 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 03:32:08 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:27:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_expand.h"
+#include "parser_find_cmds_util.h"
 
 int	paraser_expand_asterisk_error(t_ast_fined_file_mode mode)
 {
@@ -52,10 +53,19 @@ static char	*finded_file_func(t_ast_fined_file_mode mode, char *finded_file, siz
 char	*get_finded_file(void)
 {
 	size_t	tmp;
+	size_t	len;
+	char	*str;
 
 	if (paraser_expand_asterisk_error(GET_AST_ERROR))
 		return (NULL);
-	return (finded_file_func(GET_AST_FINDED_FILE, NULL, &tmp, &tmp));
+	str = finded_file_func(GET_AST_FINDED_FILE, NULL, &tmp, &tmp);
+	len = ft_strlen(str);
+	if (len > 0)
+	{
+		if (str[len - 1] == PARSER_DELIMITER)
+			str[len - 1] = '\0';
+	}
+	return (str);
 }
 
 void	set_finded_file(char *added_file, int is_absolute)
@@ -74,13 +84,11 @@ void	set_finded_file(char *added_file, int is_absolute)
 		tmp_malloc = malloc(max);
 		if (!tmp_malloc && paraser_expand_asterisk_error(SET_AST_ERROR))
 			return ;
-		if (saved_filename )
+		if (saved_filename)
 			ft_strlcpy(tmp_malloc, saved_filename ,max);
 		free(saved_filename);
 		saved_filename = tmp_malloc;
 	}
-	//ft_strlcat(saved_filename, " ", max);
-	//ft_strlcat(saved_filename, added_file, max);
 	add_expanding_asterisk_str(saved_filename, added_file, max, is_absolute);
 	used = ft_strlen(saved_filename);
 	finded_file_func(SET_AST_FINDED_FILE, saved_filename, &used, &max);

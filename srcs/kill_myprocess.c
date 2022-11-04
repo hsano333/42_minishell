@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 15:41:04 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 16:01:34 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:31:05 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	kill_myprocess(int no, char *message1, t_token *tokens, t_cmds *cmds)
 {
-	printf("kill myprocess No.1\n");
 	clear_tokens(tokens);
 	clear_all_cmds(&cmds);
 	if (no == 0)

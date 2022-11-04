@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:59:35 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 14:29:37 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:28:38 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static	size_t	expanded_str_len(char *str, char *e_status)
 {
 	size_t	len;
 	int	len_status;
-	//char	e_status[20];
 	char	*base_p;
 
 	get_exit_status_str(e_status);

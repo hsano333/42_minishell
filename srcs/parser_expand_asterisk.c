@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 16:50:41 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:08:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ t_ast_end_mode	is_matched_file_suffix(char *ast_word, char *dirname, char *filen
 	i = 0;
 	while (filename[i] || ast_word[0])
 	{
-		//ft_strlen(filename);
 		if (ast_word[0] == filename[i])
 		{
 			rval = is_equal_or_asterisk(ast_word, &(filename[i]));
@@ -119,7 +118,7 @@ int	expand_loop(char *ast_word, char *dirname, char *filename, int is_absolute)
 	return (0);
 }
 
-int	expand_asterisk(t_token *token, token_type pre_token)
+int	expand_asterisk(t_token *token, t_token_type pre_token)
 {
 	size_t	i;
 	char	dir[PATH_MAX + 1];

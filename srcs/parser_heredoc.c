@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/31 01:52:12 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:29:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int	execute_heredoc(t_heredoc *heredoc)
 static void	get_heredoc_setting(t_heredoc *heredoc, t_token *tokens, size_t i)
 {
 	heredoc->valid = false;
-	//i = pass_space(tokens, i);
 	if (tokens[i + 1].type == IDENT)
 	{
 		if (tokens[i + 1].literal)
@@ -69,8 +68,10 @@ int	create_heredoc_file(t_token *tokens)
 		if (tokens[i].type == D_GT)
 		{
 			get_heredoc_setting(&heredoc, tokens, i);
+			handle_global_signals();
 			if (heredoc.valid)
 				heredoc.valid = execute_heredoc(&heredoc);
+			handle_cmd_signals();
 		}
 		i++;
 	}

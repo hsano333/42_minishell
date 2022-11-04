@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 01:55:22 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 01:55:50 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:14:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,3 @@
 int	exec_builtin_cmd(char **cmd);
 int	is_builtin(char **cmd);
 #endif
-

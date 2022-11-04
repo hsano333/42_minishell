@@ -6,20 +6,25 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 18:22:09 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 02:47:40 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe_cmds.h"
+#include "env.h"
 #include "cmd_builtin.h"
-#include "minishell.h"
+#include "signal_minishell.h"
+//#include "minishell.h"
 
 void	exe_cmds(t_cmds *cmds)
 {
 	size_t	i;
 	//char	*in_file;
 	//char	*out_file;
-	extern char	**environ;
+	//extern char	**environ;
+	char **envv;
+
+	envv = env_store(NULL, GET_ENV);
 	int	rval;
 
 	i = 0;
@@ -38,7 +43,7 @@ void	exe_cmds(t_cmds *cmds)
 		}
 		handle_cmd_signals();
 		if (cmds[i].len > 1 || (cmds[i].len == 1 && !cmds[i].pipes[0].is_builtin_cmd))
-			rval = pipex(&(cmds[i]), environ);
+			rval = pipex(&(cmds[i]), envv);
 		else
 			rval = exec_builtin_cmd(cmds[i].pipes[0].param);
 		handle_global_signals();

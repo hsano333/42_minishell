@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_find_cmds.h                                 :+:      :+:    :+:   */
+/*   lexer_handling_error.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 01:49:10 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:51:48 by hsano            ###   ########.fr       */
+/*   Created: 2022/11/02 14:10:04 by hsano             #+#    #+#             */
+/*   Updated: 2022/11/04 05:10:06 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_FIND_CMDS_H
-# define PARSER_FIND_CMDS_H
-# include "parser.h"
-# include "libft_str.h"
+#ifndef LEXER_HANDLING_ERROR_H
+# define LEXER_HANDLING_ERROR_H
+# include "lexer.h"
+# include "lexer_util.h"
+# include "lexer_util.h"
+# include "kill_myprocess.h"
+# include "stdbool.h"
 
-int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds);
+t_token	*lexer_handling_error(t_token *tokens);
 #endif

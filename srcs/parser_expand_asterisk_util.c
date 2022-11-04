@@ -6,11 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:41:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 03:33:58 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:28:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_expand.h"
+#include "parser_find_cmds_util.h"
 #include "libft_str.h"
 #include "env.h"
 
@@ -87,15 +88,16 @@ void	add_expanding_asterisk_str(char *dst, char *src, size_t max, int is_absolut
 		paraser_expand_asterisk_error(SET_AST_ERROR);
 		return ;
 	}
-	ft_strlcat(dst, " ", max);
 	if (is_absolute)
-	{
 		ft_strlcat(dst, src, max);
-	}
 	else
 	{
 		len = ft_strlen(pwd_str);
 		ft_strlcat(dst, &src[len + 1], max);
 	}
+	len = ft_strlen(dst);
+	dst[len] = PARSER_DELIMITER;
+	dst[len + 1] = '\0';
+	free(pwd_str);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/31 04:10:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:06:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 #include "libft_isto.h"
 #include "kill_myprocess.h"
 #include "lexer_quote_flag.h"
+#include "lexer_handling_error.h"
 
 
-size_t	token_len(token_type *type, char *str)
+size_t	token_len(t_token_type *type, char *str)
 {
-	size_t	i;
-	size_t	cnt;
-	token_type	tmp_type;
+	size_t			i;
+	size_t			cnt;
+	t_token_type	tmp_type;
 
 	if (!(*type == IDENT || *type == DOLLER || *type == ASTERISK || *type == EXIT_STATUS))
 		return (token_len_helper(*type));
@@ -49,7 +50,7 @@ size_t	token_len(token_type *type, char *str)
 	return (cnt);
 }
 
-static void	set_token(t_token *token, token_type type, char *str, size_t id)
+static void	set_token(t_token *token, t_token_type type, char *str, size_t id)
 {
 	token->id = id;
 	token->valid = true;
@@ -87,6 +88,5 @@ t_token	*lexer(char *str)
 		str += tokens[i++].len;
 	}
 	set_token(&(tokens[i]), EOS, "", i);
-	check_lexer_error(tokens);
-	return (tokens);
+	return (lexer_handling_error(tokens));
 }

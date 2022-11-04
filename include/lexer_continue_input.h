@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_find_cmds.h                                 :+:      :+:    :+:   */
+/*   lexer_continue_input.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 01:49:10 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:51:48 by hsano            ###   ########.fr       */
+/*   Created: 2022/11/04 00:54:36 by hsano             #+#    #+#             */
+/*   Updated: 2022/11/04 05:10:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_FIND_CMDS_H
-# define PARSER_FIND_CMDS_H
-# include "parser.h"
-# include "libft_str.h"
+#ifndef LEXER_CONTINUE_INPUT_H
+# define LEXER_CONTINUE_INPUT_H
+# include "lexer.h"
+# include "lexer_util.h"
+# include <stdbool.h>
+# include <libft_str.h>
+# include <readline/readline.h>
 
-int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds);
+int		is_continue_input(t_token *tokens);
+t_token	*continued_input(t_token *tokens, char **str);
 #endif

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/31 01:52:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 04:27:06 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	change_std_glt(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 	int	rval;
 
 	rval = true;
-	//i = pass_space(tokens, i);
 	if (tokens[i + 1].type == IDENT)
 	{
 		if (access(tokens[i + 1].literal, F_OK) != 0)
@@ -59,7 +58,6 @@ int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 
 	rval = true;
 	pre_type = tokens[i].type;
-	//i = pass_space(tokens, i);
 	if (tokens[i + 1].type == IDENT)
 	{
 		if (pre_type == GT)
@@ -83,7 +81,6 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 
 	rval = true;
 	pre_type = tokens[i].type;
-	//i = pass_space(tokens, i);
 	if (tokens[i + 1].type == IDENT)
 	{
 		cmds->pipes[pipe_i].out_file = tokens[i + 1].literal;

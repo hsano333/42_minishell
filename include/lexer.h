@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/31 03:41:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:04:32 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ enum	e_buildin
 	NOT_BUIDIN,
 };
 
-enum	e_token_type
+typedef enum e_token_type
 {
 	NON = 0,
 	IDENT = 1,
@@ -49,31 +49,19 @@ enum	e_token_type
 	DOLLER = 256,
 	ASTERISK = 512,
 	EXIT_STATUS = 1024,
-	//LPAREN,
-	//RPAREN,
-	//COMMA,
-	//INT,
-	//EQUAL,
-	//SEMICOLON,
-	//SLASH,
-	//BACK_SLASH,
-	//DOT,
-	//D_DOT,
-};
-typedef enum e_token_type token_type;
+}	t_token_type;
 
 typedef struct s_token
 {
-	token_type	type;
-	char		*literal;
-	size_t		len;
-	size_t		id;
-	int		valid;
-	int		expand;
-	int		error;
+	t_token_type	type;
+	char			*literal;
+	size_t			len;
+	size_t			id;
+	int				valid;
+	int				expand;
+	int				error;
 }	t_token;
 
-
 t_token	*lexer(char *str);
-size_t	expand_str(t_token *tokens, token_type pre_token, size_t i);
+size_t	expand_str(t_token *tokens, t_token_type pre_token, size_t i);
 #endif

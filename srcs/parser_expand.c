@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/29 15:12:55 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/04 05:07:56 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "parser_expand.h"
 #include "kill_myprocess.h"
 
-token_type	is_expand(t_token *token)
+t_token_type	is_expand(t_token *token)
 {
 	if (token->type == SINGLE_QUOTE 
 		|| token->type == DOUBLE_QUOTE
@@ -60,7 +60,7 @@ void	expand_quote(t_token *token, size_t end_no)
 }
 
 
-static void	expand_doller_asterisk(t_token *tokens, token_type pre_token, size_t i)
+static void	expand_doller_asterisk(t_token *tokens, t_token_type pre_token, size_t i)
 {
 	t_token *token;
 
@@ -73,10 +73,10 @@ static void	expand_doller_asterisk(t_token *tokens, token_type pre_token, size_t
 		kill_myprocess(12, NULL, tokens, NULL);
 }
 
-size_t	parser_expand(t_token *tokens, token_type pre_token, size_t i)
+size_t	parser_expand(t_token *tokens, t_token_type pre_token, size_t i)
 {
-	size_t	end_no;
-	token_type	cur_token;
+	size_t			end_no;
+	t_token_type	cur_token;
 
 	end_no = false;
 	while (tokens[i].type != EOS && is_expand(&(tokens[i])) == NON)
@@ -99,11 +99,3 @@ size_t	parser_expand(t_token *tokens, token_type pre_token, size_t i)
 		end_no = parser_expand(tokens, pre_token, i + 1);
 	return (end_no);
 }
-
-/*
-int	parser_expand(t_token *tokens)
-{
-	parser_expand(tokens, NON, 0);
-	return (true);
-}
-*/
