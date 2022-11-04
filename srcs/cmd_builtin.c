@@ -13,16 +13,16 @@
 #include "minishell.h"
 #include "env.h"
 
-int	exec_builtin_cmd(char **cmd)
+int exec_builtin_cmd(char **cmd)
 {
+    if (ft_strncmp(cmd[0], "echo", ft_strlen("echo")) == 0)
+        return (cmd_echo(cmd));
     if (has_option(cmd))
         return (EXIT_FAILURE);
     if (ft_strncmp(cmd[0], "exit", ft_strlen("exit")) == 0)
         return (cmd_exit(cmd));
     if (ft_strncmp(cmd[0], "cd", ft_strlen("cd")) == 0)
         return (cmd_cd(cmd));
-    if (ft_strncmp(cmd[0], "echo", ft_strlen("echo")) == 0)
-        return (cmd_echo(cmd));
     if (ft_strncmp(cmd[0], "pwd", ft_strlen("pwd")) == 0)
         return (cmd_pwd());
     if (ft_strncmp(cmd[0], "env", ft_strlen("env")) == 0)
@@ -34,7 +34,7 @@ int	exec_builtin_cmd(char **cmd)
     return (EXIT_FAILURE);
 }
 
-int	is_builtin(char **cmd)
+int is_builtin(char **cmd)
 {
     const char *commands[] = {
         "exit", "cd", "echo", "pwd", "env", "export", "unset", NULL};

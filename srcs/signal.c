@@ -92,8 +92,7 @@ static void handle_cmd_signal(int sig)
 {
     if (sig == SIGINT || sig == SIGQUIT)
     {
-        // set_err_code(130);
-        printf("\n");
+        ft_putstr_fd("\n", STDERR_FILENO);
         // rl_on_new_line
         //通常、改行を出力した後、新しい (空の) 行に移動したことを更新ルーチンに伝えます。
         rl_on_new_line();
@@ -107,13 +106,13 @@ static void handle_global_signal(int sig)
 {
     if (sig == SIGINT)
     {
-        // set_err_code(1);
-        printf("\n");
+        ft_putstr_fd("\n", STDERR_FILENO);
         rl_on_new_line();
         rl_replace_line("", 0);
-        // rl_redisplay
-        // readlineの内容を表示
-        // rl_line_bufferの現在の内容を反映するように、画面に表示される内容を変更します。
+        // kill(0, SIGHUP);
+        //  rl_redisplay
+        //  readlineの内容を表示
+        //  rl_line_bufferの現在の内容を反映するように、画面に表示される内容を変更します。
         rl_redisplay();
     }
 }
