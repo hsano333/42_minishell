@@ -12,8 +12,7 @@ PIPEX		:= $(PIPEDIR)/$(PIPENAME)
 OBJDIR		:= ./obj
 
 SRCDIR	:= ./srcs/
-SRC	:= env.c \
-	utils_array.c \
+SRC	:= utils_array.c \
 	signal.c \
 	signal2.c \
 	lexer.c \
