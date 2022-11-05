@@ -15,17 +15,14 @@
 #include "minishell.h"
 #include "exit_status.h"
 
-sig_atomic_t signal_flag; 
+sig_atomic_t g_signal_flag;
 
 static int check_state() {
     //extern sig_atomic_t signal_flag;
 
-    if (signal_flag)
+    if (g_signal_flag)
     {
-        //signal_flag = 0;
-
         rl_replace_line("", 0);
-
         rl_done = 1;
     }
     return (0);
@@ -53,9 +50,9 @@ static int	execute_heredoc(t_heredoc *heredoc)
 			break ;
 		}
         
-        if (*line == '\0' && signal_flag)
+        if (*line == '\0' && g_signal_flag)
         {
-            signal_flag = 0;
+            g_signal_flag = 0;
             error = true;
             set_exit_status(1);
             break ;

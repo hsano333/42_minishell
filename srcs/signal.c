@@ -191,10 +191,10 @@ bool set_signal(t_signal_mode mode)
 }
 
 static void handle_heredoc_signal(int sig){
-    extern sig_atomic_t signal_flag;
+    extern sig_atomic_t g_signal_flag;
 
     if (sig == SIGINT){
-       signal_flag = 1;
+       g_signal_flag = 1;
        //ft_putstr_fd("\n", STDERR_FILENO);
        rl_on_new_line();
        rl_replace_line("", 0);
