@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/05 20:14:56 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/05 20:16:42 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 # include <readline/history.h>
 
 // signal
-bool	init_signal(t_sigaction *act);
-bool	set_signal(t_signal_mode mode);
 void	handle_global_signals(void);
 void	handle_cmd_signals(void);
 void    handle_heredoc_signals(void);
