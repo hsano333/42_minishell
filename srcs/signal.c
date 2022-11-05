@@ -203,5 +203,6 @@ static void handle_heredoc_signal(int sig){
 }
 
 void handle_heredoc_signals(){
+    signal(SIGQUIT, SIG_IGN);
     signal(SIGINT, handle_heredoc_signal);
 }
