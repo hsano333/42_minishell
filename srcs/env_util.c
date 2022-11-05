@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/27 11:19:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/05 20:01:04 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,28 @@
 #include "env.h"
 #include <minishell.h>
 
-char *get_env_val(char *var)
+char	*get_env_val(char *var)
 {
-	size_t i;
-	char *value;
-	char **env;
+	size_t	i;
+	char	*value;
+	char	**env;
 
 	env = env_store(NULL, GET_ENV);
 	i = 0;
 	value = NULL;
-	//環境変数の最後まで読む
 	while (env && var && env[i])
 	{
-		//差分が=の時。つまり存在した時
 		if (ft_strncmp(env[i], var, ft_strlen(env[i])) == '=')
 		{
 			value = ft_strchr(env[i], '=') + 1;
-			//値がない場合
 			if (!value)
 				value = ft_calloc(1, sizeof(char));
 			else
 				value = ft_strdup(value);
-			break;
+			break ;
 		}
-		//=も無かった時
-		//行数制限回避の為、breakだけにする
 		else if (ft_strncmp(env[i], var, ft_strlen(env[i])) == '\0')
-		{
-			value = ft_calloc(1, sizeof(char));
-			break;
-		}
+			break ;
 		i++;
 	}
 	if (!value)
@@ -51,10 +43,10 @@ char *get_env_val(char *var)
 	return (value);
 }
 
-bool del_env_var(char *var)
+bool	del_env_var(char *var)
 {
-	size_t i;
-	char **env;
+	size_t	i;
+	char	**env;
 
 	env = env_store(NULL, GET_ENV);
 	i = 0;
@@ -66,7 +58,6 @@ bool del_env_var(char *var)
 		return (false);
 	free(env[i]);
 	env[i] = NULL;
-	//一個ずらす
 	while (env[i + 1])
 	{
 		env[i] = env[i + 1];
@@ -77,9 +68,9 @@ bool del_env_var(char *var)
 	return (true);
 }
 
-bool add_env_var(char **env, char *var_val)
+bool	add_env_var(char **env, char *var_val)
 {
-	char **new;
+	char	**new;
 
 	if (!env || !var_val)
 		return (false);
@@ -93,7 +84,7 @@ bool add_env_var(char **env, char *var_val)
 	return (true);
 }
 
-bool update_env_var(char **env, char *var_val, size_t i)
+bool	update_env_var(char **env, char *var_val, size_t i)
 {
 	if (!env[i])
 		return (false);
@@ -104,20 +95,19 @@ bool update_env_var(char **env, char *var_val, size_t i)
 	return (true);
 }
 
-//トリプルポインタにしないと、envのアドレスがnewに置き変わらない
-//ダブルポインタのメモリ確保を関数内で行うにはアドレスを渡す必要があるらしい
-bool set_env_var(char *var_val)
+bool	set_env_var(char *var_val)
 {
-	size_t i;
-	char **env;
-	char **split;
+	size_t	i;
+	char	**env;
+	char	**split;
 
 	env = env_store(NULL, GET_ENV);
 	if (!(env) || !var_val)
 		return (false);
 	i = 0;
 	split = ft_split(var_val, '=');
-	while ((env) && (env)[i] && ft_strncmp((env)[i], split[0], ft_strlen(env[i])) != '=')
+	while ((env) && \
+		(env)[i] && ft_strncmp((env)[i], split[0], ft_strlen(env[i])) != '=')
 		i++;
 	free(split);
 	if (i < (size_t)str_arr_len(env))

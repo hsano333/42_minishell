@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_store.c                                        :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/27 08:34:37 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:59:16 by maoyagi          ###   ########.fr       */
+/*   Created: 2022/10/10 14:51:15 by maoyagi           #+#    #+#             */
+/*   Updated: 2022/11/05 19:54:56 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_str.h"
-#include "env.h"
-#include <minishell.h>
+#include "minishell.h"
+#include "exit_status.h"
+#include "signal_minishell.h"
 
-char	**get_env(void)
+static void	handle_heredoc_signal(int sig)
 {
-	char	**env;
+	extern sig_atomic_t	g_signal_flag;
 
-	env = env_store(NULL, GET_ENV);
-	return (env);
+	if (sig == SIGINT)
+	{
+		g_signal_flag = 1;
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
-void	initialize_env(char **envp)
+void	handle_heredoc_signals(void)
 {
-	env_store(envp, INIT_ENV);
-}
-
-char	**env_store(char **envp, t_env_mode mode)
-{
-	static char	**env = NULL;
-
-	if (mode == GET_ENV)
-		return (env);
-	else if (mode == INIT_ENV)
-		env = envp;
-	return (NULL);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_heredoc_signal);
 }

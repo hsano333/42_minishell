@@ -15,6 +15,7 @@ SRCDIR	:= ./srcs/
 SRC	:= env.c \
 	utils_array.c \
 	signal.c \
+	signal2.c \
 	lexer.c \
 	lexer_util.c \
 	lexer_quote_flag.c \
