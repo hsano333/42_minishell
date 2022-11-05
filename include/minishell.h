@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 05:15:35 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/05 20:14:56 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,6 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-//int	g_pid;
-typedef struct sigaction	t_sigaction;
-typedef struct s_env
-{
-	char		**env_var;
-	char		*pwd;
-	char		*oldpwd;
-	t_sigaction	act;
-}	t_env;
-
-typedef enum e_signal_mode
-{
-	DEFAULT_MODE,
-	FORK_MODE,
-	CHILD_MODE,
-}t_signal_mode;
-
-// env
-t_env	*init_env(char **envp);
-void	free_env(t_env *env);
-void	print_env(const t_env *env);
-void	print_env2(const char **env);
 
 // signal
 bool	init_signal(t_sigaction *act);
