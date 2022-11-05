@@ -11,6 +11,25 @@
 /* ************************************************************************** */
 
 #include "parser_heredoc.h"
+#include "signal_minishell.h"
+#include "minishell.h"
+#include "exit_status.h"
+
+sig_atomic_t signal_flag; 
+
+static int check_state() {
+    //extern sig_atomic_t signal_flag;
+
+    if (signal_flag)
+    {
+        //signal_flag = 0;
+
+        rl_replace_line("", 0);
+
+        rl_done = 1;
+    }
+    return (0);
+}
 
 static int	execute_heredoc(t_heredoc *heredoc)
 {
@@ -18,6 +37,8 @@ static int	execute_heredoc(t_heredoc *heredoc)
 	int		fd;
 	int		error;
 
+    rl_event_hook = check_state;
+    handle_heredoc_signals();
 	unlink(HEREDODC_FILE);
 	fd = open(HEREDODC_FILE, O_CREAT | O_WRONLY, 0744);
 	if (fd < 0)
@@ -31,12 +52,21 @@ static int	execute_heredoc(t_heredoc *heredoc)
 			error = true;
 			break ;
 		}
-		if (ft_strncmp(line, heredoc->limiter, ft_strlen(heredoc->limiter) + 1) \
+        
+        if (*line == '\0' && signal_flag)
+        {
+            signal_flag = 0;
+            error = true;
+            set_exit_status(1);
+            break ;
+        }
+        if (ft_strncmp(line, heredoc->limiter, ft_strlen(heredoc->limiter) + 1) \
 				== 0)
 			break ;
 		ft_putendl_fd(line, fd);
 	}
 	close(fd);
+    handle_global_signals();
 	return (!error);
 }
 

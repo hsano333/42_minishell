@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "exit_status.h"
+#include "signal_minishell.h"
 
 void default_handler(int sig, siginfo_t *siginfo, void *unused)
 {
@@ -53,7 +54,7 @@ void fork_handler(int sig, siginfo_t *siginfo, void *unused)
 
         // pid kill
         // kill(g_pid, SIGINT);
-        printf("signal: %d\n", g_pid);
+        //printf("signal: %d\n", g_pid);
         // exit(130);
     }
     else if (sig == SIGQUIT)
@@ -66,8 +67,8 @@ void fork_handler(int sig, siginfo_t *siginfo, void *unused)
         rl_replace_line("", 0);
 
         //  pid kill
-        kill(g_pid, SIGINT);
-        printf("signal: %d\n", g_pid);
+        //kill(g_pid, SIGINT);
+        //printf("signal: %d\n", g_pid);
         // exit(130);
     }
 }
@@ -187,4 +188,20 @@ bool set_signal(t_signal_mode mode)
     }
 
     return (true);
+}
+
+static void handle_heredoc_signal(int sig){
+    extern sig_atomic_t signal_flag;
+
+    if (sig == SIGINT){
+       signal_flag = 1;
+       //ft_putstr_fd("\n", STDERR_FILENO);
+       rl_on_new_line();
+       rl_replace_line("", 0);
+       rl_redisplay();
+    }
+}
+
+void handle_heredoc_signals(){
+    signal(SIGINT, handle_heredoc_signal);
 }

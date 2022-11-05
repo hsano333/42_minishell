@@ -13,6 +13,7 @@
 #ifndef SIGNAL_MINISHELL_H
 # define SIGNAL_MINISHELL_H
 
-void	handle_global_signals(void);
-void	handle_cmd_signals(void);
+//void	handle_global_signals(void);
+//void	handle_cmd_signals(void);
+//void    handle_heredoc_signals(void);
 #endif

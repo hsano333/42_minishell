@@ -83,7 +83,8 @@ t_cmds	*parser(t_token *tokens)
 		kill_myprocess(12, NULL, tokens, NULL);
 	if (!cmds)
 		return (NULL);
-	create_heredoc_file(tokens);
+	if (create_heredoc_file(tokens) == false)
+        return (NULL);
 	if (search_std_in_and_out(tokens, cmds, 0))
 		search_cmds_and_arg(tokens, cmds, 0);
 	return (cmds);
