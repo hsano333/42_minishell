@@ -6,10 +6,11 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 00:49:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/06 22:46:40 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 23:01:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include "lexer_continue_input.h"
 #include "signal_minishell.h"
 #include "exit_status.h"
