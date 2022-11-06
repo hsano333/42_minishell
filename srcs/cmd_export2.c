@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 11:15:59 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 20:05:29 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/06 21:55:00 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ static int	sort_env(char **env, size_t i, size_t j)
 			{
 				tmp = ft_strdup(env[i]);
 				if (!tmp)
-				{
-					free_str_array(&env);
 					return (EXIT_FAILURE);
-				}
 				free(env[i]);
 				env[i] = env[j];
 				env[j] = tmp;
