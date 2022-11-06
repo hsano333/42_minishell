@@ -6,12 +6,13 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:56:22 by hsano             #+#    #+#             */
-/*   Updated: 2022/08/08 15:14:16 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 19:39:39 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_MEM_H
 # define LIBFT_MEM_H
+
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);

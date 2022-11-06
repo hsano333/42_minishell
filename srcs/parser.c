@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/05 03:50:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 19:37:11 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_cmds	*parser(t_token *tokens)
 	if (!cmds)
 		return (NULL);
 	if (create_heredoc_file(tokens) == false)
-        return (NULL);
+		return (NULL);
 	if (search_std_in_and_out(tokens, cmds, 0))
 		search_cmds_and_arg(tokens, cmds, 0);
 	return (cmds);

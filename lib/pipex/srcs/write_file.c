@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:28:23 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/01 14:52:51 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 19:42:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	write_file(int fd_in, char *filename)
 	int		read_size;
 	char	buf[READ_MAX];
 
-	//option = O_WRONLY | O_CREAT | O_TRUNC;
 	return ;
 	printf("write fd_in=%d\n", fd_in);
 	if (filename)

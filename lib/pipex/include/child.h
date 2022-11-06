@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:59:33 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/01 14:56:50 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 20:54:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@
 # include "pipex_util.h"
 # include "libft_str.h"
 # include "parser.h"
+
 void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ);
 #endif

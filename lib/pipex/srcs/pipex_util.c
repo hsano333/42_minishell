@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:11:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/28 22:52:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 19:42:32 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	kill_process(int no, char *message1, char *message2)
 			ft_printf("Error:%s:%s\n", message1, message2);
 		else if (message1)
 			ft_printf("Error:%s\n", message1);
-		//ft_printf("end pipex\n");
 		exit(EXIT_FAILURE);
 	}
 	else if (no == -1)

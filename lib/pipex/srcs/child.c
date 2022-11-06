@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/02 02:18:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 19:42:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static	void	change_fd(int fd_in, int *pipe_fd, t_pipe *pipes)
 	if (pipes->in_file)
 	{
 		close(fd_in);
-		fd_in = open(pipes->in_file, O_RDONLY);;
+		fd_in = open(pipes->in_file, O_RDONLY);
 	}
 	r[0] = dup2(fd_in, 0);
 	r[1] = 1;
@@ -37,7 +37,6 @@ static	void	change_fd(int fd_in, int *pipe_fd, t_pipe *pipes)
 		r[1] = dup2(pipe_fd[PIPE_OUT], 1);
 	if (r[0] == -1 || r[1] == -1)
 		exit(EXIT_FAILURE);
-
 }
 
 void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
@@ -47,7 +46,6 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 	if (pipes->param)
 	{
 		change_fd(fd_in, pipe_fd, pipes);
-		//if (pipes->builtin == NOT_BUIDIN)
 		if (is_builtin(pipes->param))
 		{
 			exec_builtin_cmd(pipes->param);

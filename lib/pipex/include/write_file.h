@@ -6,11 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:34:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 15:05:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 20:54:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WRITE_FILE_H
 # define WRITE_FILE_H
+
 void	write_file(int fd_in, char *filename);
 #endif

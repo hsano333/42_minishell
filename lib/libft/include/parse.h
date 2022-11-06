@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 12:26:08 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/24 23:54:35 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 19:40:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define BACK 1
 # include "common.h"
 # include "libft_str.h"
+
 int				ft_atoi_base(char *str, char *base, int *err);
 int				ft_atoin(const char *str, size_t size, int mode);
 void			info_conversion(t_conversion *convs);

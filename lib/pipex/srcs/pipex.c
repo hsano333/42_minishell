@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/03 18:25:55 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 20:52:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,9 @@ static void	change_fd(int *pipe_fd, t_pipe *pipes, int is_last)
 	{
 		close(pipe_fd[PIPE_OUT]);
 		pipe_fd[PIPE_OUT] = open(pipes->out_file, pipes->write_option);
-		//printf("outfile open :%s, pipe_fd[PIPE_OUT]=%d\n",pipes->out_file,  pipe_fd[PIPE_OUT]);
 		if (pipe_fd[PIPE_OUT] < 0)
 			kill_process(-1, pipes->out_file, NULL);
 	}
-
 }
 
 static t_fdpid	pipe_main(int fd_in, t_pipe *pipes, char **environ, int is_last)
@@ -75,18 +73,13 @@ static void	main_child(t_fdpid *fdpid, t_cmds *cmds, char **environ)
 	fd_i = 1;
 	while (i < (int)cmds->len)
 	{
-		fdpid[fd_i] = pipe_main(fdpid[fd_i - 1].fd, &(cmds->pipes[i]), environ, i == (int)cmds->len - 1);
+		fdpid[fd_i] = pipe_main(fdpid[fd_i - 1].fd, &(cmds->pipes[i]) \
+				, environ, i == (int)cmds->len - 1);
 		i++;
 		if (fdpid[fd_i].pid == -1)
 			kill_process(-1, "pipex error:fork() error", NULL);
 		fd_i++;
 	}
-	//todo
-	//printf("pre write fd_i=%d, fdpid[0]=%d,fdpid[%d]=%d \n", fd_i, fdpid[0].fd, fd_i-1, fdpid[fd_i - 1].fd);
-	//if (output_file)
-		//write_file(fdpid[fd_i - 1].fd, output_file);
-	//else
-		//waitpid(fdpid[i].pid, &status, 0);
 	close(fdpid[fd_i].fd);
 	i = 1;
 	while (i < fd_i)
@@ -105,19 +98,12 @@ int	pipex(t_cmds *cmds, char **environ)
 	int		status;
 	t_fdpid	fdpid[4096];
 
-	////fdpid[0].fd = 0;
-	///if (fdpid[0].fd == -1)
-		//kill_process(-1, input_file, NULL);
 	pid = fork();
 	if (pid == 0)
-	{
-		//set_signal(CHILD_MODE);
 		main_child(fdpid, cmds, environ);
-	}
 	else if (pid == -1)
 		kill_process(-1, NULL, NULL);
 	waitpid(pid, &status, 0);
-	//g_pid = pid;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
