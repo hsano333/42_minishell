@@ -6,12 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/06 20:49:17 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 22:20:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_heredoc.h"
-#include "signal_minishell.h"
+//#include "signal_minishell.h"
 #include "exit_status.h"
 
 sig_atomic_t	g_signal_flag;
