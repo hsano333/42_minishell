@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/05 04:15:40 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 04:35:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	change_std_glt(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 			return (rval);
 		cmds->pipes[pipe_i].out_file = NULL;
 		cmds->pipes[pipe_i].in_file = tokens[i + 1].literal;
+		cmds->pipes[pipe_i].option_fd_in = tokens[i].option_fd;
 	}
 	return (true);
 }
@@ -64,11 +65,13 @@ int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 		{
 			cmds->pipes[pipe_i].in_file = tokens[i + 1].literal;
 			tokens[i + 1].valid = false;
+			cmds->pipes[pipe_i].option_fd_in = tokens[i].option_fd;
 		}
 		else if (pre_type == D_GT)
 		{
 			cmds->pipes[pipe_i].in_file = HEREDODC_FILE;
 			tokens[i + 1].valid = false;
+			cmds->pipes[pipe_i].option_fd_in = tokens[i].option_fd;
 		}
 	}
 	return (rval);
@@ -81,24 +84,22 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 
 	rval = true;
 	pre_type = tokens[i].type;
-	if (tokens[i + 1].type == IDENT)
+	if (tokens[i + 1].type == IDENT && pre_type == LT)
 	{
 		cmds->pipes[pipe_i].out_file = tokens[i + 1].literal;
-		if (pre_type == LT)
-		{
-			unlink(cmds->pipes[pipe_i].out_file);
-			rval = create_file(cmds->pipes[pipe_i].out_file \
-					, O_WRONLY | O_CREAT);
-			cmds->pipes[pipe_i].write_option = O_WRONLY;
-			tokens[i + 1].valid = false;
-		}
-		else if (pre_type == D_LT)
-		{
-			rval = create_file(cmds->pipes[pipe_i].out_file \
-					, O_WRONLY | O_APPEND);
-			cmds->pipes[pipe_i].write_option = O_WRONLY | O_APPEND;
-			tokens[i + 1].valid = false;
-		}
+		unlink(cmds->pipes[pipe_i].out_file);
+		rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_CREAT);
+		cmds->pipes[pipe_i].write_option = O_WRONLY;
+		tokens[i + 1].valid = false;
+		cmds->pipes[pipe_i].option_fd_out = tokens[i].option_fd;
+	}
+	else if (tokens[i + 1].type == IDENT && pre_type == D_LT)
+	{
+		cmds->pipes[pipe_i].out_file = tokens[i + 1].literal;
+		rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_APPEND);
+		cmds->pipes[pipe_i].write_option = O_WRONLY | O_APPEND;
+		tokens[i + 1].valid = false;
+		cmds->pipes[pipe_i].option_fd_out = tokens[i].option_fd;
 	}
 	return (rval);
 }

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/05 04:10:41 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 04:55:27 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	set_token(t_token *token, t_token_type type, char *str, size_t id)
 	token->valid = true;
 	token->expand = false;
 	token->error = false;
+	token->option_fd = 0;
 	token->len = token_len(&type, str, 0, 1);
 	if (type == WHITE_SPACE && get_lexer_quote() != NON)
 		token->type = IDENT;
@@ -62,6 +63,31 @@ static void	set_token(t_token *token, t_token_type type, char *str, size_t id)
 		set_lexer_quote(NON);
 	else if (type == DOUBLE_QUOTE || type == SINGLE_QUOTE)
 		set_lexer_quote(type);
+	if (type == LT || type == D_LT)
+		token->option_fd = 1;
+}
+
+static void	set_option_fd(t_token *tokens)
+{
+	size_t	i;
+	int		type;
+
+	i = 0;
+	while (tokens[i].type != EOS)
+	{
+		type = tokens[i].type;
+		if (i > 0 && (type == GLT || type == GT || type == LT \
+				|| type == D_GT || type == D_LT))
+		{
+			if (tokens[i - 1].type == IDENT && tokens[i - 1].len == 1 \
+					&& ft_isdigit(tokens[i - 1].literal[0]))
+			{
+				tokens[i].option_fd = tokens[i - 1].literal[0] - 0x30;
+				tokens[i - 1].valid = false;
+			}
+		}
+		i++;
+	}
 }
 
 t_token	*lexer(char *str)
@@ -84,5 +110,6 @@ t_token	*lexer(char *str)
 		str += tokens[i++].len;
 	}
 	set_token(&(tokens[i]), EOS, "", i);
+	set_option_fd(tokens);
 	return (lexer_handling_error(tokens));
 }
