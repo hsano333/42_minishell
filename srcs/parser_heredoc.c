@@ -6,12 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/06 22:20:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 16:24:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_heredoc.h"
-//#include "signal_minishell.h"
+#include "signal_minishell.h"
 #include "exit_status.h"
 
 sig_atomic_t	g_signal_flag;
@@ -26,7 +26,7 @@ static int	check_state(void)
 	return (0);
 }
 
-static int	execute_heredoc_loop(t_heredoc *heredoc, int fd, int error)
+static int	execute_heredoc_loop(t_heredoc *heredoc, int *fd, int error)
 {
 	char	*line;
 
@@ -35,7 +35,9 @@ static int	execute_heredoc_loop(t_heredoc *heredoc, int fd, int error)
 		line = readline("\033[31mheredoc> \033[0m");
 		if (!line)
 		{
-			error = true;
+			close(*fd);
+			unlink(HEREDODC_FILE);
+			*fd = open(HEREDODC_FILE, O_CREAT | O_WRONLY, 0744);
 			break ;
 		}
 		if (*line == '\0' && g_signal_flag)
@@ -48,7 +50,7 @@ static int	execute_heredoc_loop(t_heredoc *heredoc, int fd, int error)
 		if (ft_strncmp(line, heredoc->limiter, ft_strlen(heredoc->limiter) + 1) \
 				== 0)
 			break ;
-		ft_putendl_fd(line, fd);
+		ft_putendl_fd(line, *fd);
 	}
 	return (error);
 }
@@ -65,7 +67,7 @@ static int	execute_heredoc(t_heredoc *heredoc)
 	if (fd < 0)
 		return (false);
 	error = false;
-	error = execute_heredoc_loop(heredoc, fd, error);
+	error = execute_heredoc_loop(heredoc, &fd, error);
 	close(fd);
 	handle_global_signals();
 	return (!error);
