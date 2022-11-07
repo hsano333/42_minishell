@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 22:37:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/10/26 16:22:08 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 22:40:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static int	saved_exit_status(int e_stat)
 	return (exit_status);
 }
 
-void	set_exit_status(int e_stat)
+int	set_exit_status(int e_stat)
 {
 	saved_exit_status(e_stat);
+	return (true);
 }
 
 int	get_exit_status(void)

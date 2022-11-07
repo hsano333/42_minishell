@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 18:53:06 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 21:24:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	expand_recursive(char *str, t_token_type pre_token, char **dst_str);
 
-static int	is_valid_env_char(char c)
+int	is_valid_env_char(char c)
 {
 	if (ft_isalnum(c))
 		return (true);
@@ -50,12 +50,14 @@ static void	expand(char *str, char **dst_str, size_t i)
 
 	j = 0;
 	while (is_valid_env_char(str[j]))
-			j++;
+		j++;
 	tmp = str[j];
 	str[j] = '\0';
 	env_str = get_env_val(str);
 	str[j] = tmp;
 	*dst_str = join_and_free_str(*dst_str, env_str, ft_strlen(env_str), true);
+	if (*dst_str == NULL)
+		return ;
 	if (str[i] == '$' && is_valid_env_char(str[i + 1]))
 		expand_recursive(&(str[i + 1]), DOLLER, dst_str);
 	else if (str[i])

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 16:24:37 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/08 00:00:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,59 @@
 #include "signal_minishell.h"
 #include "exit_status.h"
 
-sig_atomic_t	g_signal_flag;
-
-static int	check_state(void)
+static void	expand_and_write(char *str, int fd)
 {
-	if (g_signal_flag)
-	{
-		rl_replace_line("", 0);
-		rl_done = 1;
-	}
-	return (0);
+	char	*p;
+	char	bk;
+	size_t	i;
+
+	i = 0;
+	while (str && str[i] && str[i] != '$')
+		write(fd, &(str[i++]), 1);
+	if (!str[i])
+		return ;
+	if (str[i] == '$')
+		i++;
+	p = &(str[i]);
+	while (str[i] && is_valid_env_char(str[i]))
+		i++;
+	bk = str[i];
+	str[i] = '\0';
+	p = get_env_val(p);
+	str[i] = bk;
+	ft_putstr_fd(p, fd);
+	free(p);
+	if (bk == '\0')
+		return ;
+	expand_and_write(&(str[i]), fd);
 }
 
-static int	execute_heredoc_loop(t_heredoc *heredoc, int *fd, int error)
+static int	execute_heredoc_loop(t_heredoc *heredoc \
+		, int *fd, int error, char *line)
 {
-	char	*line;
-
 	while (true)
 	{
 		line = readline("\033[31mheredoc> \033[0m");
-		if (!line)
+		if (!line && close(*fd) == 0)
 		{
-			close(*fd);
 			unlink(HEREDODC_FILE);
 			*fd = open(HEREDODC_FILE, O_CREAT | O_WRONLY, 0744);
 			break ;
 		}
-		if (*line == '\0' && g_signal_flag)
+		if (*line == '\0' && g_signal_flag && set_exit_status(1))
 		{
 			g_signal_flag = 0;
 			error = true;
-			set_exit_status(1);
 			break ;
 		}
 		if (ft_strncmp(line, heredoc->limiter, ft_strlen(heredoc->limiter) + 1) \
 				== 0)
 			break ;
-		ft_putendl_fd(line, *fd);
+		expand_and_write(line, *fd);
+		write(*fd, "\n", 1);
+		free(line);
 	}
+	free(line);
 	return (error);
 }
 
@@ -59,15 +74,17 @@ static int	execute_heredoc(t_heredoc *heredoc)
 {
 	int		fd;
 	int		error;
+	char	*line;
 
-	rl_event_hook = check_state;
+	line = NULL;
+	rl_event_hook = signal_check_state;
 	handle_heredoc_signals();
 	unlink(HEREDODC_FILE);
 	fd = open(HEREDODC_FILE, O_CREAT | O_WRONLY, 0744);
 	if (fd < 0)
 		return (false);
 	error = false;
-	error = execute_heredoc_loop(heredoc, &fd, error);
+	error = execute_heredoc_loop(heredoc, &fd, error, line);
 	close(fd);
 	handle_global_signals();
 	return (!error);

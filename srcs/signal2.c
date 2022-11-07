@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   signal2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 14:51:15 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:54:56 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/07 16:37:11 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,14 @@ void	handle_heredoc_signals(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_heredoc_signal);
+}
+
+int	signal_check_state(void)
+{
+	if (g_signal_flag)
+	{
+		rl_replace_line("", 0);
+		rl_done = 1;
+	}
+	return (0);
 }
