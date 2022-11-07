@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 04:35:08 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 15:22:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,22 @@ int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 
 	rval = true;
 	pre_type = tokens[i].type;
-	if (tokens[i + 1].type == IDENT)
+	if (tokens[i + 1].type == IDENT && pre_type == GT)
 	{
-		if (pre_type == GT)
+		cmds->pipes[pipe_i].in_file = tokens[i + 1].literal;
+		tokens[i + 1].valid = false;
+		cmds->pipes[pipe_i].option_fd_in = tokens[i].option_fd;
+		if (access(tokens[i + 1].literal, F_OK | R_OK) != 0)
 		{
-			cmds->pipes[pipe_i].in_file = tokens[i + 1].literal;
-			tokens[i + 1].valid = false;
-			cmds->pipes[pipe_i].option_fd_in = tokens[i].option_fd;
+			perror(tokens[i + 1].literal);
+			rval = false;
 		}
-		else if (pre_type == D_GT)
-		{
-			cmds->pipes[pipe_i].in_file = HEREDODC_FILE;
-			tokens[i + 1].valid = false;
-			cmds->pipes[pipe_i].option_fd_in = tokens[i].option_fd;
-		}
+	}
+	else if (tokens[i + 1].type == IDENT && pre_type == D_GT)
+	{
+		cmds->pipes[pipe_i].in_file = HEREDODC_FILE;
+		tokens[i + 1].valid = false;
+		cmds->pipes[pipe_i].option_fd_in = tokens[i].option_fd;
 	}
 	return (rval);
 }
