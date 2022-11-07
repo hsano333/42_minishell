@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 04:42:05 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 14:14:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static	void	change_fd(int fd_in, int *pipe_fd, t_pipe *pipes)
 	{
 		close(fd_in);
 		fd_in = open(pipes->in_file, O_RDONLY);
+		if (fd_in < 0)
+			kill_process(-1, pipes->in_file, NULL);
 	}
 	r[0] = dup2(fd_in, pipes->option_fd_in);
 	r[1] = 1;

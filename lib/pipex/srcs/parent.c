@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:57:10 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/06 20:56:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 14:14:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	parent_child(int pid, int *pipe_fd, int *pipe_fd_p, t_pipe *pipes)
 	{
 		close(pipe_fd_p[PIPE_OUT]);
 		fd = open(pipes->out_file, pipes->write_option);
+		if (fd < 0)
+			kill_process(-1, pipes->out_file, NULL);
 	}
 	while (1)
 	{

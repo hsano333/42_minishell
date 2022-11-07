@@ -8,7 +8,7 @@ LIBFT		:= $(LIBFTDIR)/$(LIBFTNAME)
 OBJDIR		:= ./obj
 
 SRCDIR	:= ./srcs/
-SRC	:= pipex.c pipex_util.c heredoc.c parent.c child.c write_file.c
+SRC	:= pipex.c pipex_util.c parent.c child.c 
 ENTRY	:= main.c
 ENTRYBONUS	:= main_bonus.c
 DELENTRY	:= $(OBJDIR)/main_bonus.o
