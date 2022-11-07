@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 15:12:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/08 02:03:38 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	print_comds(t_cmds *cmds)
 		j = 0;
 		while (j < cmds[i].len)
 		{
-			printf("pipes[%zu].in=%s\n", j, cmds[i].pipes[j].in_file);
-			printf("pipes[%zu].out=%s\n", j, cmds[i].pipes[j].out_file);
-			printf("pipes[%zu].cmd=%s\n", j, cmds[i].pipes[j].cmd);
+			printf("%zu.pipes[%zu].in=%s\n", i, j, cmds[i].pipes[j].in_file);
+			printf("%zu.pipes[%zu].out=%s\n", i, j, cmds[i].pipes[j].out_file);
+			printf("%zu.pipes[%zu].cmd=%s\n", i, j, cmds[i].pipes[j].cmd);
 			k = 0;
 			while (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param[k])
 			{
