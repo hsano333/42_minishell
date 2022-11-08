@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 14:14:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/09 02:34:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 static void	put_invalid_command(char *cmds)
 {
-	write(2, "zsh: command not found: ", 25);
+	write(2, "minishell: command not found: ", 25);
 	write(2, cmds, ft_strlen(cmds));
 	write(2, "\n", 1);
-	exit(0);
+	exit(127);
 }
 
 static	void	change_fd(int fd_in, int *pipe_fd, t_pipe *pipes)
