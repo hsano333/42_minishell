@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 21:24:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/09 02:13:32 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ static void	expand_recursive(char *str, t_token_type pre_token, char **dst_str)
 		*dst_str = join_and_free_str(*dst_str, str, i + 1, false);
 		expand_recursive(&(str[i + 1]), NON, dst_str);
 	}
+	else if (str[0])
+		*dst_str = join_and_free_str(*dst_str, str, i, false);
 }
 
 int	expand_doller(t_token *token, t_token_type pre_token)
