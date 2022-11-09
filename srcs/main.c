@@ -52,7 +52,7 @@ int	loop(void)
 	exit_code = 0;
 	while (true)
 	{
-		line = readline("\033[31mminishell$ \033[0m");
+		line = readline("minishell$ ");
 		if (!line)
 		{
 			printf("exit\n");

@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:50:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:15:46 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/09 13:21:03 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ int	cmd_cd(char **cmd)
 	else if (chdir(cmd[1]) != 0)
 		return (exit_cd(&cwd, EXIT_FAILURE, NULL));
 	update_pwd(&cwd);
-    check_pwd(&cwd);
+	check_pwd(&cwd);
 	return (exit_cd(&cwd, EXIT_SUCCESS, NULL));
 }
