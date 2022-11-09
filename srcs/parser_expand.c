@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 03:07:25 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 03:58:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ size_t	parser_expand(t_token *tokens, t_token_type pre_token, size_t i)
 	else if (cur_token == pre_token)
 		return (tokens[i].id);
 	if (end_no > tokens[i].id && expand_quote(&(tokens[i]), end_no))
-		i = end_no;
+		i = end_no + 1;
 	if (tokens[i].type != EOS)
 		end_no = parser_expand(tokens, pre_token, i + 1);
 	return (end_no);
