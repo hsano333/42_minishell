@@ -39,11 +39,11 @@ void	exe_cmds(t_cmds *cmds)
 	rval = 0;
 	while (&cmds[i])
 	{
-		handle_cmd_signals();
 		if (i > 0 && cmds[i - 1].last)
 			break ;
 		if (is_continue(cmds, rval, i))
 			continue ;
+        handle_cmd_signals();
 		if (cmds[i].len > 1 || (cmds[i].len == 1 \
 					&& !cmds[i].pipes[0].is_builtin_cmd))
 			rval = pipex(&(cmds[i]), envv);

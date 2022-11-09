@@ -18,7 +18,7 @@ static void	handle_cmd_signal(int sig)
 {
 	if (sig == SIGINT || sig == SIGQUIT)
 	{
-		ft_putstr_fd("\n", STDERR_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 	}
@@ -28,7 +28,7 @@ static void	handle_global_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_putstr_fd("\n", STDERR_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

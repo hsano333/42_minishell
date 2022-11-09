@@ -41,6 +41,7 @@ SRC	:= utils_array.c \
 	dir.c \
 	cmd_builtin.c \
 	cmd_cd.c \
+	cmd_cd2.c \
 	cmd_echo.c \
 	cmd_env.c \
 	cmd_exit.c \
@@ -74,11 +75,11 @@ LIBS	:= $(LIBFT) $(PIPEX)
 
 CC	:= cc
 ifeq ($(shell uname),Darwin)
-CFLAGS	:= -Wall -Wextra -Werror
-#CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined
+#CFLAGS	:= -Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined
 else
-CFLAGS	:= -Wall -Wextra -Werror
-#CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined -fsanitize=leak 
+#CFLAGS	:= -Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined -fsanitize=leak 
 endif
 LDFLAGS := $(IFLAGS) $(LFLAGS)  -lpipex -lft -lreadline  -L$(shell brew --prefix readline)/lib -lreadline
 

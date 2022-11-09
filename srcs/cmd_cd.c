@@ -26,7 +26,7 @@ static char	*find_home(void)
 	return (path);
 }
 
-static int	exit_cd(char **cwd, int exit_status, char *dname)
+int	exit_cd(char **cwd, int exit_status, char *dname)
 {
 	char	*err_msg;
 
@@ -61,12 +61,9 @@ static int	cd_home(void)
 		free(home_path);
 		return (exit_cd(&cwd, EXIT_FAILURE, NULL));
 	}
-	set_env_var(ft_strjoin("OLDPWD=", get_env_val("PWD")));
-	cwd = getcwd(cwd, 0);
-	set_env_var(ft_strjoin("PWD=", cwd));
+	update_pwd(&cwd);
 	free(home_path);
-	if (!get_env_val("PWD") || !get_env_val("OLDPWD"))
-		return (exit_cd(&cwd, EXIT_FAILURE, NULL));
+	check_pwd(&cwd);
 	return (exit_cd(&cwd, EXIT_SUCCESS, NULL));
 }
 
@@ -87,10 +84,7 @@ int	cmd_cd(char **cmd)
 		return (exit_cd(&cwd, EXIT_FAILURE, NULL));
 	else if (chdir(cmd[1]) != 0)
 		return (exit_cd(&cwd, EXIT_FAILURE, NULL));
-	set_env_var(ft_strjoin("OLDPWD=", get_env_val("PWD")));
-	cwd = getcwd(cwd, 0);
-	set_env_var(ft_strjoin("PWD=", cwd));
-	if (!get_env_val("PWD") || !get_env_val("OLDPWD"))
-		return (exit_cd(&cwd, EXIT_FAILURE, NULL));
+	update_pwd(&cwd);
+    check_pwd(&cwd);
 	return (exit_cd(&cwd, EXIT_SUCCESS, NULL));
 }

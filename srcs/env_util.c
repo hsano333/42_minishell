@@ -109,6 +109,7 @@ bool	set_env_var(char *var_val)
 	while ((env) && \
 		(env)[i] && ft_strncmp((env)[i], split[0], ft_strlen(env[i])) != '=')
 		i++;
+    free_str_array(&split);
 	free(split);
 	if (i < (size_t)str_arr_len(env))
 		return (update_env_var(env, var_val, i));

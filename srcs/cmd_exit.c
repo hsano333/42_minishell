@@ -55,7 +55,7 @@ int	cmd_exit(char **cmd)
 		exit_code = ft_atol(cmd[i], &check_overflow);
 	else
 		exit_code = get_exit_status();
-	if (!is_valid_exit_arg(cmd + i))
+	if (!is_valid_exit_arg(cmd + i) || !check_overflow)
 	{
 		ft_putstr_fd("exit: not a valid argument\n", 2);
 		exit_code = 255;
