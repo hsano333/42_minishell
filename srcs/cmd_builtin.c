@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 10:39:31 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:09:42 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/09 13:21:43 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	exec_builtin_cmd(char **cmd)
 		return (cmd_echo(cmd));
 	if (ft_strncmp(cmd[0], "exit", ft_strlen("exit")) == 0)
 		return (cmd_exit(cmd));
-    if (has_option(cmd))
-        return (EXIT_FAILURE);
-    if (ft_strncmp(cmd[0], "cd", ft_strlen("cd")) == 0)
+	if (has_option(cmd))
+		return (EXIT_FAILURE);
+	if (ft_strncmp(cmd[0], "cd", ft_strlen("cd")) == 0)
 		return (cmd_cd(cmd));
 	if (ft_strncmp(cmd[0], "pwd", ft_strlen("pwd")) == 0)
 		return (cmd_pwd());

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/08 02:02:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/09 13:18:09 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	exe_cmds(t_cmds *cmds)
 			break ;
 		if (is_continue(cmds, rval, i) && ++i)
 			continue ;
-        handle_cmd_signals();
+		handle_cmd_signals();
 		if (cmds[i].len > 1 || (cmds[i].len == 1 \
 					&& !cmds[i].pipes[0].is_builtin_cmd))
 			rval = pipex(&(cmds[i]), envv);
