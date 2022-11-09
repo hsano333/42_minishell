@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 23:30:56 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 05:11:30 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 22:40:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdbool.h>
 # include "libft_str.h"
 
-void	set_exit_status(int e_stat);
+int		set_exit_status(int e_stat);
 int		get_exit_status(void);
 void	get_exit_status_str(char *e_status);
 #endif

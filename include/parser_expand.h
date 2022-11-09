@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:37:23 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/05 00:28:48 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/07 21:25:04 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ void			add_expanding_asterisk_str(char *dst, char *src, size_t max, \
 void			set_finded_file(char *added_file, int is_absolute);
 void			clear_finded_file(void);
 void			get_prefix_dir(char *str, char *filename, size_t *i);
+int				is_valid_env_char(char c);
 t_ast_end_mode	is_equal_or_asterisk(char *ast_word, char *filename);
 #endif

@@ -6,13 +6,29 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 00:49:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/05 04:04:48 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 23:01:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include "lexer_continue_input.h"
+#include "signal_minishell.h"
+#include "exit_status.h"
+#include "libft_put.h"
 
-static t_token	*error_process(t_token *tokens, char *line)
+static int	check_state(void)
+{
+	extern sig_atomic_t	g_signal_flag;
+
+	if (g_signal_flag)
+	{
+		rl_replace_line("", 0);
+		rl_done = 1;
+	}
+	return (0);
+}
+
+static void	*error_process(t_token *tokens, char *line)
 {
 	clear_tokens(tokens);
 	tokens = NULL;
@@ -21,16 +37,10 @@ static t_token	*error_process(t_token *tokens, char *line)
 	return (NULL);
 }
 
-t_token	*continued_input(t_token *tokens, char **str)
+static char	*concat_str(t_token *tokens, char **str, char *line, size_t len)
 {
-	size_t	len;
 	char	*new_str;
-	char	*line;
 
-	line = readline("\033[31m > \033[0m");
-	if (!line)
-		return (error_process(tokens, NULL));
-	len = ft_strlen(*str) + ft_strlen(line);
 	new_str = malloc(len + 1 + 1);
 	if (!new_str)
 		return (error_process(tokens, line));
@@ -40,6 +50,35 @@ t_token	*continued_input(t_token *tokens, char **str)
 	free(*str);
 	*str = new_str;
 	clear_tokens(tokens);
+	return (new_str);
+}
+
+t_token	*continued_input(t_token *tokens, char **str)
+{
+	size_t				len;
+	char				*new_str;
+	char				*line;
+	extern sig_atomic_t	g_signal_flag;
+
+	rl_event_hook = check_state;
+	handle_heredoc_signals();
+	line = readline("\033[31m > \033[0m");
+	if (!line)
+	{
+		set_exit_status(258);
+		ft_putendl_fd("minishell: syntax error:", 2);
+		return (error_process(tokens, NULL));
+	}
+	if (*line == '\0' && g_signal_flag)
+	{
+		g_signal_flag = 0;
+		set_exit_status(1);
+		return (error_process(tokens, NULL));
+	}
+	len = ft_strlen(*str) + ft_strlen(line);
+	new_str = concat_str(tokens, str, line, len);
+	if (!new_str)
+		return (NULL);
 	return (lexer(new_str));
 }
 

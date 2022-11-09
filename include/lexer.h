@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 05:04:32 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/06 23:52:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	t_token_type	type;
+	int				option_fd;
 	char			*literal;
 	size_t			len;
 	size_t			id;
