@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/09 20:30:56 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 03:38:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,18 @@ static void	set_token(t_token *token, t_token_type type, char *str, size_t id)
 	token->error = false;
 	token->option_fd = 0;
 	token->len = token_len(&type, str, 0, 1);
-	if (type == WHITE_SPACE && get_lexer_quote() != NON)
+	if (type == EOS)
+		token->type = type;
+	else if (type == WHITE_SPACE && get_lexer_quote() != NON)
+		token->type = IDENT;
+	else if (get_lexer_quote() == SINGLE_QUOTE)
+		token->type = IDENT;
+	else if (get_lexer_quote() == DOUBLE_QUOTE && type == SINGLE_QUOTE)
 		token->type = IDENT;
 	else
 		token->type = type;
 	token->literal = ft_substr(str, 0, token->len);
-	set_lexer_quote_util(type);
+	set_lexer_quote_util(token->type);
 	if (type == LT || type == D_LT)
 		token->option_fd = 1;
 }
@@ -111,7 +117,7 @@ t_token	*lexer(char *str)
 
 	set_lexer_quote(NON);
 	len = ft_strlen(str);
-	i = 0;
+	printf("len=%zu\n", len);
 	tokens = (t_token *)malloc(sizeof(t_token) * (len + 1));
 	if (!tokens)
 		kill_myprocess(12, NULL, NULL, NULL);
@@ -121,7 +127,9 @@ t_token	*lexer(char *str)
 		if (ft_isspace(*str) && (get_lexer_quote() == NON) && str++)
 			continue ;
 		set_token(&(tokens[i]), identify_token(*str, str[1]), str, i);
-		str += tokens[i++].len;
+		str += tokens[i].len;
+		printf("str=%s, i=%zu\n", str,i);
+		i++;
 	}
 	set_token(&(tokens[i]), EOS, "", i);
 	if (get_lexer_quote() != NON)
