@@ -13,7 +13,6 @@
 #ifndef SIGNAL_MINISHELL_H
 # define SIGNAL_MINISHELL_H
 # include <signal.h>
-# include "signal_flag.h" 
 
 sig_atomic_t	g_signal_flag;
 
