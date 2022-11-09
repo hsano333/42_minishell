@@ -14,8 +14,6 @@
 #include "exit_status.h"
 #include "signal_minishell.h"
 
-sig_atomic_t g_signal_flag = 0;
-
 static void	handle_heredoc_signal(int sig)
 {
 	extern sig_atomic_t	g_signal_flag;

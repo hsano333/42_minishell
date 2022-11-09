@@ -13,8 +13,9 @@
 #ifndef SIGNAL_MINISHELL_H
 # define SIGNAL_MINISHELL_H
 # include <signal.h>
+# include "signal_flag.h" 
 
-extern sig_atomic_t	g_signal_flag;
+sig_atomic_t	g_signal_flag;
 
 void	handle_global_signals(void);
 void	handle_cmd_signals(void);
