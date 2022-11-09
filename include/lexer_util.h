@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 01:08:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 05:09:29 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/09 16:16:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@
 size_t			token_len_helper(t_token_type type);
 void			put_tokens(t_token *tokens);
 void			clear_tokens(t_token *tokens);
+void			set_lexer_quote_util(t_token_type type);
 t_token_type	identify_token(char c, char next_c);
 #endif

@@ -6,13 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:43:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 04:37:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/09 17:38:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_init.h"
 #include "parser_util.h"
 #include "lexer_util.h"
+#include "lexer_quote_flag.h"
 #include <stdio.h>
 
 static size_t	count_comds(t_token *tokens)
@@ -86,9 +87,9 @@ static t_cmds	*init_pipes(t_token *tokens, t_cmds *cmds \
 	i = 0;
 	while (tokens[i].type != EOS)
 	{
-		if (tokens[i].type == PIPE)
+		if (tokens[i].valid && tokens[i].type == PIPE)
 			cnt_pipes++;
-		if (tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND)
+		if (tokens[i].valid && (tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND))
 		{
 			cmds[cnt_cmds].pipes = init_pipe(cnt_pipes);
 			if (!cmds[cnt_cmds].pipes)
@@ -110,6 +111,7 @@ t_cmds	*init_parser(t_token *tokens, int *error)
 	t_cmds	*cmds;
 	size_t	cmds_num;
 
+	set_lexer_quote(NON);
 	cmds_num = count_comds(tokens);
 	if (cmds_num == 0)
 		return (NULL);

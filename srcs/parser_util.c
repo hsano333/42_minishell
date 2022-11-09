@@ -6,26 +6,42 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:06:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 04:29:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/09 17:43:04 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "stdlib.h"
+#include "string.h"
+#include "lexer_quote_flag.h"
+
+void	set_lexer_quote_util(t_token_type type)
+{
+	if (get_lexer_quote() == type)
+		set_lexer_quote(NON);
+	else if (type == DOUBLE_QUOTE || type == SINGLE_QUOTE)
+		set_lexer_quote(type);
+}
 
 int	is_error_cmds(t_cmds *cmds)
 {
 	size_t	i;
 
 	if (!cmds)
+	{
+		strerror(12);
 		return (false);
+	}
 	i = 0;
 	while (cmds)
 	{
 		if (cmds[i].pipes == NULL)
 			break ;
 		if (cmds[i].last == true)
+		{
+			strerror(12);
 			return (false);
+		}
 		i++;
 	}
 	return (true);

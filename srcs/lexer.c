@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 04:55:27 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/09 16:15:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ static void	set_token(t_token *token, t_token_type type, char *str, size_t id)
 	else
 		token->type = type;
 	token->literal = ft_substr(str, 0, token->len);
-	if (get_lexer_quote() == type)
-		set_lexer_quote(NON);
-	else if (type == DOUBLE_QUOTE || type == SINGLE_QUOTE)
-		set_lexer_quote(type);
+	set_lexer_quote_util(type);
 	if (type == LT || type == D_LT)
 		token->option_fd = 1;
 }
@@ -96,6 +93,7 @@ t_token	*lexer(char *str)
 	size_t	len;
 	t_token	*tokens;
 
+	set_lexer_quote(NON);
 	len = ft_strlen(str);
 	i = 0;
 	tokens = (t_token *)malloc(sizeof(t_token) * (len + 1));
