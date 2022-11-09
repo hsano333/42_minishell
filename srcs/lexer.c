@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/09 16:15:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/09 20:30:56 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,22 @@ static void	set_option_fd(t_token *tokens)
 	}
 }
 
+void	change_quote_type(t_token *tokens, size_t i)
+{
+	while (1)
+	{
+		if (get_lexer_quote() != tokens[i].type)
+			i--;
+		else
+		{
+			tokens[i].type = IDENT;
+			break ;
+		}
+		if (i == 0)
+			break ;
+	}
+}
+
 t_token	*lexer(char *str)
 {
 	size_t	i;
@@ -108,6 +124,8 @@ t_token	*lexer(char *str)
 		str += tokens[i++].len;
 	}
 	set_token(&(tokens[i]), EOS, "", i);
+	if (get_lexer_quote() != NON)
+		change_quote_type(tokens, i);
 	set_option_fd(tokens);
 	return (lexer_handling_error(tokens));
 }

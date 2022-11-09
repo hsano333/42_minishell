@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/09 16:43:32 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/09 19:29:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token_type	is_expand(t_token *token)
 	return (NON);
 }
 
-void	expand_quote(t_token *token, size_t end_no)
+int	expand_quote(t_token *token, size_t end_no)
 {
 	size_t	i;
 	size_t	len;
@@ -37,15 +37,15 @@ void	expand_quote(t_token *token, size_t end_no)
 
 	len = 0;
 	i = 1;
+	token[0].type = IDENT;
 	while (token[i].id != end_no)
 	{
 		len += ft_strlen(token[i].literal);
 		token[i].valid = false;
 		i++;
 	}
-	token[i].valid = false;
 	if (len == 0)
-		return ;
+		return (true);
 	expanded_str = malloc(len + 1);
 	ft_strlcpy(expanded_str, token[1].literal, len + 1);
 	i = 2;
@@ -54,6 +54,7 @@ void	expand_quote(t_token *token, size_t end_no)
 	free(token[0].literal);
 	token[0].literal = expanded_str;
 	token[0].type = IDENT;
+	return (true);
 }
 
 static void	expand_doller_asterisk(t_token *tokens \
@@ -89,11 +90,8 @@ size_t	parser_expand(t_token *tokens, t_token_type pre_token, size_t i)
 		end_no = parser_expand(tokens, cur_token, i + 1);
 	else if (cur_token == pre_token)
 		return (tokens[i].id);
-	if (end_no > tokens[i].id)
-	{
-		expand_quote(&(tokens[i]), end_no);
+	if (end_no > tokens[i].id && expand_quote(&(tokens[i]), end_no))
 		i = end_no;
-	}
 	if (tokens[i].type != EOS)
 		end_no = parser_expand(tokens, pre_token, i + 1);
 	return (end_no);
