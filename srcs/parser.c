@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 18:59:37 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/11 02:20:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,39 +71,59 @@ static void	disable_space(t_token *tokens)
 	}
 }
 
-void	parser_concat(t_token *tokens)
+static size_t	concat_str(t_token *tokens, size_t i, size_t j, int *f)
 {
-	size_t	i;
+	char	*tmp;
+
+	*f = false;
+	if (j == 0)
+		return (0);
+	tmp = ft_strjoin(tokens[i].literal, tokens[j].literal);
+	free(tokens[i].literal);
+	tokens[i].literal = tmp;
+	return (i);
+}
+
+static size_t	concat(t_token *tokens, size_t i, int b_flag, int *f_flag)
+{
 	size_t	j;
 
-	i = 0;
-	j = 0;
-	while (tokens[i].type != EOS)
-	{
-		if (tokens[i].type == WHITE_SPACE)
-		{
-			if (j == 0)
-				j = i + 1;
-			while (tokens[j].type != EOS)
-			{
-				if (tokens[i].type != WHITE_SPACE)
-					j++;
-			}
-		}
+	while (!((tokens[i].type == IDENT || tokens[i].type == EOS) \
+				&& tokens[i].valid))
 		i++;
+	if (tokens[i].type == EOS)
+		return (0);
+	if (b_flag)
+	{
+		tokens[i].valid = false;
+		return (i);
 	}
+	else if (b_flag == false && tokens[i].concat_back)
+		concat_str(tokens, i, concat(tokens, i + 1, true, f_flag), f_flag);
+	else if (b_flag == false && tokens[i].concat_front)
+	{
+		*f_flag = true;
+		tokens[i].valid = false;
+		return (i);
+	}
+	j = concat(tokens, i + 1, false, f_flag);
+	if (*f_flag)
+		concat_str(tokens, i, j, f_flag);
+	return (i);
 }
 
 t_cmds	*parser(t_token *tokens)
 {
 	t_cmds	*cmds;
 	int		error;
+	int		tmp_flag;
 
-	//put_tokens(tokens);
+	put_tokens(tokens);
 	parser_expand(tokens, NON, 0);
-	//put_tokens(tokens);
+	put_tokens(tokens);
+	concat(tokens, 0, false, &tmp_flag);
+	put_tokens(tokens);
 	disable_space(tokens);
-	//put_tokens(tokens);
 	cmds = init_parser(tokens, &error);
 	if (error)
 		kill_myprocess(12, NULL, tokens, NULL);

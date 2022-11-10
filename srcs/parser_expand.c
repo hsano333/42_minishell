@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 17:57:58 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/11 01:30:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "parser_expand.h"
 #include "kill_myprocess.h"
 
-t_token_type	is_expand(t_token *token)
+static t_token_type	is_expand(t_token *token)
 {
 	if (token->type == SINGLE_QUOTE \
 		|| token->type == DOUBLE_QUOTE \
@@ -43,6 +43,7 @@ int	expand_quote(t_token *token, size_t end_no)
 		token[i].valid = false;
 		i++;
 	}
+	token[i].valid = false;
 	if (len == 0)
 		return (true);
 	expanded_str = malloc(len + 1);
@@ -75,7 +76,7 @@ size_t	parser_expand(t_token *tokens, t_token_type pre_token, size_t i)
 	size_t			end_no;
 	t_token_type	cur_token;
 
-	end_no = false;
+	end_no = 0;
 	while (tokens[i].type != EOS && is_expand(&(tokens[i])) == NON)
 		i++;
 	cur_token = is_expand(&(tokens[i]));
@@ -86,6 +87,8 @@ size_t	parser_expand(t_token *tokens, t_token_type pre_token, size_t i)
 			|| EXIT_STATUS == (cur_token & EXIT_STATUS))
 		expand_doller_asterisk(tokens, pre_token, i);
 	else if (cur_token != NON && pre_token == NON)
+		end_no = parser_expand(tokens, cur_token, i + 1);
+	else if (cur_token != IDENT && pre_token == IDENT)
 		end_no = parser_expand(tokens, cur_token, i + 1);
 	else if (cur_token == pre_token)
 		return (tokens[i].id);

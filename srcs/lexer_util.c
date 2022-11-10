@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 17:35:59 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/11 00:02:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ void	put_tokens(t_token *tokens)
 	{
 		tmp_token = &(tokens[i]);
 		if (tmp_token->valid)
-			printf("id=%zu,type=%d, len=%zu str=[%s], valid=%d, concat=%d\n " \
+			printf("id=%zu,type=%d, len=%zu str=[%s], valid=%d, b_con=%d, f_con=%d\n " \
 					, tmp_token->id, tmp_token->type, tmp_token->len \
 					, tmp_token->literal, tmp_token->valid \
-					, tmp_token->concat);
+					, tmp_token->concat_back, tmp_token->concat_front);
 		i++;
 	}
 }

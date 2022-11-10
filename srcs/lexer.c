@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 18:59:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/11 01:28:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,29 @@ size_t	token_len(t_token_type *type, char *str, size_t i, size_t cnt)
 	return (cnt);
 }
 
-static void	set_token(t_token *token, t_token_type type, char *str, size_t id)
+static void	set_token(t_token *tokens, t_token_type type, char *str, size_t i)
 {
-	token->id = id;
-	token->valid = true;
-	token->expand = false;
-	token->error = false;
-	token->option_fd = 0;
-	token->len = token_len(&type, str, 0, 1);
-	token->concat = true;
+	tokens[i].id = i;
+	tokens[i].valid = true;
+	tokens[i].len = token_len(&type, str, 0, 1);
 	if (type == EOS)
-		token->type = type;
+		tokens[i].type = type;
 	else if (type == WHITE_SPACE && get_lexer_quote() != NON)
-		token->type = IDENT;
-	else if (type == WHITE_SPACE)
-		token[1].concat = false;
+		tokens[i].type = IDENT;
 	else if (get_lexer_quote() == SINGLE_QUOTE && type != SINGLE_QUOTE)
-		token->type = IDENT;
+		tokens[i].type = IDENT;
 	else
-		token->type = type;
+		tokens[i].type = type;
+	if ((tokens[i].type == SINGLE_QUOTE || tokens[i].type == DOUBLE_QUOTE) \
+										&& i > 0 && !ft_isspace(str[-1]))
+		tokens[i - 1].concat_back = true;
+	if ((tokens[i].type == SINGLE_QUOTE || tokens[i].type == DOUBLE_QUOTE) \
+										&& type != EOS && !ft_isspace(str[1]))
+		tokens[i + 1].concat_front = true;
 	set_lexer_quote_util(type);
-	token->literal = ft_substr(str, 0, token->len);
+	tokens[i].literal = ft_substr(str, 0, tokens[i].len);
 	if (type == LT || type == D_LT)
-		token->option_fd = 1;
+		tokens[i].option_fd = 1;
 }
 
 static void	set_option_fd(t_token *tokens)
@@ -105,13 +105,13 @@ static t_token	*analyze_str(char *str, t_token *tokens, size_t i)
 	{
 		if (ft_isspace(str[k]) && (get_lexer_quote() == NON) && k++)
 			continue ;
-		set_token(&(tokens[i]), identify_token(str[k], str[k + 1]), &(str[k]), i);
+		set_token(tokens, identify_token(str[k], str[k + 1]), &(str[k]), i);
 		k += tokens[i].len;
 		i++;
 	}
-	set_token(&(tokens[i]), EOS, "", i);
+	set_token(tokens, EOS, "", i);
 	if (get_lexer_quote() != NON && change_quote_type(tokens, &(i), &k))
-		tokens = analyze_str(&str[k], tokens , i);
+		tokens = analyze_str(&str[k], tokens, i);
 	return (tokens);
 }
 
@@ -125,6 +125,7 @@ t_token	*lexer(char *str)
 	tokens = (t_token *)malloc(sizeof(t_token) * (len + 1));
 	if (!tokens)
 		kill_myprocess(12, NULL, NULL, NULL);
+	ft_memset(tokens, 0, sizeof(t_token) * (len + 1));
 	tokens = analyze_str(str, tokens, 0);
 	set_option_fd(tokens);
 	return (lexer_handling_error(tokens));
