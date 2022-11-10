@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/06 23:52:21 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 13:03:12 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_token
 	int				valid;
 	int				expand;
 	int				error;
+	int				concat;
 }	t_token;
 
 t_token	*lexer(char *str);

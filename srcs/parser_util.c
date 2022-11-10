@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:06:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/09 17:43:04 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 13:22:27 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	set_lexer_quote_util(t_token_type type)
 {
 	if (get_lexer_quote() == type)
 		set_lexer_quote(NON);
-	else if (type == DOUBLE_QUOTE || type == SINGLE_QUOTE)
+	else if (type == get_lexer_quote())
 		set_lexer_quote(type);
 }
 
