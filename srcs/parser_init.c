@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:43:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/09 17:38:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 13:25:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ static t_cmds	*init_pipes(t_token *tokens, t_cmds *cmds \
 	{
 		if (tokens[i].valid && tokens[i].type == PIPE)
 			cnt_pipes++;
-		if (tokens[i].valid && (tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND))
+		if (tokens[i].valid && (tokens[i].type == D_PIPE \
+					|| tokens[i].type == D_AMPERSAND))
 		{
 			cmds[cnt_cmds].pipes = init_pipe(cnt_pipes);
 			if (!cmds[cnt_cmds].pipes)

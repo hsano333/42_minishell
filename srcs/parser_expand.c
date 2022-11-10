@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 13:03:35 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 13:25:45 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	expand_quote(t_token *token, size_t end_no)
 
 	len = 0;
 	i = 1;
-	//token[0].type = IDENT;
 	while (token[i].id != end_no)
 	{
 		len += ft_strlen(token[i].literal);

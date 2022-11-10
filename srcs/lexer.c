@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 13:19:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 15:52:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,25 +93,29 @@ static void	set_option_fd(t_token *tokens)
 	}
 }
 
-void	change_quote_type(t_token *tokens, size_t i)
+static t_token	*analyze_str(char *str, t_token *tokens, size_t i)
 {
-	while (1)
+	char	*str_bk;
+	size_t	k;
+
+	str_bk = str;
+	k = 0;
+	while (str[k])
 	{
-		if (get_lexer_quote() != tokens[i].type)
-			i--;
-		else
-		{
-			tokens[i].type = IDENT;
-			break ;
-		}
-		if (i == 0)
-			break ;
+		if (ft_isspace(str[k]) && (get_lexer_quote() == NON) && k++)
+			continue ;
+		set_token(&(tokens[i]), identify_token(str[k], str[k + 1]), &(str[k]), i);
+		k += tokens[i].len;
+		i++;
 	}
+	set_token(&(tokens[i]), EOS, "", i);
+	if (get_lexer_quote() != NON && change_quote_type(tokens, &(i), &k))
+		tokens = analyze_str(&str[k], tokens , i);
+	return (tokens);
 }
 
 t_token	*lexer(char *str)
 {
-	size_t	i;
 	size_t	len;
 	t_token	*tokens;
 
@@ -120,18 +124,8 @@ t_token	*lexer(char *str)
 	tokens = (t_token *)malloc(sizeof(t_token) * (len + 1));
 	if (!tokens)
 		kill_myprocess(12, NULL, NULL, NULL);
-	i = 0;
-	while (*str)
-	{
-		if (ft_isspace(*str) && (get_lexer_quote() == NON) && str++)
-			continue ;
-		set_token(&(tokens[i]), identify_token(*str, str[1]), str, i);
-		str += tokens[i].len;
-		i++;
-	}
-	set_token(&(tokens[i]), EOS, "", i);
-	if (get_lexer_quote() != NON)
-		change_quote_type(tokens, i);
+	tokens = analyze_str(str, tokens, 0);
+
 	set_option_fd(tokens);
 	return (lexer_handling_error(tokens));
 }

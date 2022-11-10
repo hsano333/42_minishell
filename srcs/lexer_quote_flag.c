@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 03:25:37 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/09 17:41:37 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 15:51:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,27 @@ t_token_type	get_lexer_quote(void)
 void	set_lexer_quote(t_token_type flag)
 {
 	lexer_quote_flag(LEXER_SET_FLAG, flag);
+}
+
+int	change_quote_type(t_token *tokens, size_t *i, size_t *k)
+{
+	while (1)
+	{
+		if (get_lexer_quote() != tokens[*i].type)
+		{
+			*k -= tokens[*i].len;
+			(*i)--;
+		}
+		else
+		{
+			tokens[*i].type = IDENT;
+			(*i)++;
+			(*k) += 1;
+			set_lexer_quote(NON);
+			return (true);
+		}
+		if (*i == 0)
+			return (false);
+	}
+	return (true);
 }

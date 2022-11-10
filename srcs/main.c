@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 13:05:44 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 15:52:31 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static char	*analyze_and_execute(char *line)
 	t_cmds	*cmds;
 
 	tokens = lexer(line);
-	put_tokens(tokens);
 	if (tokens)
 	{
 		while (tokens && is_continue_input(tokens))
