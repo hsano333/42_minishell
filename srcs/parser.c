@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/11 02:20:58 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/11 02:28:00 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,8 @@ t_cmds	*parser(t_token *tokens)
 	int		error;
 	int		tmp_flag;
 
-	put_tokens(tokens);
 	parser_expand(tokens, NON, 0);
-	put_tokens(tokens);
 	concat(tokens, 0, false, &tmp_flag);
-	put_tokens(tokens);
 	disable_space(tokens);
 	cmds = init_parser(tokens, &error);
 	if (error)
