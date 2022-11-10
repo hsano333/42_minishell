@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/09 20:32:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/10 17:27:43 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,29 @@ void	print_comds(t_cmds *cmds)
 }
 
 static void	disable_space(t_token *tokens)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	while (tokens[i].type != EOS)
+	{
+		if (tokens[i].type == WHITE_SPACE)
+		{
+			if (j == 0)
+				j = i + 1;
+			while (tokens[j].type != EOS)
+			{
+				if (tokens[i].type != WHITE_SPACE)
+					j++;
+			}
+		}
+		i++;
+	}
+}
+
+void	parser_concat(t_token *tokens)
 {
 	size_t	i;
 	size_t	j;
