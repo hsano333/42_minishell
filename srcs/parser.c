@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/11 02:28:00 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/11 11:08:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +45,6 @@ void	print_comds(t_cmds *cmds)
 		}
 		if (cmds[i++].last)
 			break ;
-	}
-}
-
-static void	disable_space(t_token *tokens)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	while (tokens[i].type != EOS)
-	{
-		if (tokens[i].type == WHITE_SPACE)
-		{
-			if (j == 0)
-				j = i + 1;
-			while (tokens[j].type != EOS)
-			{
-				if (tokens[i].type != WHITE_SPACE)
-					j++;
-			}
-		}
-		i++;
 	}
 }
 
@@ -120,7 +97,6 @@ t_cmds	*parser(t_token *tokens)
 
 	parser_expand(tokens, NON, 0);
 	concat(tokens, 0, false, &tmp_flag);
-	disable_space(tokens);
 	cmds = init_parser(tokens, &error);
 	if (error)
 		kill_myprocess(12, NULL, tokens, NULL);
