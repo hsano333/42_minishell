@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/06 20:52:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 03:16:40 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,33 +63,40 @@ static t_fdpid	pipe_main(int fd_in, t_pipe *pipes, char **environ, int is_last)
 	return (fdpid);
 }
 
+static void	exit_main_child(int status)
+{
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		exit(128 + WTERMSIG(status));
+}
+
 static void	main_child(t_fdpid *fdpid, t_cmds *cmds, char **environ)
 {
 	int		i;
 	int		fd_i;
 	int		status;
+	int		tmp_status;
 
-	i = 0;
+	i = -1;
 	fd_i = 1;
-	while (i < (int)cmds->len)
+	while (++i < (int)cmds->len)
 	{
 		fdpid[fd_i] = pipe_main(fdpid[fd_i - 1].fd, &(cmds->pipes[i]) \
 				, environ, i == (int)cmds->len - 1);
-		i++;
-		if (fdpid[fd_i].pid == -1)
+		if (fdpid[fd_i++].pid == -1)
 			kill_process(-1, "pipex error:fork() error", NULL);
-		fd_i++;
 	}
 	close(fdpid[fd_i].fd);
-	i = 1;
-	while (i < fd_i)
+	i = fd_i - 1;
+	waitpid(fdpid[i].pid, &status, 0);
+	while (i > 0)
 	{
-		waitpid(fdpid[i++].pid, &status, 0);
+		kill(fdpid[i--].exe_pid, SIGINT);
+		if (i > 0)
+			waitpid(fdpid[i].pid, &tmp_status, 0);
 	}
-	if (WIFEXITED(status))
-		exit(WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-		exit(128 + WTERMSIG(status));
+	exit_main_child(status);
 }
 
 int	pipex(t_cmds *cmds, char **environ)

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:57:10 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 14:14:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 03:14:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_fdpid	parent(int pid, int *pipe_fd, t_pipe *pipes, int is_last)
 
 	if (pipe(pipe_fd_p) != 0)
 		kill_process(0, "parent():pipe() error\n", NULL);
+	fdpid.exe_pid = pid;
 	fdpid.pid = fork();
 	if ((fdpid.pid) == 0)
 	{
