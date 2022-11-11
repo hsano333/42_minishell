@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/06 20:56:51 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/11 12:23:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int		export_only(const char **env);
 int		cmd_export(char **cmd);
 int		cmd_unset(char **cmd);
 int		cmd_cd(char **cmd);
-void    update_pwd(char **cwd);
-void    check_pwd(char **cwd);
-int     exit_cd(char **cwd, int exit_status, char *dname);
+void	update_pwd(char **cwd);
+void	check_pwd(char **cwd);
+int		exit_cd(char **cwd, int exit_status, char *dname);
 int		cmd_exit(char **cmd);
 int		is_builtin(char **cmd);
 bool	has_option(char **cmd);

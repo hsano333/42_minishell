@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/09 02:34:30 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/11 12:20:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 			if (search_path(pipes->param[0], environ, filepath))
 			{
 				if (execve(filepath, pipes->param, environ) == -1)
-					exit(EXIT_FAILURE);
+					put_invalid_command(filepath);
 			}
 			else
 				put_invalid_command(pipes->param[0]);
