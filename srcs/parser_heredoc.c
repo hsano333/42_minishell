@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/08 00:00:48 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 12:46:04 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	execute_heredoc_loop(t_heredoc *heredoc \
 {
 	while (true)
 	{
-		line = readline("\033[31mheredoc> \033[0m");
+		line = readline("heredoc> ");
 		if (!line && close(*fd) == 0)
 		{
 			unlink(HEREDODC_FILE);
