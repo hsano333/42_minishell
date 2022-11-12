@@ -6,13 +6,14 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:11:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/11 12:23:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 15:23:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include "ft_printf.h"
 #include "libft_str.h"
+#include "env.h"
 
 void	kill_process(int no, char *message1, char *message2)
 {
@@ -55,31 +56,30 @@ int	copy_filepath(char *dst, char *src)
 	return (true);
 }
 
-char	*search_path(char *exe, char **environ, char *filepath)
+char	*search_path(char *exe, char *filepath)
 {
 	size_t	i;
 	size_t	j;
+	char	*paths;
 	char	**tmp_paths;
-	char	*tmp;
 
 	i = 0;
-	if (((exe && exe[0] == '/') || (exe[0] == '.')) \
+	if ((exe && (exe[0] == '/' || exe[0] == '.')) \
 			&& copy_filepath(filepath, exe))
 		return (filepath);
-	while (environ[i])
+	paths = get_env_val("PATH");
+	tmp_paths = ft_split(paths, ':');
+	j = 0;
+	while (tmp_paths[j] && ft_strlen(tmp_paths[j]) + ft_strlen(exe) < PATH_MAX)
 	{
-		tmp = ft_strchr(environ[i++], '=');
-		if (!tmp)
-			continue ;
-		tmp_paths = ft_split(tmp, ':');
-		j = 0;
-		while (tmp_paths[j])
+		filepath = concat_pathpath(filepath, tmp_paths[j++], exe);
+		if ((!access(filepath, X_OK)) && ft_free_split(tmp_paths))
 		{
-			filepath = concat_pathpath(filepath, tmp_paths[j++], exe);
-			if ((!access(filepath, X_OK)) && ft_free_split(tmp_paths))
-				return (filepath);
+			free(paths);
+			return (filepath);
 		}
-		ft_free_split(tmp_paths);
 	}
+	free(paths);
+	ft_free_split(tmp_paths);
 	return (NULL);
 }
