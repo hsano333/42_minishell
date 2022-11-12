@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:11:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 15:23:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 16:42:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,10 @@ int	copy_filepath(char *dst, char *src)
 
 char	*search_path(char *exe, char *filepath)
 {
-	size_t	i;
 	size_t	j;
 	char	*paths;
 	char	**tmp_paths;
 
-	i = 0;
 	if ((exe && (exe[0] == '/' || exe[0] == '.')) \
 			&& copy_filepath(filepath, exe))
 		return (filepath);
