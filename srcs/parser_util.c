@@ -6,13 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:06:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 15:47:53 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/13 03:11:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "stdlib.h"
 #include "string.h"
+#include "libft_str.h"
 #include "lexer_quote_flag.h"
 
 void	set_lexer_quote_util(t_token_type type)
@@ -61,7 +62,7 @@ void	clear_all_cmds(t_cmds **cmds)
 		j = 0;
 		while (j < (*cmds)[i].len)
 		{
-			free((*cmds)[i].pipes[j].param);
+			ft_free_split((*cmds)[i].pipes[j].param);
 			(*cmds)[i].pipes[j].param = NULL;
 			j++;
 		}

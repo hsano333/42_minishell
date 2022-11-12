@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 14:45:02 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/13 03:46:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,18 @@ void	set_finded_file(char *added_file, int is_absolute)
 	finded_file_func(SET_AST_FINDED_FILE, saved_filename, &used, &max);
 }
 
-void	clear_finded_file(void)
+void	save_and_clear_finded_file(t_token *token)
 {
 	size_t	tmp;
+	char	*tmp_str;
 
+	token->type = IDENT;
+	token->expand = true;
+	tmp_str = get_finded_file();
+	if (tmp_str)
+	{
+		free(token->literal);
+		token->literal = ft_strdup(tmp_str);
+	}
 	finded_file_func(CLEAR_AST_FINDED_FILE, NULL, &tmp, &tmp);
 }

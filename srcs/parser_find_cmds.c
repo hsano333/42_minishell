@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 16:12:01 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/13 03:46:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	**allocate_args_memory(t_token *tokens, size_t i \
 			free(split);
 		}
 		else if (tokens[i].type == IDENT && tokens[i].valid)
-			argv[j++] = tokens[i].literal;
+			argv[j++] = ft_strdup(tokens[i].literal);
 		i++;
 	}
 	return (argv);
@@ -70,27 +70,34 @@ static void	set_args(t_cmds *cmds, t_token *tokens \
 		i++;
 	}
 	cmds->pipes[pipe_i].param = allocate_args_memory(tokens, backup_i, cnt, 0);
+	cmds->pipes[pipe_i].param_num = cnt;
 	*tmp_i = --i;
 }
 
-static int	have_error(t_cmds *cmds)
+static int	have_error(t_cmds *cmds, size_t i, size_t j, size_t k)
 {
-	size_t	i;
-	size_t	j;
-
 	i = 0;
 	while (cmds)
 	{
 		j = 0;
 		while (j < cmds[i].len)
 		{
-			if (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param == NULL)
-				return (false);
+			k = 0;
+			while (k <= cmds[i].pipes[j].param_num)
+			{
+				if (cmds[i].pipes[j].have_param \
+						&& cmds[i].pipes[j].param == NULL)
+					return (true);
+				else if (cmds[i].pipes[j].have_param \
+						&& cmds[i].pipes[j].param \
+						&& !cmds[i].pipes[j].param[k])
+					return (true);
+				k++;
+			}
 			j++;
 		}
-		if (cmds[i].last == true)
+		if (cmds[i++].last == true)
 			break ;
-		i++;
 	}
 	return (false);
 }
@@ -121,5 +128,5 @@ int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds, size_t i)
 			set_args(&(cmds[ci]), tokens, &i, pi);
 		i++;
 	}
-	return (!have_error(cmds));
+	return (!have_error(cmds, 0, 0, 0));
 }
