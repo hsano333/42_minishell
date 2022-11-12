@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:06:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 21:25:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/13 03:11:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ void	clear_all_cmds(t_cmds **cmds)
 		j = 0;
 		while (j < (*cmds)[i].len)
 		{
-			//ft_free_split((*cmds)[i].pipes[j].param);
-			free((*cmds)[i].pipes[j].param);
+			ft_free_split((*cmds)[i].pipes[j].param);
 			(*cmds)[i].pipes[j].param = NULL;
 			j++;
 		}

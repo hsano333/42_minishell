@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/13 00:07:57 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/13 03:46:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	save_and_clear_finded_file(t_token *token)
 	if (tmp_str)
 	{
 		free(token->literal);
-		//finded_file_func(CLEAR_AST_FINDED_FILE, NULL, &tmp, &tmp);
 		token->literal = ft_strdup(tmp_str);
 	}
 	finded_file_func(CLEAR_AST_FINDED_FILE, NULL, &tmp, &tmp);
