@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:53:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:25:11 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/12 17:13:45 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	export_error_loop(char **var, char *cmd)
 	i = 0;
 	while ((*var)[i] != '\0')
 	{
-		if (ft_isalnum((*var)[i]) == 0 && (*var)[i] != '_')
+		if (cmd[0] == '=' || (ft_isalnum((*var)[i]) == 0 && (*var)[i] != '_'))
 		{
 			ft_putstr_fd("export: ", 2);
 			ft_putstr_fd(cmd, 2);
@@ -51,10 +51,12 @@ int	export_input_error(char **cmd)
 		if (export_error_loop(&var, cmd[i]) == EXIT_FAILURE)
 		{
 			free(var);
+			free_str_array(&split);
 			return (EXIT_FAILURE);
 		}
 		i++;
 		free(var);
+		free_str_array(&split);
 	}
 	return (EXIT_SUCCESS);
 }
