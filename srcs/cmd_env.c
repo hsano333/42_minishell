@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:33:39 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:19:01 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/12 19:30:47 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	cmd_env(char **cmd)
 	env = env_store(NULL, GET_ENV);
 	if (!env)
 		return (EXIT_FAILURE);
-	if (!cmd && !cmd[1])
+	if (cmd && cmd[1])
 	{
 		if (access(cmd[1], F_OK) == 0)
 		{

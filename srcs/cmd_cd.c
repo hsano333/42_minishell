@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:50:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/09 13:21:03 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/12 19:31:42 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static char	*find_home(void)
 	{
 		ft_putstr_fd("cd: HOME not set\n", 2);
 		free(path);
+		return (NULL);
 	}
 	return (path);
 }
