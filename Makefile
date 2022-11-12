@@ -50,6 +50,7 @@ SRC	:= utils_array.c \
 	cmd_option_validate.c \
 	cmd_pwd.c \
 	cmd_unset.c \
+	ft_isstr_space.c \
 
 
 	

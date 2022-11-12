@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 15:52:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 10:43:59 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	loop(void)
 			free(line);
 			break ;
 		}
-		if (*line == '\0')
+		if (*line == '\0' || ft_is_str_space(line))
 		{
 			free(line);
 			continue ;
