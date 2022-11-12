@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 10:52:28 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:40:50 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/13 08:51:46 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	cmd_unset(char **cmd)
 		return (EXIT_FAILURE);
 	while (cmd[i])
 	{
-		if (del_env_var(cmd[i]))
-			return (EXIT_FAILURE);
+		del_env_var(cmd[i]);
 		i++;
 	}
 	return (EXIT_SUCCESS);
