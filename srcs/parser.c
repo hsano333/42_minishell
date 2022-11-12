@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/11 11:08:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 16:12:34 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "parser_find_cmds.h"
 #include "kill_myprocess.h"
 
-void	print_comds(t_cmds *cmds)
+void	print_cmds(t_cmds *cmds)
 {
 	size_t	i;
 	size_t	j;

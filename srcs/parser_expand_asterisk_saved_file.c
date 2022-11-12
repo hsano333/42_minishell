@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/04 19:01:41 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 14:45:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	set_finded_file(char *added_file, int is_absolute)
 	if (added_len > (max - used) * 0.75 || saved_filename == NULL)
 	{
 		max = max + PATH_MAX * 4;
-		tmp_malloc = malloc(max);
+		tmp_malloc = ft_calloc(max, 1);
 		if (!tmp_malloc && paraser_expand_asterisk_error(SET_AST_ERROR))
 			return ;
 		if (saved_filename)

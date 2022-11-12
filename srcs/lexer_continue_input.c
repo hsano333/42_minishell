@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 00:49:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/06 23:01:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 12:45:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_token	*continued_input(t_token *tokens, char **str)
 
 	rl_event_hook = check_state;
 	handle_heredoc_signals();
-	line = readline("\033[31m > \033[0m");
+	line = readline("> ");
 	if (!line)
 	{
 		set_exit_status(258);
