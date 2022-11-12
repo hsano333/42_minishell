@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 15:33:04 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 16:12:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds, size_t i)
 	pi = 0;
 	while (tokens[i].type != EOS)
 	{
-		if (!tokens[i].valid && tokens[i].type == WHITE_SPACE && ++i)
+		if (!tokens[i].valid && ++i)
 			continue ;
 		else if ((tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND) \
 				&& ++ci)

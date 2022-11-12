@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/07 15:22:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/12 15:54:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	change_std_glt(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 	rval = true;
 	if (tokens[i + 1].type == IDENT)
 	{
+		tokens[i + 1].valid = false;
 		if (access(tokens[i + 1].literal, F_OK) != 0)
 			rval = create_file(tokens[i + 1].literal, O_WRONLY | O_CREAT);
 		if (!rval)
