@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 02:18:34 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 03:10:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,45 +28,24 @@ int	is_continue(t_cmds *cmds, int rval, size_t i)
 	return (false);
 }
 
-static int	change_buildin_fd_in(t_pipe *pipe, int *fd)
+static int	change_buildin_fd_inout(int fd_inout, char *filename, int option, int *fd)
 {
-	*fd = 0;
-	if (pipe->in_file)
+	*fd = fd_inout;
+	if (filename)
 	{
 		close(*fd);
-		*fd = open(pipe->in_file, O_RDONLY);
+		*fd = open(filename, option);
 		if (fd < 0)
 		{
 			ft_putstr_fd("open error:", 2);
-			write(2, pipe->in_file, ft_strlen(pipe->in_file)); 
+			write(2, filename, ft_strlen(filename)); 
 			write(2, "\n", 1);
 			return (false);
 		}
 	}
-	if (dup2(*fd, pipe->option_fd_in) == -1)
+	if (dup2(*fd, fd_inout) == -1)
 		return (false);
 	return (true);
-}
-
-static int	change_buildin_fd_out(t_pipe *pipe, int *fd)
-{
-	*fd = pipe->option_fd_out;
-	if (pipe->out_file)
-	{
-		close(*fd);
-		*fd = open(pipe->out_file, (O_APPEND | O_WRONLY));
-		if (*fd < 0)
-		{
-			ft_putstr_fd("open error:", 2);
-			write(2, pipe->out_file, ft_strlen(pipe->out_file)); 
-			write(2, "\n", 1);
-			return (false);
-		}
-	}
-	if (dup2(*fd, pipe->option_fd_out) == -1)
-		return (false);
-	return (true);
-
 }
 
 static int	change_buildin_fd(t_pipe *pipe, int back)
@@ -80,8 +59,8 @@ static int	change_buildin_fd(t_pipe *pipe, int back)
 	{
 		pre_fd_in = dup(pipe->option_fd_in);
 		pre_fd_out = dup(pipe->option_fd_out);
-		change_buildin_fd_in(pipe, &fd_in);
-		change_buildin_fd_out(pipe, &fd_out);
+		change_buildin_fd_inout(pipe->option_fd_in, pipe->in_file, O_RDONLY, &fd_in);
+		change_buildin_fd_inout(pipe->option_fd_out, pipe->out_file, O_APPEND | O_WRONLY, &fd_out);
 	}
 	if (back == true)
 	{
