@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 03:10:48 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 03:58:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "env.h"
 #include "cmd_builtin.h"
 #include "signal_minishell.h"
+#include "parser_util.h"
 
 int	is_continue(t_cmds *cmds, int rval, size_t i)
 {
@@ -28,7 +29,8 @@ int	is_continue(t_cmds *cmds, int rval, size_t i)
 	return (false);
 }
 
-static int	change_buildin_fd_inout(int fd_inout, char *filename, int option, int *fd)
+static int	change_buildin_fd_inout(int fd_inout \
+		, char *filename, int option, int *fd)
 {
 	*fd = fd_inout;
 	if (filename)
@@ -38,7 +40,7 @@ static int	change_buildin_fd_inout(int fd_inout, char *filename, int option, int
 		if (fd < 0)
 		{
 			ft_putstr_fd("open error:", 2);
-			write(2, filename, ft_strlen(filename)); 
+			write(2, filename, ft_strlen(filename));
 			write(2, "\n", 1);
 			return (false);
 		}
@@ -59,8 +61,10 @@ static int	change_buildin_fd(t_pipe *pipe, int back)
 	{
 		pre_fd_in = dup(pipe->option_fd_in);
 		pre_fd_out = dup(pipe->option_fd_out);
-		change_buildin_fd_inout(pipe->option_fd_in, pipe->in_file, O_RDONLY, &fd_in);
-		change_buildin_fd_inout(pipe->option_fd_out, pipe->out_file, O_APPEND | O_WRONLY, &fd_out);
+		change_buildin_fd_inout(pipe->option_fd_in \
+		, pipe->in_file, O_RDONLY, &fd_in);
+		change_buildin_fd_inout(pipe->option_fd_out \
+		, pipe->out_file, O_APPEND | O_WRONLY, &fd_out);
 	}
 	if (back == true)
 	{
@@ -74,32 +78,50 @@ static int	change_buildin_fd(t_pipe *pipe, int back)
 	return (true);
 }
 
-void	exe_cmds(t_cmds *cmds)
+void	exe_cmds(t_token *tokens)
 {
 	size_t	i;
+	size_t	j;
 	char	**envv;
 	int		rval;
+	t_cmds	*cmds;
+	t_token_type	type;
 
-	envv = env_store(NULL, GET_ENV);
 	i = 0;
 	rval = 0;
-	while (&cmds[i])
+	j = 0;
+	type = NON;
+	while (tokens[i].type != EOS)
 	{
-		if (i > 0 && cmds[i - 1].last)
-			break ;
-		if (is_continue(cmds, rval, i) && ++i)
-			continue ;
-		handle_cmd_signals();
-		if (cmds[i].len > 1 || (cmds[i].len == 1 \
-					&& !cmds[i].pipes[0].is_builtin_cmd))
-			rval = pipex(&(cmds[i]), envv);
-		else if (change_buildin_fd(&(cmds[i].pipes[0]), false))
+		while (tokens[i].type != EOS && tokens[i].type != D_AMPERSAND \
+				&& tokens[i].type != D_PIPE)
+			i++;
+		type = tokens[i].type;
+		if (type != EOS)
+			tokens[i].type = EOS;
+		i++;
+		cmds = parser(&(tokens[j]));
+		if (j > 0 && ((type == D_PIPE && rval != 0) || (type == D_AMPERSAND && rval == 0)))
 		{
-			rval = exec_builtin_cmd(cmds[i].pipes[0].param);
-			change_buildin_fd(&(cmds[i].pipes[0]), true);
+			j = i;
+			clear_all_cmds(&cmds);
+			continue ;
+		}
+		j = i;
+		envv = env_store(NULL, GET_ENV);
+		handle_cmd_signals();
+		if (cmds[0].len > 1 || (cmds[0].len == 1 \
+					&& !cmds[0].pipes[0].is_builtin_cmd))
+			rval = pipex(&(cmds[0]), envv);
+		else if (change_buildin_fd(&(cmds[0].pipes[0]), false))
+		{
+			rval = exec_builtin_cmd(cmds[0].pipes[0].param);
+			change_buildin_fd(&(cmds[0].pipes[0]), true);
 		}
 		handle_global_signals();
 		set_exit_status(rval);
-		i++;
+		clear_all_cmds(&cmds);
+		if (type == EOS)
+			break ;
 	}
 }
