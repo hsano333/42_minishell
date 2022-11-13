@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 04:02:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 04:03:05 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	change_buildin_fd_inout(int fd_inout \
 	{
 		close(*fd);
 		*fd = open(filename, option);
-		if (fd < 0)
+		if (*fd < 0)
 		{
 			ft_putstr_fd("open error:", 2);
 			write(2, filename, ft_strlen(filename));
