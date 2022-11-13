@@ -6,14 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/13 03:14:00 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/13 11:52:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 # include "lexer.h"
-//# include "lexer_util.h"
 # include <stdlib.h>
 # include <stdbool.h>
 # include <stdio.h>
