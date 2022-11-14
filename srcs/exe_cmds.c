@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 17:23:29 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 18:54:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser_util.h"
 #include "libft_put.h"
 #include "lexer.h"
+#define RESET_INDEX (INT_MIN)
 
 static int	change_buildin_fd_inout(int fd_inout \
 		, char *filename, int option, int *fd)
@@ -66,23 +67,21 @@ static int	change_buildin_fd(t_pipe *pipe, int back)
 	return (true);
 }
 
-t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, int reset)
+t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, size_t i)
 {
-	size_t			i;
 	static size_t	j = 0;
 	t_cmds			*cmds;
 
 	i = j;
-	if (reset)
-	{
+	if (rval == RESET_INDEX)
 		j = 0;
+	if (rval == RESET_INDEX)
 		return (NULL);
-	}
 	while (tokens[i].type != EOS && tokens[i].type != D_AMPERSAND \
 			&& tokens[i].type != D_PIPE)
 		i++;
-	if (j > 0 && ((*type == D_PIPE && rval != 0) \
-				|| (*type == D_AMPERSAND && rval == 0)))
+	if (j > 0 && ((*type == D_PIPE && rval == 0) \
+				|| (*type == D_AMPERSAND && rval != 0)))
 	{
 		*type = tokens[i].type;
 		j = i + 1;
@@ -92,6 +91,7 @@ t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, int reset)
 	if (*type != EOS)
 		tokens[i].type = EOS;
 	cmds = parser(&(tokens[j]));
+	tokens[i].type = *type;
 	j = i + 1;
 	return (cmds);
 }
@@ -106,7 +106,7 @@ void	exe_cmds(t_token *tokens)
 	type = NON;
 	while (tokens[0].type != EOS && type != EOS)
 	{
-		cmds = get_cmds(tokens, rval, &type, false);
+		cmds = get_cmds(tokens, rval, &type, 0);
 		if (!cmds)
 			continue ;
 		handle_cmd_signals();
@@ -122,5 +122,5 @@ void	exe_cmds(t_token *tokens)
 		set_exit_status(rval);
 		clear_all_cmds(&cmds);
 	}
-	cmds = get_cmds(tokens, rval, &type, true);
+	cmds = get_cmds(tokens, RESET_INDEX, &type, 0);
 }
