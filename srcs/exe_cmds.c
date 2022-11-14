@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 18:26:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 18:30:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, int reset)
 	*type = tokens[i].type;
 	if (*type != EOS)
 		tokens[i].type = EOS;
+	tokens[i].type = *type;
 	cmds = parser(&(tokens[j]));
 	j = i + 1;
 	return (cmds);
