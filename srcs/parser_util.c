@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:06:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 02:50:51 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 22:38:22 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,6 @@
 #include "string.h"
 #include "libft_str.h"
 #include "lexer_quote_flag.h"
-
-void	set_lexer_quote_util(t_token_type type)
-{
-	if (get_lexer_quote() == type)
-		set_lexer_quote(NON);
-	else if (get_lexer_quote() == NON)
-	{
-		if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
-			set_lexer_quote(type);
-	}
-}
 
 int	is_error_cmds(t_cmds *cmds)
 {

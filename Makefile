@@ -20,6 +20,7 @@ SRC	:= utils_array.c \
 	lexer_quote_flag.c \
 	lexer_handling_error.c \
 	lexer_continue_input.c \
+	lexer_parenthesis.c \
 	parser.c \
 	parser_util.c \
 	parser_init.c \
