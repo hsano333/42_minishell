@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/11 00:01:33 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 20:52:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef enum e_token_type
 	LT,
 	D_GT,
 	D_LT,
+	LPAREN,
+	RPAREN,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 	WHITE_SPACE,

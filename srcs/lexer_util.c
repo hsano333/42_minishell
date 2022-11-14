@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:54:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/11 11:17:32 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 21:00:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ static	t_token_type	identify_token_partial(char c, char next_c)
 		return (SINGLE_QUOTE);
 	else if (c == '\"')
 		return (DOUBLE_QUOTE);
+	else if (c == '(')
+		return (LPAREN);
+	else if (c == ')')
+		return (RPAREN);
 	return (NON);
 }
 

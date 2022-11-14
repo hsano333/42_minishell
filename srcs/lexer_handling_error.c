@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/05 04:03:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 22:02:05 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,26 @@ static int	begin_token_error(t_token *tokens)
 
 t_token	*lexer_handling_error(t_token *tokens)
 {
-	int	error[2];
+	int		error[2];
+	int		cnt;
+	size_t	i;
 
+	i = 0;
+	cnt = 0;
 	check_lexer_memmory_error(tokens);
 	error[0] = have_quote_error(tokens);
 	error[1] = begin_token_error(tokens);
-	if (error[0] || error[1])
+	while (tokens[i].type != EOS)
+	{
+		if (tokens[i].type == LPAREN)
+			cnt++;
+		else if (tokens[i].type == RPAREN)
+			cnt--;
+		i++;
+	}
+	if (cnt != 0)
+		ft_putendl_fd("error:not closed parenthesis", 2);
+	if (error[0] || error[1] || cnt != 0)
 	{
 		clear_tokens(tokens);
 		return (NULL);
