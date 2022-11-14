@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 18:24:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 18:26:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, int reset)
 	t_cmds			*cmds;
 
 	i = j;
-	while (reset && j != 0)
-		j--;
+	if (reset && j != 0)
+		j = 0;
 	if (reset)
 		return (NULL);
 	while (tokens[i].type != EOS && tokens[i].type != D_AMPERSAND \
