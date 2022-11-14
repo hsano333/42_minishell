@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 16:00:30 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 16:55:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type)
 	{
 		*type = tokens[i].type;
 		j = i + 1;
-		clear_all_cmds(&cmds);
 		return (NULL);
 	}
 	*type = tokens[i].type;
