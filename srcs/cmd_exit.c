@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:41:45 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:21:31 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/15 05:01:38 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	cmd_exit(char **cmd)
 		exit_code = ft_atol(cmd[i], &check_overflow);
 	else
 		exit_code = get_exit_status();
-	if (!is_valid_exit_arg(cmd + i) || !check_overflow)
+	if (!is_valid_exit_arg(cmd + i) || check_overflow)
 	{
 		ft_putstr_fd("exit: not a valid argument\n", 2);
 		exit_code = 255;

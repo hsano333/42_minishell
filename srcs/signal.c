@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 14:51:15 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:55:40 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/15 05:02:58 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	handle_cmd_signal(int sig)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
+		set_exit_status(130);
 		rl_replace_line("", 0);
 	}
 }
@@ -31,6 +32,7 @@ static void	handle_global_signal(int sig)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
+		set_exit_status(1);
 		rl_redisplay();
 	}
 }

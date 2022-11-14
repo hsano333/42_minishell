@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 14:51:15 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/07 16:37:11 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/15 05:03:29 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	handle_heredoc_signal(int sig)
 		g_signal_flag = 1;
 		rl_on_new_line();
 		rl_replace_line("", 0);
+		set_exit_status(130);
 		rl_redisplay();
 	}
 }
