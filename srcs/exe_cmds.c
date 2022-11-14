@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 16:55:33 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 17:23:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,18 @@ static int	change_buildin_fd(t_pipe *pipe, int back)
 	return (true);
 }
 
-t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type)
+t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, int reset)
 {
 	size_t			i;
 	static size_t	j = 0;
 	t_cmds			*cmds;
 
 	i = j;
+	if (reset)
+	{
+		j = 0;
+		return (NULL);
+	}
 	while (tokens[i].type != EOS && tokens[i].type != D_AMPERSAND \
 			&& tokens[i].type != D_PIPE)
 		i++;
@@ -88,8 +93,6 @@ t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type)
 		tokens[i].type = EOS;
 	cmds = parser(&(tokens[j]));
 	j = i + 1;
-	if (*type == EOS)
-		j = 0;
 	return (cmds);
 }
 
@@ -103,7 +106,7 @@ void	exe_cmds(t_token *tokens)
 	type = NON;
 	while (tokens[0].type != EOS && type != EOS)
 	{
-		cmds = get_cmds(tokens, rval, &type);
+		cmds = get_cmds(tokens, rval, &type, false);
 		if (!cmds)
 			continue ;
 		handle_cmd_signals();
@@ -119,4 +122,5 @@ void	exe_cmds(t_token *tokens)
 		set_exit_status(rval);
 		clear_all_cmds(&cmds);
 	}
+	cmds = get_cmds(tokens, rval, &type, true);
 }
