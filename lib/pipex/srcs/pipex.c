@@ -6,10 +6,11 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 03:16:40 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 14:14:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "pipex.h"
 #include "parent.h"
 #include "child.h"
@@ -99,12 +100,14 @@ static void	main_child(t_fdpid *fdpid, t_cmds *cmds, char **environ)
 	exit_main_child(status);
 }
 
-int	pipex(t_cmds *cmds, char **environ)
+int	pipex(t_cmds *cmds)
 {
 	int		pid;
 	int		status;
+	char	**environ;
 	t_fdpid	fdpid[4096];
 
+	environ = env_store(NULL, GET_ENV);
 	pid = fork();
 	if (pid == 0)
 		main_child(fdpid, cmds, environ);

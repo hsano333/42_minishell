@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:11:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 02:50:57 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 14:15:04 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ typedef struct s_fdpid{
 	int		exe_pid;
 }	t_fdpid;
 
-int	pipex(t_cmds *cmds, char **environ);
+int	pipex(t_cmds *cmds);
 #endif
