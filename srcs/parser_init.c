@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:43:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 13:25:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/14 16:28:38 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser_util.h"
 #include "lexer_util.h"
 #include "lexer_quote_flag.h"
+#include "libft_mem.h"
 #include <stdio.h>
 
 static size_t	count_comds(t_token *tokens)
@@ -43,6 +44,7 @@ static t_pipe	*init_pipe(size_t len)
 
 	i = 0;
 	pipes = (t_pipe *)malloc(sizeof(t_pipe) * len);
+	ft_memset(pipes, 0, sizeof(t_pipe) * len);
 	if (!pipes)
 		return (NULL);
 	while (i < len)
