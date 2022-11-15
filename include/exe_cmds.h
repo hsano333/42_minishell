@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:58:04 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 03:15:35 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/15 16:12:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@
 # include "pipex.h"
 # include "exit_status.h"
 
-void	exe_cmds(t_token *tokens);
+void	exe_cmds(t_token *tokens, int subshell);
 #endif

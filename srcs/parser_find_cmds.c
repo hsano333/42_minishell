@@ -6,18 +6,20 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/13 03:46:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 01:19:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_find_cmds.h"
 #include "parser_find_cmds_util.h"
 #include "cmd_builtin.h"
+#include "token_parenthesis.h"
 
-static void	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
+static int	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 {
 	cmds->pipes[pipe_i].cmd = token->literal;
 	cmds->pipes[pipe_i].is_builtin_cmd = is_builtin(&token->literal);
+	return (true);
 }
 
 static char	**allocate_args_memory(t_token *tokens, size_t i \
@@ -80,17 +82,16 @@ static int	have_error(t_cmds *cmds, size_t i, size_t j, size_t k)
 	while (cmds)
 	{
 		j = 0;
-		while (j < cmds[i].len)
+		while (j < cmds[i].len || (cmds[i].len == 0 && cmds[i].has_subshell))
 		{
 			k = 0;
-			while (k <= cmds[i].pipes[j].param_num)
+			while (k <= cmds[i].pipes[j].param_num || cmds[i].pipes[j].sub_tokens)
 			{
-				if (cmds[i].pipes[j].have_param \
-						&& cmds[i].pipes[j].param == NULL)
-					return (true);
-				else if (cmds[i].pipes[j].have_param \
-						&& cmds[i].pipes[j].param \
-						&& !cmds[i].pipes[j].param[k])
+				if (cmds[i].pipes[j].cmd && cmds[i].pipes[j].sub_tokens)
+					return (false);
+				else if ((cmds[i].pipes[j].have_param && !cmds[i].pipes[j].param)\
+					|| (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param \
+					&& !cmds[i].pipes[j].param[k]) || cmds[i].pipes[j].sub_tokens)\
 					return (true);
 				k++;
 			}
@@ -114,16 +115,16 @@ int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds, size_t i)
 	{
 		if (!tokens[i].valid && ++i)
 			continue ;
+		else if (tokens[i].type == LPAREN || tokens[i].type == RPAREN)
+			i = set_paren(tokens, &(cmds[ci]), i, pi);
 		else if ((tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND) \
 				&& ++ci)
 			pi = 0;
 		else if (tokens[i].type == PIPE)
 			pi++;
-		else if (tokens[i].type == IDENT && cmds[ci].pipes[pi].cmd == NULL)
-		{
-			set_cmd_name(&(cmds[ci]), &(tokens[i]), pi);
+		else if (tokens[i].type == IDENT && cmds[ci].pipes[pi].cmd == NULL \
+				&& set_cmd_name(&(cmds[ci]), &(tokens[i]), pi))
 			continue ;
-		}
 		else if (tokens[i].type == IDENT && cmds[ci].pipes[pi].cmd != NULL)
 			set_args(&(cmds[ci]), tokens, &i, pi);
 		i++;

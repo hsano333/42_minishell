@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/11 13:31:06 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 01:20:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ size_t	token_len(t_token_type *type, char *str, size_t i, size_t cnt)
 
 static void	set_token(t_token *tokens, t_token_type type, char *str, size_t i)
 {
-	tokens[i].id = i;
-	tokens[i].valid = true;
 	tokens[i].len = token_len(&type, str, 0, 1);
 	if (type == EOS)
 		tokens[i].type = type;
@@ -97,13 +95,21 @@ static void	set_option_fd(t_token *tokens)
 static t_token	*analyze_str(char *str, t_token *tokens, size_t i)
 {
 	size_t	k;
+	int	paren_flag;
 
 	k = 0;
+	paren_flag = false;
 	while (str[k])
 	{
 		if (ft_isspace(str[k]) && (get_lexer_quote() == NON) && k++)
 			continue ;
 		set_token(tokens, identify_token(str[k], str[k + 1]), &(str[k]), i);
+		if (paren_flag && tokens[i].type != RPAREN)
+			tokens[i].valid = false;
+		if (tokens[i].type == LPAREN)
+			paren_flag = true;
+		else if (tokens[i].type == RPAREN)
+			paren_flag = false;
 		k += tokens[i].len;
 		i++;
 	}
@@ -117,6 +123,7 @@ t_token	*lexer(char *str)
 {
 	size_t	len;
 	t_token	*tokens;
+	size_t	i;
 
 	set_lexer_quote(NON);
 	len = ft_strlen(str);
@@ -124,6 +131,13 @@ t_token	*lexer(char *str)
 	if (!tokens)
 		kill_myprocess(12, NULL, NULL, NULL);
 	ft_memset(tokens, 0, sizeof(t_token) * (len + 1));
+	i = 0;
+	while (i < len)
+	{
+		tokens[i].id = i;
+		tokens[i].valid = true;
+		i++;
+	}
 	tokens = analyze_str(str, tokens, 0);
 	set_option_fd(tokens);
 	return (lexer_handling_error(tokens));

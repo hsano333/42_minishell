@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/15 10:04:50 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 00:30:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*analyze_and_execute(char *line)
 			tokens = continued_input(tokens, &line);
 		if (!tokens)
 			return (line);
-		exe_cmds(tokens);
+		exe_cmds(tokens, false);
 		clear_tokens(tokens);
 	}
 	return (line);

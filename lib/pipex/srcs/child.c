@@ -6,12 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 15:30:54 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/15 23:50:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "child.h"
 #include "cmd_builtin.h"
+#include "exe_cmds.h"
+#include "lexer_util.h"
 
 static void	put_invalid_command(char *cmds)
 {
@@ -33,6 +35,9 @@ static	void	change_fd(int fd_in, int *pipe_fd, t_pipe *pipes)
 		if (fd_in < 0)
 			kill_process(-1, pipes->in_file, NULL);
 	}
+	//printf("child change fd pipe_fd[PIPE_IN]=%d\n", pipe_fd[PIPE_IN]);
+	//printf("child change fd fd_in=%d\n", fd_in);
+	//printf("child change fd fd_in=%d\n", fd_in);
 	r[0] = dup2(fd_in, pipes->option_fd_in);
 	r[1] = 1;
 	if (pipe_fd[PIPE_OUT] != 1)
@@ -45,13 +50,19 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 {
 	char		filepath[PATH_MAX + 1];
 
-	if (pipes->param)
+	if (pipes->param || pipes->sub_tokens)
 	{
 		change_fd(fd_in, pipe_fd, pipes);
-		if (is_builtin(pipes->param))
+		if (pipes->sub_tokens)
 		{
-			exec_builtin_cmd(pipes->param);
+			pipes->sub_tokens[pipes->sub_tokens_size].type = EOS;
+			//put_tokens(pipes->sub_tokens);
+			pipes->option_fd_in = fd_in;
+			//pipes->option_fd_out = 
+			exe_cmds(pipes->sub_tokens, true);
 		}
+		else if (is_builtin(pipes->param))
+			exec_builtin_cmd(pipes->param);
 		else
 		{
 			if (search_path(pipes->param[0], filepath))

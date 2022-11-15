@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 18:54:59 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 01:19:45 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser_util.h"
 #include "libft_put.h"
 #include "lexer.h"
+#include "lexer_util.h"
 #define RESET_INDEX (INT_MIN)
 
 static int	change_buildin_fd_inout(int fd_inout \
@@ -73,13 +74,26 @@ t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, size_t i)
 	t_cmds			*cmds;
 
 	i = j;
+	//printf("get_cmds  start\n");
+	//put_tokens(tokens);
+	//printf("get_cmds  start i=%zu\n", i);
 	if (rval == RESET_INDEX)
 		j = 0;
 	if (rval == RESET_INDEX)
 		return (NULL);
 	while (tokens[i].type != EOS && tokens[i].type != D_AMPERSAND \
 			&& tokens[i].type != D_PIPE)
-		i++;
+	{
+		if (tokens[i].type == LPAREN)
+			while (tokens[++i].type != EOS && tokens[i].type != LPAREN)
+				;
+				//i++;
+		if (tokens[i].type != EOS)
+			i++;
+	}
+	//printf("get_cmds  No.2  start i=%zu\n", i);
+
+
 	if (j > 0 && ((*type == D_PIPE && rval == 0) \
 				|| (*type == D_AMPERSAND && rval != 0)))
 	{
@@ -96,7 +110,7 @@ t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, size_t i)
 	return (cmds);
 }
 
-void	exe_cmds(t_token *tokens)
+void	exe_cmds(t_token *tokens, int subshell)
 {
 	int				rval;
 	t_cmds			*cmds;
@@ -104,13 +118,19 @@ void	exe_cmds(t_token *tokens)
 
 	rval = 0;
 	type = NON;
+	if (subshell)
+		printf("start exe_cmds\n");
+	//put_tokens(tokens);
+	//write(2, "start exe cmds error out\n", 25);
+	//write(1, "start exe cmds std out\n", 23);
+	cmds = get_cmds(tokens, RESET_INDEX, &type, 0);
 	while (tokens[0].type != EOS && type != EOS)
 	{
 		cmds = get_cmds(tokens, rval, &type, 0);
 		if (!cmds)
 			continue ;
 		handle_cmd_signals();
-		if (cmds[0].len > 1 || (cmds[0].len == 1 \
+		if (cmds[0].len > 1 || cmds->has_subshell || (cmds[0].len == 1 \
 					&& !cmds[0].pipes[0].is_builtin_cmd))
 			rval = pipex(&(cmds[0]));
 		else if (change_buildin_fd(&(cmds[0].pipes[0]), false))
@@ -122,5 +142,4 @@ void	exe_cmds(t_token *tokens)
 		set_exit_status(rval);
 		clear_all_cmds(&cmds);
 	}
-	cmds = get_cmds(tokens, RESET_INDEX, &type, 0);
 }

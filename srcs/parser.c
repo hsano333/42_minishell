@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 02:51:34 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 01:20:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "stdio.h"
 #include "parser_find_cmds.h"
 #include "kill_myprocess.h"
+#include "token_parenthesis.h"
 
 void	print_cmds(t_cmds *cmds)
 {
@@ -34,6 +35,13 @@ void	print_cmds(t_cmds *cmds)
 			printf("%zu.pipes[%zu].in=%s\n", i, j, cmds[i].pipes[j].in_file);
 			printf("%zu.pipes[%zu].out=%s\n", i, j, cmds[i].pipes[j].out_file);
 			printf("%zu.pipes[%zu].cmd=%s\n", i, j, cmds[i].pipes[j].cmd);
+			printf("%zu.pipes[%zu].sub_tokens=%p\n", i, j, cmds[i].pipes[j].sub_tokens);
+			if (cmds[i].pipes[j].sub_tokens)
+			{
+				printf("put_tokens subshell\n");
+				put_tokens(cmds[i].pipes[j].sub_tokens);
+			}
+			printf("%zu.pipes[%zu].sub_tokens=%zu\n", i, j, cmds[i].pipes[j].sub_tokens_size);
 			k = 0;
 			while (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param[k])
 			{
@@ -65,8 +73,8 @@ static size_t	concat(t_token *tokens, size_t i, int b_flag, int *f_flag)
 {
 	size_t	j;
 
-	while (!((tokens[i].type == IDENT || tokens[i].type == EOS) \
-				&& tokens[i].valid))
+	while (!((tokens[i].type == IDENT && tokens[i].valid) \
+					|| tokens[i].type == EOS))
 		i++;
 	if (tokens[i].type == EOS)
 		return (0);
@@ -108,6 +116,9 @@ t_cmds	*parser(t_token *tokens)
 	{
 		if (search_cmds_and_arg(tokens, cmds, 0))
 			clear_all_cmds(&cmds);
+		if (!cmds)
+			ft_putstr_fd("minishell:invalid command\n", 2);
 	}
+	enable_paren_token(cmds);
 	return (cmds);
 }

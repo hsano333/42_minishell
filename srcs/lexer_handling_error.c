@@ -6,13 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 22:46:27 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/15 14:00:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_handling_error.h"
 #include "exit_status.h"
-#include "lexer_parenthesis.h"
+#include "token_parenthesis.h"
 
 static void	check_lexer_memmory_error(t_token *tokens)
 {
@@ -108,7 +108,8 @@ t_token	*lexer_handling_error(t_token *tokens)
 	check_lexer_memmory_error(tokens);
 	error[0] = have_quote_error(tokens);
 	error[1] = begin_token_error(tokens);
-	error[2] = have_paren_error(tokens);
+	//error[2] = have_paren_error(tokens);
+	error[2] = false;
 	if (error[0] || error[1] || error[2])
 	{
 		clear_tokens(tokens);

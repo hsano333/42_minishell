@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/13 11:52:10 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/15 19:22:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ typedef struct s_pipe {
 	size_t	id;
 	size_t	param_num;
 	int		is_builtin_cmd;
+	int		is_subshell;
+	t_token *sub_tokens;
+	size_t	sub_tokens_size;
+	int	subshell_error;
 }	t_pipe;
 
 typedef struct s_pipes {
@@ -56,6 +60,7 @@ typedef struct s_cmds {
 	t_pipe			*pipes;
 	size_t			len;
 	int				last;
+	int				has_subshell;
 	t_token_type	operator;
 }	t_cmds;
 
