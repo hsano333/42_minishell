@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/15 14:00:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 01:33:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ t_token	*lexer_handling_error(t_token *tokens)
 	check_lexer_memmory_error(tokens);
 	error[0] = have_quote_error(tokens);
 	error[1] = begin_token_error(tokens);
-	//error[2] = have_paren_error(tokens);
-	error[2] = false;
+	error[2] = have_paren_error(tokens);
 	if (error[0] || error[1] || error[2])
 	{
 		clear_tokens(tokens);
