@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 01:20:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 03:16:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ t_cmds	*parser(t_token *tokens)
 		return (NULL);
 	if (search_std_in_and_out(tokens, cmds, 0))
 	{
+		//put_tokens(tokens);
 		if (search_cmds_and_arg(tokens, cmds, 0))
 			clear_all_cmds(&cmds);
 		if (!cmds)

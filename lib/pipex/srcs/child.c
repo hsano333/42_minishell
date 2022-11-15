@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/15 23:50:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 01:48:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 			//put_tokens(pipes->sub_tokens);
 			pipes->option_fd_in = fd_in;
 			//pipes->option_fd_out = 
-			exe_cmds(pipes->sub_tokens, true);
+			exe_cmds(pipes->sub_tokens);
 		}
 		else if (is_builtin(pipes->param))
 			exec_builtin_cmd(pipes->param);

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 01:19:45 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 01:47:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, size_t i)
 	return (cmds);
 }
 
-void	exe_cmds(t_token *tokens, int subshell)
+void	exe_cmds(t_token *tokens)
 {
 	int				rval;
 	t_cmds			*cmds;
@@ -118,8 +118,8 @@ void	exe_cmds(t_token *tokens, int subshell)
 
 	rval = 0;
 	type = NON;
-	if (subshell)
-		printf("start exe_cmds\n");
+	//if (subshell)
+		//printf("start exe_cmds\n");
 	//put_tokens(tokens);
 	//write(2, "start exe cmds error out\n", 25);
 	//write(1, "start exe cmds std out\n", 23);
