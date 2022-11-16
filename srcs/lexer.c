@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 01:20:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 12:14:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,21 @@ static void	set_option_fd(t_token *tokens)
 static t_token	*analyze_str(char *str, t_token *tokens, size_t i)
 {
 	size_t	k;
-	int	paren_flag;
+	int	paren_flag_cnt;
 
 	k = 0;
-	paren_flag = false;
+	paren_flag_cnt = 0;
 	while (str[k])
 	{
 		if (ft_isspace(str[k]) && (get_lexer_quote() == NON) && k++)
 			continue ;
 		set_token(tokens, identify_token(str[k], str[k + 1]), &(str[k]), i);
-		if (paren_flag && tokens[i].type != RPAREN)
+		if (paren_flag_cnt > 0 && tokens[i].type != RPAREN)
 			tokens[i].valid = false;
 		if (tokens[i].type == LPAREN)
-			paren_flag = true;
+			paren_flag_cnt++;
 		else if (tokens[i].type == RPAREN)
-			paren_flag = false;
+			paren_flag_cnt--;
 		k += tokens[i].len;
 		i++;
 	}

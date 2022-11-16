@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 01:47:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 12:20:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, size_t i)
 	return (cmds);
 }
 
-void	exe_cmds(t_token *tokens)
+int	exe_cmds(t_token *tokens)
 {
 	int				rval;
 	t_cmds			*cmds;
@@ -142,4 +142,5 @@ void	exe_cmds(t_token *tokens)
 		set_exit_status(rval);
 		clear_all_cmds(&cmds);
 	}
+	return (get_exit_status());
 }

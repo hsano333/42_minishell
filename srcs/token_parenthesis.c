@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:59:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 03:14:42 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 12:02:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 static int	check_closed(t_token *tokens, size_t *i, int *error)
 {
-	if (*i > 0 && (tokens[*i - 1].type != PIPE && tokens[*i - 1].type != D_PIPE && tokens[*i - 1].type != D_AMPERSAND))
+	if (*i > 0 && (tokens[*i - 1].type != PIPE && tokens[*i - 1].type != D_PIPE && tokens[*i - 1].type != D_AMPERSAND) && tokens[*i - 1].type != LPAREN)
 			*error = true;
 	while (tokens[*i].type != EOS)
 	{
