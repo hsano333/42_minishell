@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:42:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/15 19:22:08 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 22:50:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_pipe {
 	t_token *sub_tokens;
 	size_t	sub_tokens_size;
 	int	subshell_error;
+	//int	subshell_invalid;
 }	t_pipe;
 
 typedef struct s_pipes {

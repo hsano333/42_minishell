@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/15 16:44:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 23:14:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_token
 	size_t			len;
 	size_t			id;
 	int				valid;
+	int				subshell_invalid;
 	int				expand;
 	int				error;
 	int				concat_back;

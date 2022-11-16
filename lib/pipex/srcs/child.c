@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 20:02:10 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 02:35:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 			//put_tokens(pipes->sub_tokens);
 			pipes->option_fd_in = fd_in;
 			//pipes->option_fd_out = 
+			//printf("pipex exe_cmds()\n");
+			//int rval = exe_cmds(pipes->sub_tokens);
+			//printf("end pipex exe_cmds()\n");
+			//exit(rval);
+			
 			exit (exe_cmds(pipes->sub_tokens));
 		}
 		else if (is_builtin(pipes->param))

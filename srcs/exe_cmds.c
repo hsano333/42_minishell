@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 16:52:43 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 02:35:00 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,19 @@ static int	change_buildin_fd(t_pipe *pipe, int back)
 	return (true);
 }
 
+int	change_token_no(t_token *tokens)
+{
+	size_t	i;
+
+	i = 0;
+	while (tokens[i].type != EOS)
+	{
+		tokens[i].id = i;
+		i++;
+	}
+	return (true);
+}
+
 t_cmds	*get_cmds(t_token *tokens, int rval, size_t *i, t_token_type *type)
 {
 	size_t		bk = 0;
@@ -76,23 +89,38 @@ t_cmds	*get_cmds(t_token *tokens, int rval, size_t *i, t_token_type *type)
 
 	bk = *i;
 	old_type = *type;
+	//printf("get_cmds start No.1 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
 	while (tokens[*i].type != EOS && ((tokens[*i].type != D_AMPERSAND && tokens[*i].type != D_PIPE) \
 			|| (!tokens[*i].valid && (tokens[*i].type == D_AMPERSAND || tokens[*i].type == D_PIPE))))
 		(*i)++;
+	//printf("get_cmds start No.2 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
 	*type = tokens[*i].type;
 	if (bk > 0 && ((old_type == D_PIPE && rval == 0) \
 				|| (old_type == D_AMPERSAND && rval != 0)))
 	{
+	//printf("get_cmds start No.3 tokens[*i].type=%d, i=%zu, type=%d\n", tokens[*i].type, *i, *type);
 		if (*type != EOS)
 			(*i)++;
 		return (NULL);
 	}
+	//printf("get_cmds start No.4 tokens[*i].type=%d, i=%zu, *type=%d\n", tokens[*i].type, *i, *type);
 	if (*type != EOS)
+	{
+	//printf("get_cmds start No.5 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
 		tokens[*i].type = EOS;
+	}
+	//printf("get_cmds start No.6 tokens[*i].type=%d, i=%zu, *type=%d,, bk=%zu, tokens[bk].type=%s\n", tokens[*i].type, *i, *type, bk, tokens[bk].literal);
+	//put_tokens(&(tokens[bk]));
+	change_token_no(&(tokens[bk]));
 	cmds = parser(&(tokens[bk]));
 	tokens[*i].type = *type;
+	//printf("get_cmds start No.7 tokens[*i].type=%d, i=%zu, type=%d\n", tokens[*i].type, *i, *type);
 	if (*type != EOS)
+	{
+	//printf("get_cmds start No.8 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
 		(*i)++;
+	}
+	//printf("get_cmds start No.9 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
 	return (cmds);
 }
 
@@ -107,14 +135,16 @@ int	exe_cmds(t_token *tokens)
 	rval = 0;
 	//type = NON;
 	//if (subshell)
-		//printf("start exe_cmds\n");
+	//printf("start exe_cmds\n");
 	//put_tokens(tokens);
 	//write(2, "start exe cmds error out\n", 25);
 	//write(1, "start exe cmds std out\n", 23);
 	//cmds = get_cmds(tokens, RESET_INDEX, &i);
 	while (tokens[i].type != EOS)
 	{
+		//printf("exe_cmds No.1 i=%zu\n", i);
 		cmds = get_cmds(tokens, rval, &i, &type);
+		//printf("exe_cmds No.2 i=%zu\n", i);
 		if (!cmds)
 			continue ;
 		handle_cmd_signals();
@@ -128,6 +158,9 @@ int	exe_cmds(t_token *tokens)
 		handle_global_signals();
 		set_exit_status(rval);
 		clear_all_cmds(&cmds);
+		//printf("exe_cmds No.3 i=%zu\n", i);
+		//i++;
 	}
+	//printf("exe_cmds No.4 i=%zu\n", i);
 	return (get_exit_status());
 }

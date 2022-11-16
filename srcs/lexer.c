@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 12:14:17 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 23:43:31 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,14 @@ static t_token	*analyze_str(char *str, t_token *tokens, size_t i)
 		if (ft_isspace(str[k]) && (get_lexer_quote() == NON) && k++)
 			continue ;
 		set_token(tokens, identify_token(str[k], str[k + 1]), &(str[k]), i);
-		if (paren_flag_cnt > 0 && tokens[i].type != RPAREN)
+		if (paren_flag_cnt > 0)
 			tokens[i].valid = false;
 		if (tokens[i].type == LPAREN)
 			paren_flag_cnt++;
 		else if (tokens[i].type == RPAREN)
 			paren_flag_cnt--;
+		if (paren_flag_cnt == 0 && tokens[i].type == RPAREN)
+			tokens[i].valid = true;
 		k += tokens[i].len;
 		i++;
 	}
