@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 12:21:55 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 14:04:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 		if (pipes->sub_tokens)
 		{
 			pipes->sub_tokens[pipes->sub_tokens_size].type = EOS;
-			//put_tokens(pipes->sub_tokens);
+			put_tokens(pipes->sub_tokens);
 			pipes->option_fd_in = fd_in;
 			//pipes->option_fd_out = 
 			exit (exe_cmds(pipes->sub_tokens));

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 12:20:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 15:48:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,45 +68,31 @@ static int	change_buildin_fd(t_pipe *pipe, int back)
 	return (true);
 }
 
-t_cmds	*get_cmds(t_token *tokens, int rval, t_token_type *type, size_t i)
+t_cmds	*get_cmds(t_token *tokens, int rval, size_t *i, t_token_type *type)
 {
-	static size_t	j = 0;
-	t_cmds			*cmds;
+	size_t		bk = 0;
+	t_cmds		*cmds;
+	t_token_type	old_type;
 
-	i = j;
-	//printf("get_cmds  start\n");
-	//put_tokens(tokens);
-	//printf("get_cmds  start i=%zu\n", i);
-	if (rval == RESET_INDEX)
-		j = 0;
-	if (rval == RESET_INDEX)
-		return (NULL);
-	while (tokens[i].type != EOS && tokens[i].type != D_AMPERSAND \
-			&& tokens[i].type != D_PIPE)
+	bk = *i;
+	old_type = *type;
+	while (tokens[*i].type != EOS && ((tokens[*i].type != D_AMPERSAND && tokens[*i].type != D_PIPE) \
+			|| (!tokens[*i].valid && (tokens[*i].type == D_AMPERSAND || tokens[*i].type == D_PIPE))))
+		(*i)++;
+	*type = tokens[*i].type;
+	if (bk > 0 && ((old_type == D_PIPE && rval == 0) \
+				|| (old_type == D_AMPERSAND && rval != 0)))
 	{
-		if (tokens[i].type == LPAREN)
-			while (tokens[++i].type != EOS && tokens[i].type != LPAREN)
-				;
-				//i++;
-		if (tokens[i].type != EOS)
-			i++;
-	}
-	//printf("get_cmds  No.2  start i=%zu\n", i);
-
-
-	if (j > 0 && ((*type == D_PIPE && rval == 0) \
-				|| (*type == D_AMPERSAND && rval != 0)))
-	{
-		*type = tokens[i].type;
-		j = i + 1;
+		if (*type != EOS)
+			(*i)++;
 		return (NULL);
 	}
-	*type = tokens[i].type;
 	if (*type != EOS)
-		tokens[i].type = EOS;
-	cmds = parser(&(tokens[j]));
-	tokens[i].type = *type;
-	j = i + 1;
+		tokens[*i].type = EOS;
+	cmds = parser(&(tokens[bk]));
+	tokens[*i].type = *type;
+	if (*type != EOS)
+		(*i)++;
 	return (cmds);
 }
 
@@ -115,18 +101,20 @@ int	exe_cmds(t_token *tokens)
 	int				rval;
 	t_cmds			*cmds;
 	t_token_type	type;
+	size_t	i;
 
+	i = 0;
 	rval = 0;
-	type = NON;
+	//type = NON;
 	//if (subshell)
 		//printf("start exe_cmds\n");
 	//put_tokens(tokens);
 	//write(2, "start exe cmds error out\n", 25);
 	//write(1, "start exe cmds std out\n", 23);
-	cmds = get_cmds(tokens, RESET_INDEX, &type, 0);
-	while (tokens[0].type != EOS && type != EOS)
+	//cmds = get_cmds(tokens, RESET_INDEX, &i);
+	while (tokens[i].type != EOS)
 	{
-		cmds = get_cmds(tokens, rval, &type, 0);
+		cmds = get_cmds(tokens, rval, &i, &type);
 		if (!cmds)
 			continue ;
 		handle_cmd_signals();

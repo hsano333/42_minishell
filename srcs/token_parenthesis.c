@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:59:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 12:02:02 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 14:13:22 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ size_t	set_paren(t_token *tokens, t_cmds *cmds, size_t i, size_t pi)
 {
 	size_t	cnt;
 
-	//printf("set_parent: i=%zu, pi=%zu, type=%d\n", i, pi, tokens[i].type);
+	printf("set_parent: i=%zu, pi=%zu, type=%d\n", i, pi, tokens[i].type);
 	//put_tokens(tokens);
 	cnt = 0;
 	cmds->pipes[pi].sub_tokens = &(tokens[++i]);
