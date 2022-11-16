@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:59:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 14:13:22 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 20:07:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int	have_paren_error(t_token *tokens)
 	{
 		if (get_lexer_quote() == NON && tokens[i].type == LPAREN)
 			closed = check_closed(tokens, &i, &error);
-		else if (get_lexer_quote() == NON && tokens[i].type == RPAREN)
-			error = true;
 		set_lexer_quote_util(tokens[i++].type);
 		if (error)
 			ft_putstr_fd(E_MSG, 2);
@@ -61,52 +59,58 @@ int	have_paren_error(t_token *tokens)
 	return (false);
 }
 
-void	enable_paren_token(t_cmds *cmds)
+int	enable_paren_token(t_pipe *pipe)
 {
-	size_t	k;
+	//size_t	k;
 	size_t	j;
+	int	cnt;
 
-	if (!cmds || !cmds->has_subshell)
-		return ;
-	k = 0;
-	//printf("cmds->len=%zu\n", cmds->len);
-	while (k < cmds->len)
+	if (!pipe->sub_tokens)
+		return (true);
+	//k = 0;
+	cnt = 0;
+	//while (k < cmds->len)
 	{
-		//printf("cmds->pipes[%zu].sub_tokens_size=%zu\n", k,cmds->pipes[k].sub_tokens_size);
 		j = 0;
-		while (j < cmds->pipes[k].sub_tokens_size)
+		while (j < pipe->sub_tokens_size)
 		{
-			//printf("envale sub token k=%zu, j=%zu, str=%s\n", k, j, cmds->pipes[k].sub_tokens[j].literal);
-			cmds->pipes[k].sub_tokens[j].valid = true;
+			if (cnt == 0)
+				pipe->sub_tokens[j].valid = true;
+			if (pipe->sub_tokens[j].type == LPAREN)
+				cnt++;
+			else if (pipe->sub_tokens[j].type == RPAREN)
+				cnt--;
 			j++;
 		}
-		k++;
+		//k++;
 	}
+	return (true);
 }
 
 size_t	set_paren(t_token *tokens, t_cmds *cmds, size_t i, size_t pi)
 {
 	size_t	cnt;
+	size_t	token_cnt;
 
-	printf("set_parent: i=%zu, pi=%zu, type=%d\n", i, pi, tokens[i].type);
-	//put_tokens(tokens);
-	cnt = 0;
+	cnt = 1;
+	token_cnt = 0;
 	cmds->pipes[pi].sub_tokens = &(tokens[++i]);
 	cmds->has_subshell = true;
 	cmds->pipes[pi].is_subshell = true;
 	cmds->pipes[pi].subshell_error = false;
-	while ((tokens[i].type != EOS && tokens[i].type != RPAREN) && ++i)
-		cnt++;
-	//printf("cnt=%zu\n", cnt);
-	if (tokens[i].type == RPAREN && tokens[i - 1].type != LPAREN)
-		cmds->pipes[pi].sub_tokens_size = cnt;
-	else
+	while (tokens[i].type != EOS && ++token_cnt)
 	{
-		//printf("subshell token error =%zu, tokens[i].type =%d, [i-1]=%d\n", cmds->pipes[pi].sub_tokens_size, tokens[i].type, tokens[i-1].type);
-		cmds->pipes[pi].sub_tokens = NULL;
-		cmds->pipes[pi].subshell_error = true;
+		if (tokens[i].type == LPAREN)
+			cnt++;
+		if (tokens[i].type == RPAREN && cnt--)
+			if (cnt == 0 && token_cnt--)
+				break;
+		tokens[i].valid = false;
+		i++;
 	}
-	//printf("subshell token end =%zu\n", cmds->pipes[pi].sub_tokens_size);
+	cmds->pipes[pi].sub_tokens_size = token_cnt;
+	if (tokens[i].type == EOS && i--)
+		cmds->pipes[pi].sub_tokens = NULL;
 	return (i);
 }
 

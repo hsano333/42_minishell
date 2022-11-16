@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 15:50:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 20:19:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,6 @@ t_cmds	*parser(t_token *tokens)
 		if (!cmds)
 			ft_putstr_fd("minishell:invalid command\n", 2);
 	}
-	enable_paren_token(cmds);
+	//enable_paren_token(cmds);
 	return (cmds);
 }
