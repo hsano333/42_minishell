@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 01:47:25 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/16 20:47:08 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,23 @@ int	loop(void)
 	return (exit_code);
 }
 
-void update_shlvl()
+void	update_shlvl(void)
 {
-	char *shlvl_var;
-	char *shlvl;
-	size_t shlvl_val;
-	int overflow;
+	char	*shlvl_var;
+	char	*shlvl;
+	size_t	shlvl_val;
+	int		overflow;
 
 	shlvl = get_env_val("SHLVL");
 	shlvl_val = (size_t)ft_atol(shlvl, &overflow);
 	shlvl_val++;
 	if (1000 <= shlvl_val)
+	{
+		ft_putstr_fd(\
+			"bash: warning: shell level (1000) too high, resetting to 1\n", \
+		2);
 		shlvl_val = 1;
+	}
 	free(shlvl);
 	shlvl = ft_itoa(shlvl_val);
 	shlvl_var = ft_strjoin("SHLVL=", shlvl);
