@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 21:54:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:14:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,20 +88,15 @@ static int	begin_token_error(t_token *tokens)
 	{
 		if (get_lexer_quote() != NON)
 			;
-		else if (i == 0 && is_begin_error_token(tokens[i].type))
-		{
-			printf("No.10\n");
-			put_quote_error(&(tokens[i]));
+		else if (i == 0 && is_begin_error_token(tokens[i].type) \
+				&& put_quote_error(&(tokens[i])))
 			return (true);
-		}
-		else if (i > 0 && (tokens[i].type == PIPE || tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND))
+		else if (i > 0 && (tokens[i].type == PIPE || tokens[i].type == D_PIPE \
+					|| tokens[i].type == D_AMPERSAND))
 		{
-			if (is_begin_error_token(tokens[i + 1].type))
-			{
-			printf("No.11\n");
-				put_quote_error(&(tokens[i]));
+			if (is_begin_error_token(tokens[i + 1].type \
+						&& put_quote_error(&(tokens[i]))))
 				return (true);
-			}
 		}
 		set_lexer_quote_util(tokens[i].type);
 		i++;

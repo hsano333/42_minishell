@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 00:17:43 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:29:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,11 @@ void	print_cmds(t_cmds *cmds)
 			printf("%zu.pipes[%zu].in=%s\n", i, j, cmds[i].pipes[j].in_file);
 			printf("%zu.pipes[%zu].out=%s\n", i, j, cmds[i].pipes[j].out_file);
 			printf("%zu.pipes[%zu].cmd=%s\n", i, j, cmds[i].pipes[j].cmd);
-			printf("%zu.pipes[%zu].sub_tokens=%p\n", i, j, cmds[i].pipes[j].sub_tokens);
 			if (cmds[i].pipes[j].sub_tokens)
-			{
-				printf("put_tokens subshell\n");
 				put_tokens(cmds[i].pipes[j].sub_tokens);
-			}
-			printf("%zu.pipes[%zu].sub_tokens=%zu\n", i, j, cmds[i].pipes[j].sub_tokens_size);
 			k = 0;
 			while (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param[k])
-			{
-				printf("pipes[%zu].param[%zu]=%s\n", j, k \
-						, cmds[i].pipes[j].param[k]);
 				k++;
-			}
 			j++;
 		}
 		if (cmds[i++].last)
@@ -111,23 +102,13 @@ t_cmds	*parser(t_token *tokens)
 	parser_expand(tokens, NON, 0);
 	concat(tokens, 0, false, &tmp_flag);
 	cmds = init_parser(tokens, &error);
-	if (get_parser_error() && handling_parser_error(12, cmds))
+	if (get_parser_error() && parser_error(12, cmds))
 		return (NULL);
 	if (create_heredoc_file(tokens) == false)
 		return (NULL);
-	put_tokens(tokens);
-	if (search_std_in_and_out(tokens, cmds, 0))
-	{
-		printf("search cmds No.1\n");
-		if (search_cmds_and_arg(tokens, cmds, 0) == false)
-		{
-		printf("search cmds No.2\n");
-			clear_all_cmds(&cmds);
-			errno = 12;
-			perror("minishell");
-		}
-		printf("search cmds No.3\n");
-	}
-	print_cmds(cmds);
+	if (!search_std_in_and_out(tokens, cmds, 0) && parser_error(0, cmds))
+		return (NULL);
+	if (!search_cmds_and_arg(tokens, cmds, 0) && parser_error(12, cmds))
+		return (NULL);
 	return (cmds);
 }

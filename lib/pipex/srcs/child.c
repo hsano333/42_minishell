@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 02:35:01 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:29:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ static	void	change_fd(int fd_in, int *pipe_fd, t_pipe *pipes)
 		if (fd_in < 0)
 			kill_process(-1, pipes->in_file, NULL);
 	}
-	//printf("child change fd pipe_fd[PIPE_IN]=%d\n", pipe_fd[PIPE_IN]);
-	//printf("child change fd fd_in=%d\n", fd_in);
-	//printf("child change fd fd_in=%d\n", fd_in);
 	r[0] = dup2(fd_in, pipes->option_fd_in);
 	r[1] = 1;
 	if (pipe_fd[PIPE_OUT] != 1)
@@ -57,15 +54,9 @@ void	child(int fd_in, int *pipe_fd, t_pipe *pipes, char **environ)
 		if (pipes->sub_tokens && enable_paren_token(pipes))
 		{
 			pipes->sub_tokens[pipes->sub_tokens_size].type = EOS;
-			//put_tokens(pipes->sub_tokens);
 			pipes->option_fd_in = fd_in;
-			//pipes->option_fd_out = 
-			//printf("pipex exe_cmds()\n");
-			//int rval = exe_cmds(pipes->sub_tokens);
-			//printf("end pipex exe_cmds()\n");
-			//exit(rval);
-			
-			exit (exe_cmds(pipes->sub_tokens));
+			exe_cmds(pipes->sub_tokens);
+			exit(get_exit_status());
 		}
 		else if (is_builtin(pipes->param))
 			exec_builtin_cmd(pipes->param);

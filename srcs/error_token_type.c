@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 14:43:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 16:41:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:31:44 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 int	is_begin_error_token(t_token_type type)
 {
 	const t_token_type	error_token[] = {PIPE, D_PIPE, D_AMPERSAND, RPAREN};
-	size_t	i;
-	size_t	len;
+	size_t				i;
+	size_t				len;
 
 	i = 0;
 	len = sizeof(error_token) / sizeof(t_token_type);
@@ -33,8 +33,8 @@ int	is_begin_error_token(t_token_type type)
 int	is_subshell_begin_error_token(t_token_type type)
 {
 	const t_token_type	error_token[] = {PIPE, D_PIPE, D_AMPERSAND, RPAREN};
-	size_t	i;
-	size_t	len;
+	size_t				i;
+	size_t				len;
 
 	i = 0;
 	len = sizeof(error_token) / sizeof(t_token_type);

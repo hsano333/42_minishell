@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 01:23:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 01:43:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static char	**insert_argv(t_token *tokens, char **argv, size_t i, size_t *j)
 	char	**split;
 	size_t	k;
 
-	printf("tokens[i].type=%d,tokens[i].valid=%d, tokens[i].expand=%d\n ",tokens[i].type , tokens[i].valid,  tokens[i].expand);
 	if (tokens[i].type == IDENT && tokens[i].valid && tokens[i].expand)
 	{
 		split = ft_split(tokens[i].literal, PARSER_DELIMITER);
@@ -42,9 +41,7 @@ static char	**insert_argv(t_token *tokens, char **argv, size_t i, size_t *j)
 	}
 	else if (tokens[i].type == IDENT && tokens[i].valid)
 	{
-		printf("j=%zu,i=%zu strdup :%s\n",*j, i, tokens[i].literal);
 		argv[(*j)++] = ft_strdup(tokens[i].literal);
-		printf("strdup :%p\n", argv[*j - 1]);
 		if (argv[*j - 1] == NULL)
 			set_parser_error(true);
 	}
@@ -100,39 +97,9 @@ static void	set_args(t_cmds *cmds, t_token *tokens \
 		i++;
 	}
 	cmds->pipes[pipe_i].param = allocate_args_memory(tokens, backup_i, cnt);
-	printf("allocate_args_memory No.0 pipe_i=%zu, cnt=%zu\n", pipe_i, cnt);
 	cmds->pipes[pipe_i].param_num = cnt;
 	*tmp_i = --i;
 }
-
-/*
-static int	have_error(t_cmds *cmds, size_t i, size_t j, size_t k)
-{
-	i = 0;
-	while (cmds)
-	{
-		j = 0;
-		while (j < cmds[i].len || (cmds[i].len == 0 && cmds[i].has_subshell))
-		{
-			k = 0;
-			while (k <= cmds[i].pipes[j].param_num || cmds[i].pipes[j].sub_tokens)
-			{
-				if (cmds[i].pipes[j].cmd && cmds[i].pipes[j].sub_tokens)
-					return (false);
-				else if ((cmds[i].pipes[j].have_param && !cmds[i].pipes[j].param)\
-					|| (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param \
-					&& !cmds[i].pipes[j].param[k]) || cmds[i].pipes[j].sub_tokens)\
-					return (true);
-				k++;
-			}
-			j++;
-		}
-		if (cmds[i++].last == true)
-			break ;
-	}
-	return (false);
-}
-*/
 
 int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds, size_t i)
 {

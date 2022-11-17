@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 01:11:59 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:31:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,91 +83,53 @@ int	change_token_no(t_token *tokens)
 
 t_cmds	*get_cmds(t_token *tokens, int rval, size_t *i, t_token_type *type)
 {
-	size_t		bk = 0;
-	t_cmds		*cmds;
+	size_t			bk;
+	t_cmds			*cmds;
 	t_token_type	old_type;
 
 	bk = *i;
 	old_type = *type;
-	//printf("get_cmds start No.1 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
-	while (tokens[*i].type != EOS && ((tokens[*i].type != D_AMPERSAND && tokens[*i].type != D_PIPE) \
-			|| (!tokens[*i].valid && (tokens[*i].type == D_AMPERSAND || tokens[*i].type == D_PIPE))))
+	while (tokens[*i].type != EOS && ((tokens[*i].type != D_AMPERSAND \
+		&& tokens[*i].type != D_PIPE) || (!tokens[*i].valid \
+		&& (tokens[*i].type == D_AMPERSAND || tokens[*i].type == D_PIPE))))
 		(*i)++;
-	//printf("get_cmds start No.2 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
 	*type = tokens[*i].type;
 	if (bk > 0 && ((old_type == D_PIPE && rval == 0) \
 				|| (old_type == D_AMPERSAND && rval != 0)))
-	{
-	//printf("get_cmds start No.3 tokens[*i].type=%d, i=%zu, type=%d\n", tokens[*i].type, *i, *type);
-		if (*type != EOS)
-			(*i)++;
 		return (NULL);
-	}
-	//printf("get_cmds start No.4 tokens[*i].type=%d, i=%zu, *type=%d\n", tokens[*i].type, *i, *type);
 	if (*type != EOS)
-	{
-	//printf("get_cmds start No.5 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
 		tokens[*i].type = EOS;
-	}
-	//printf("get_cmds start No.6 tokens[*i].type=%d, i=%zu, *type=%d,, bk=%zu, tokens[bk].type=%s\n", tokens[*i].type, *i, *type, bk, tokens[bk].literal);
-	//put_tokens(&(tokens[bk]));
 	change_token_no(&(tokens[bk]));
 	cmds = parser(&(tokens[bk]));
 	tokens[*i].type = *type;
-	//printf("get_cmds start No.7 tokens[*i].type=%d, i=%zu, type=%d\n", tokens[*i].type, *i, *type);
-	if (*type != EOS)
-	{
-	//printf("get_cmds start No.8 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
-		(*i)++;
-	}
-	//printf("get_cmds start No.9 tokens[*i].type=%d, i=%zu\n", tokens[*i].type, *i);
 	return (cmds);
 }
 
-int	exe_cmds(t_token *tokens)
+void	exe_cmds(t_token *tokens)
 {
 	int				rval;
 	t_cmds			*cmds;
 	t_token_type	type;
-	size_t	i;
+	size_t			i;
 
 	i = 0;
 	rval = 0;
-	//type = NON;
-	//if (subshell)
-	//printf("start exe_cmds\n");
-	//put_tokens(tokens);
-	//write(2, "start exe cmds error out\n", 25);
-	//write(1, "start exe cmds std out\n", 23);
-	//cmds = get_cmds(tokens, RESET_INDEX, &i);
 	while (tokens[i].type != EOS)
 	{
-		printf("exe_cmds No.1 i=%zu\n", i);
 		cmds = get_cmds(tokens, rval, &i, &type);
-		printf("exe_cmds No.2 i=%zu\n", i);
-		if (!cmds)
-			continue ;
-		printf("exe_cmds No.3 i=%zu\n", i);
 		handle_cmd_signals();
-		if ((cmds[0].len == 1 && cmds[0].pipes[0].is_builtin_cmd && change_buildin_fd(&(cmds[0].pipes[0]), false)))
+		if (cmds && (cmds[0].len == 1 && cmds[0].pipes[0].is_builtin_cmd \
+			&& change_buildin_fd(&(cmds[0].pipes[0]), false)))
 		{
-		printf("exe_cmds No.4 i=%zu\n", i);
 			rval = exec_builtin_cmd(cmds[0].pipes[0].param);
 			change_buildin_fd(&(cmds[0].pipes[0]), true);
 		}
-		else if (cmds->has_subshell || cmds[0].len >= 1)
-		{
-		printf("exe_cmds No.5 i=%zu\n", i);
+		else if (cmds && (cmds->has_subshell || cmds[0].len >= 1))
 			rval = pipex(&(cmds[0]));
-		}
-		printf("exe_cmds No.6 i=%zu\n", i);
 		handle_global_signals();
 		set_exit_status(rval);
-		printf("clear all_cmds No.0\n");
 		clear_all_cmds(&cmds);
-		printf("exe_cmds No.7 i=%zu\n", i);
-		//i++;
+		if (*type != EOS)
+			(*i)++;
 	}
-	//printf("exe_cmds No.4 i=%zu\n", i);
-	return (get_exit_status());
 }

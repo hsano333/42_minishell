@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 22:40:27 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 01:45:00 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	expand_quote(t_token *token, size_t end_no)
 	while (token[i].id != end_no)
 	{
 		len += ft_strlen(token[i].literal);
-		token[i].valid = false;
-		i++;
+		token[i++].valid = false;
 	}
 	token[i].valid = false;
 	if (len == 0)
@@ -68,13 +67,10 @@ static void	expand_doller_asterisk(t_token *tokens \
 	token = (t_token *)(&tokens[i]);
 	if (!expand_exit_status(token))
 		set_parser_error(true);
-		//kill_myprocess(12, NULL, tokens, NULL);
 	if (!expand_doller(token, pre_token))
 		set_parser_error(true);
-		//kill_myprocess(12, NULL, tokens, NULL);
 	if (!expand_asterisk(token, pre_token))
 		set_parser_error(true);
-		//kill_myprocess(12, NULL, tokens, NULL);
 }
 
 size_t	parser_expand(t_token *tokens, t_token_type pre_token, size_t i)
@@ -83,15 +79,9 @@ size_t	parser_expand(t_token *tokens, t_token_type pre_token, size_t i)
 	t_token_type	cur_token;
 
 	end_no = 0;
-	//printf("paraser No.1 i=%zu, type=%d\n", i, tokens[i].type);
 	while (tokens[i].type != EOS && is_expand(&(tokens[i])) == NON)
-	{
-	//printf("paraser No.2 i=%zu, type=%d\n", i, tokens[i].type);
 		i++;
-	}
-	//printf("paraser No.3 i=%zu, type=%d\n", i, tokens[i].type);
 	cur_token = is_expand(&(tokens[i]));
-	//printf("paraser No.4 i=%zu, type=%d\n", i, tokens[i].type);
 	if (tokens[i].type == EOS)
 		return (end_no);
 	else if (DOLLER == (cur_token & DOLLER) \
@@ -104,12 +94,9 @@ size_t	parser_expand(t_token *tokens, t_token_type pre_token, size_t i)
 		end_no = parser_expand(tokens, cur_token, i + 1);
 	else if (cur_token == pre_token)
 		return (tokens[i].id);
-	//printf("paraser No.5 i=%zu, type=%d\n", i, tokens[i].type);
 	if (end_no > tokens[i].id && expand_quote(&(tokens[i]), end_no))
 		i = end_no;
-	//printf("paraser No.6 i=%zu, type=%d\n", i, tokens[i].type);
 	if (tokens[i].type != EOS)
 		end_no = parser_expand(tokens, pre_token, i + 1);
-	//printf("paraser No.7 i=%zu, type=%d\n", i, tokens[i].type);
 	return (end_no);
 }

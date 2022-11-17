@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 22:38:43 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 01:43:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	set_finded_file(char *added_file, int is_absolute)
 	{
 		max = max + PATH_MAX * 4;
 		tmp_malloc = ft_calloc(max, 1);
-		if (tmp_malloc  && saved_filename)
+		if (tmp_malloc && saved_filename)
 			ft_strlcpy(tmp_malloc, saved_filename, max);
 		free(saved_filename);
 		saved_filename = tmp_malloc;

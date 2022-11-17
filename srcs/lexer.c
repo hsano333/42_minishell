@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 20:58:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:14:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	set_option_fd(t_token *tokens)
 static t_token	*analyze_str(char *str, t_token *tokens, size_t i)
 {
 	size_t	k;
-	int	paren_flag_cnt;
+	int		paren_flag_cnt;
 
 	k = 0;
 	paren_flag_cnt = 0;

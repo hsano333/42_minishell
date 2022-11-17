@@ -6,14 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:06:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 00:00:25 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:34:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_ERROR_H
-#define PARSER_ERROR_H
-
-#include "parser.h"
+# define PARSER_ERROR_H
+# include "parser.h"
 
 typedef enum e_acs_mode
 {
@@ -23,6 +22,5 @@ typedef enum e_acs_mode
 
 int	set_parser_error(int error);
 int	get_parser_error(void);
-int	handling_parser_error(int no, t_cmds *cmds);
+int	parser_error(int no, t_cmds *cmds);
 #endif
-

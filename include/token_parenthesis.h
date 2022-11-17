@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:59:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 02:21:25 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:33:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "parser.h"
 
 size_t	set_paren(t_token *tokens, t_cmds *cmds, size_t i, size_t pi);
-int	enable_paren_token(t_pipe *pipe);
-int	have_paren_error(t_token *tokens);
-//int	change_token_no(t_token *tokens);
+int		enable_paren_token(t_pipe *pipe);
+int		have_paren_error(t_token *tokens);
 #endif
