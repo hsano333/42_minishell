@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 02:31:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:36:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	exe_cmds(t_token *tokens)
 		handle_global_signals();
 		set_exit_status(rval);
 		clear_all_cmds(&cmds);
-		if (*type != EOS)
-			(*i)++;
+		if (type != EOS)
+			i++;
 	}
 }
