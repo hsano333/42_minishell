@@ -6,13 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 01:33:47 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 15:57:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_handling_error.h"
 #include "exit_status.h"
 #include "token_parenthesis.h"
+#include "token_type.h"
 
 static void	check_lexer_memmory_error(t_token *tokens)
 {
@@ -55,25 +56,16 @@ static int	put_quote_error(t_token *tokens)
 static int	have_quote_error(t_token *tokens)
 {
 	size_t				i;
-	size_t				j;
-	const t_token_type	error_token[] = \
-		{PIPE, D_PIPE, D_AMPERSAND, GLT, GT, LT, D_GT, D_LT, EOS};
 
 	i = 0;
 	while (tokens[i].type != EOS)
 	{
-		if ((tokens[i].type == GLT \
-			|| tokens[i].type == GT || tokens[i].type == D_GT \
-			|| tokens[i].type == LT || tokens[i].type == D_LT))
+		if (is_token_must_next_string(tokens[i].type))
 		{
-			j = 0;
-			while (1)
+			if (is_string_token(i + 1) == false)
 			{
-				if (tokens[i + 1].type == error_token[j] \
-						&& put_quote_error(&(tokens[i + 1])))
-					return (true);
-				if (error_token[j++] == EOS)
-					break ;
+				put_quote_error(&(tokens[i + 1]));
+				return (true);
 			}
 		}
 		i++;
@@ -83,20 +75,25 @@ static int	have_quote_error(t_token *tokens)
 
 static int	begin_token_error(t_token *tokens)
 {
-	size_t				j;
-	size_t				len;
-	const t_token_type	error_token[] = {PIPE, D_PIPE, D_AMPERSAND};
+	size_t	i;
 
-	len = sizeof(error_token) / sizeof(t_token_type);
-	j = 0;
-	while (j < len)
+	i = 0;
+	while (tokens[i].type != EOS)
 	{
-		if (tokens[0].type == error_token[j])
+		if (i == 0 && is_begin_error_token(tokens[i].type))
 		{
-			put_quote_error(&(tokens[0]));
+			put_quote_error(&(tokens[i]));
 			return (true);
 		}
-		j++;
+		else if (i > 0 && (tokens[i].type == PIPE || tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND))
+		{
+			if (is_begin_error_token(tokens[i + 1].type))
+			{
+				put_quote_error(&(tokens[i]));
+				return (true);
+			}
+		}
+		i++;
 	}
 	return (false);
 }

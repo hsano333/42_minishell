@@ -20,7 +20,9 @@ SRC	:= utils_array.c \
 	lexer_quote_flag.c \
 	lexer_handling_error.c \
 	lexer_continue_input.c \
+	token_type.c \
 	token_parenthesis.c \
+	error_token_type.c \
 	parser.c \
 	parser_util.c \
 	parser_init.c \
@@ -34,6 +36,7 @@ SRC	:= utils_array.c \
 	parser_change_std.c \
 	parser_find_cmds.c \
 	parser_find_cmds_util.c \
+	parser_error.c \
 	exe_cmds.c \
 	env_util.c \
 	env_store.c \

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:06:55 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 22:38:22 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 13:01:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,16 @@ int	is_error_cmds(t_cmds *cmds)
 {
 	size_t	i;
 
-	if (!cmds)
-	{
-		strerror(12);
-		return (false);
-	}
 	i = 0;
 	while (cmds)
 	{
 		if (cmds[i].pipes == NULL)
 			break ;
 		if (cmds[i].last == true)
-		{
-			strerror(12);
 			return (false);
-		}
 		i++;
 	}
+	printf("minishell:%s\n", strerror(12));
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/10 18:59:42 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 13:57:31 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	expand_doller(t_token *token, t_token_type pre_token)
 		expand_recursive(token->literal, NON, &dst_str);
 	if (!dst_str)
 	{
+		printf("expand doller error No.1\n");
 		token->error = true;
 		return (false);
 	}

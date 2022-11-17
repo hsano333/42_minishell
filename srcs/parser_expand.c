@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 02:34:41 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 11:40:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "lexer_util.h"
 #include "parser_expand.h"
 #include "kill_myprocess.h"
+#include "parser_error.h"
 
 static t_token_type	is_expand(t_token *token)
 {
@@ -47,6 +48,8 @@ int	expand_quote(t_token *token, size_t end_no)
 	if (len == 0)
 		return (true);
 	expanded_str = malloc(len + 1);
+	if (!expanded_str)
+		set_parser_error(true);
 	ft_strlcpy(expanded_str, token[1].literal, len + 1);
 	i = 2;
 	while (token[i].id != end_no && ++i)

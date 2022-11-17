@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:43:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 16:28:38 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 12:02:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ static t_pipe	*init_pipe(size_t len)
 
 	i = 0;
 	pipes = (t_pipe *)malloc(sizeof(t_pipe) * len);
-	ft_memset(pipes, 0, sizeof(t_pipe) * len);
 	if (!pipes)
 		return (NULL);
+	ft_memset(pipes, 0, sizeof(t_pipe) * len);
 	while (i < len)
 	{
 		pipes[i].in_file = NULL;

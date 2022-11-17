@@ -6,13 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:56:01 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 23:14:30 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 14:57:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 # include <unistd.h>
+# include <stdbool.h>
 
 enum	e_buildin
 {

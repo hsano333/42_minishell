@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:59:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 02:34:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 15:14:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,31 @@ static int	check_closed(t_token *tokens, size_t *i, int *error)
 	cnt = 1;
 
 	if (tokens[*i + 1].type == RPAREN)
+	{
+		printf("error No.1\n");
 		*error = true;
+	}
 	if (*i > 0 && (tokens[*i - 1].type != PIPE && tokens[*i - 1].type != D_PIPE && tokens[*i - 1].type != D_AMPERSAND) && tokens[*i - 1].type != LPAREN)
+	{
+		printf("error No.2\n");
 		*error = true;
+	}
 	while (tokens[++(*i)].type != EOS)
 	{
-		if (tokens[*i].type == RPAREN)
+		if (get_lexer_quote() == NON && tokens[*i].type == RPAREN)
 		{
 			cnt--;
 			if ((tokens[*i + 1].type == SINGLE_QUOTE) || (tokens[*i + 1].type == DOUBLE_QUOTE))
+			{
+		printf("error No.3\n");
 				*error = true;
+			}
 			if (cnt == 0)
 				return (true);
 		}
-		else if (tokens[*i].type == LPAREN)
+		else if (get_lexer_quote() == NON && tokens[*i].type == LPAREN)
 			cnt++;
+		set_lexer_quote_util(tokens[*i].type);
 	}
 	ft_putstr_fd("minishell:not closed parenthesis\n", 2);
 	return (false);
@@ -59,7 +69,6 @@ int	have_paren_error(t_token *tokens)
 	{
 		if (get_lexer_quote() == NON && tokens[i].type == LPAREN)
 			closed = check_closed(tokens, &i, &error);
-		//if (get_lexer_quote() == NON && tokens[i - 1].type == RPAREN)
 		set_lexer_quote_util(tokens[i++].type);
 		if (error)
 			ft_putstr_fd(E_MSG, 2);
