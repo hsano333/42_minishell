@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:43:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 12:02:59 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 23:56:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "lexer_util.h"
 #include "lexer_quote_flag.h"
 #include "libft_mem.h"
+#include "parser_error.h"
 #include <stdio.h>
 
 static size_t	count_comds(t_token *tokens)
@@ -45,7 +46,10 @@ static t_pipe	*init_pipe(size_t len)
 	i = 0;
 	pipes = (t_pipe *)malloc(sizeof(t_pipe) * len);
 	if (!pipes)
+	{
+		set_parser_error(true);
 		return (NULL);
+	}
 	ft_memset(pipes, 0, sizeof(t_pipe) * len);
 	while (i < len)
 	{
@@ -114,6 +118,8 @@ t_cmds	*init_parser(t_token *tokens, int *error)
 	t_cmds	*cmds;
 	size_t	cmds_num;
 
+	if (get_parser_error())
+		return (NULL);
 	set_lexer_quote(NON);
 	cmds_num = count_comds(tokens);
 	if (cmds_num == 0)
@@ -121,7 +127,10 @@ t_cmds	*init_parser(t_token *tokens, int *error)
 	*error = true;
 	cmds = (t_cmds *)malloc(sizeof(t_cmds) * (cmds_num));
 	if (!cmds)
+	{
+		set_parser_error(true);
 		return (NULL);
+	}
 	init_cmds(cmds, cmds_num);
 	cmds[cmds_num - 1].last = true;
 	cmds = init_pipes(tokens, cmds, 0, 1);

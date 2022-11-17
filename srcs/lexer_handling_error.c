@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 15:57:33 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 21:54:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "exit_status.h"
 #include "token_parenthesis.h"
 #include "token_type.h"
+#include "lexer_quote_flag.h"
 
 static void	check_lexer_memmory_error(t_token *tokens)
 {
@@ -58,16 +59,20 @@ static int	have_quote_error(t_token *tokens)
 	size_t				i;
 
 	i = 0;
+	set_lexer_quote(NON);
 	while (tokens[i].type != EOS)
 	{
-		if (is_token_must_next_string(tokens[i].type))
+		if (get_lexer_quote() != NON)
+			;
+		else if (tokens[i].valid && is_token_must_next_string(tokens[i].type))
 		{
-			if (is_string_token(i + 1) == false)
+			if (is_string_token(tokens[i + 1].type) == false)
 			{
 				put_quote_error(&(tokens[i + 1]));
 				return (true);
 			}
 		}
+		set_lexer_quote_util(tokens[i].type);
 		i++;
 	}
 	return (false);
@@ -78,10 +83,14 @@ static int	begin_token_error(t_token *tokens)
 	size_t	i;
 
 	i = 0;
+	set_lexer_quote(NON);
 	while (tokens[i].type != EOS)
 	{
-		if (i == 0 && is_begin_error_token(tokens[i].type))
+		if (get_lexer_quote() != NON)
+			;
+		else if (i == 0 && is_begin_error_token(tokens[i].type))
 		{
+			printf("No.10\n");
 			put_quote_error(&(tokens[i]));
 			return (true);
 		}
@@ -89,10 +98,12 @@ static int	begin_token_error(t_token *tokens)
 		{
 			if (is_begin_error_token(tokens[i + 1].type))
 			{
+			printf("No.11\n");
 				put_quote_error(&(tokens[i]));
 				return (true);
 			}
 		}
+		set_lexer_quote_util(tokens[i].type);
 		i++;
 	}
 	return (false);

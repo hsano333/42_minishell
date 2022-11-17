@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 02:35:00 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 01:11:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,23 +142,30 @@ int	exe_cmds(t_token *tokens)
 	//cmds = get_cmds(tokens, RESET_INDEX, &i);
 	while (tokens[i].type != EOS)
 	{
-		//printf("exe_cmds No.1 i=%zu\n", i);
+		printf("exe_cmds No.1 i=%zu\n", i);
 		cmds = get_cmds(tokens, rval, &i, &type);
-		//printf("exe_cmds No.2 i=%zu\n", i);
+		printf("exe_cmds No.2 i=%zu\n", i);
 		if (!cmds)
 			continue ;
+		printf("exe_cmds No.3 i=%zu\n", i);
 		handle_cmd_signals();
 		if ((cmds[0].len == 1 && cmds[0].pipes[0].is_builtin_cmd && change_buildin_fd(&(cmds[0].pipes[0]), false)))
 		{
+		printf("exe_cmds No.4 i=%zu\n", i);
 			rval = exec_builtin_cmd(cmds[0].pipes[0].param);
 			change_buildin_fd(&(cmds[0].pipes[0]), true);
 		}
 		else if (cmds->has_subshell || cmds[0].len >= 1)
+		{
+		printf("exe_cmds No.5 i=%zu\n", i);
 			rval = pipex(&(cmds[0]));
+		}
+		printf("exe_cmds No.6 i=%zu\n", i);
 		handle_global_signals();
 		set_exit_status(rval);
+		printf("clear all_cmds No.0\n");
 		clear_all_cmds(&cmds);
-		//printf("exe_cmds No.3 i=%zu\n", i);
+		printf("exe_cmds No.7 i=%zu\n", i);
 		//i++;
 	}
 	//printf("exe_cmds No.4 i=%zu\n", i);

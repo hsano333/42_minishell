@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:59:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 15:14:02 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 21:15:12 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,58 @@
 #include "lexer_util.h"
 #include "parser.h"
 #include "libft_put.h"
+#include "token_type.h"
 #define E_MSG "minishell:syntax error near unexpected token `)'\n"
+
+static int	is_invalid_near_token(t_token *tokens, size_t i)
+{
+	if (tokens[i].type == LPAREN)
+	{
+		if (i > 0 && !is_connection_token(tokens[i - 1].type))
+		{
+			printf("No.1\n");
+			return (true);
+		}
+		else if (is_begin_error_token(tokens[i + 1].type))
+		{
+			printf("No.2\n");
+			return (true);
+		}
+	}
+	else if (tokens[i].type == RPAREN)
+	{
+		if (i > 0 && !is_string_token(tokens[i - 1].type))
+		{
+			printf("No.3\n");
+			return (true);
+		}
+		else if (is_string_token(tokens[i + 1].type))
+		{
+			printf("No.4\n");
+			return (true);
+		}
+	}
+	return (false);
+}
 
 static int	check_closed(t_token *tokens, size_t *i, int *error)
 {
 	int	cnt;
 
 	cnt = 1;
-
-	if (tokens[*i + 1].type == RPAREN)
-	{
-		printf("error No.1\n");
+	if (is_invalid_near_token(tokens, *i))
 		*error = true;
-	}
-	if (*i > 0 && (tokens[*i - 1].type != PIPE && tokens[*i - 1].type != D_PIPE && tokens[*i - 1].type != D_AMPERSAND) && tokens[*i - 1].type != LPAREN)
-	{
-		printf("error No.2\n");
-		*error = true;
-	}
+	//if (*i > 0 && (tokens[*i - 1].type != PIPE && tokens[*i - 1].type != D_PIPE && tokens[*i - 1].type != D_AMPERSAND) && tokens[*i - 1].type != LPAREN)
+		//*error = true;
 	while (tokens[++(*i)].type != EOS)
 	{
 		if (get_lexer_quote() == NON && tokens[*i].type == RPAREN)
 		{
 			cnt--;
-			if ((tokens[*i + 1].type == SINGLE_QUOTE) || (tokens[*i + 1].type == DOUBLE_QUOTE))
-			{
-		printf("error No.3\n");
+			////if ((tokens[*i + 1].type == SINGLE_QUOTE) || (tokens[*i + 1].type == DOUBLE_QUOTE))
+				//*error = true;
+			if (is_invalid_near_token(tokens, *i))
 				*error = true;
-			}
 			if (cnt == 0)
 				return (true);
 		}

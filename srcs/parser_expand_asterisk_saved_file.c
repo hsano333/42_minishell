@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:52:25 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/13 03:46:48 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 22:38:43 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ void	set_finded_file(char *added_file, int is_absolute)
 	{
 		max = max + PATH_MAX * 4;
 		tmp_malloc = ft_calloc(max, 1);
-		if (!tmp_malloc && paraser_expand_asterisk_error(SET_AST_ERROR))
-			return ;
-		if (saved_filename)
+		if (tmp_malloc  && saved_filename)
 			ft_strlcpy(tmp_malloc, saved_filename, max);
 		free(saved_filename);
 		saved_filename = tmp_malloc;
+		if (!tmp_malloc && paraser_expand_asterisk_error(SET_AST_ERROR))
+			return ;
 	}
 	add_expanding_asterisk_str(saved_filename, added_file, max, is_absolute);
 	used = ft_strlen(saved_filename);
@@ -107,6 +107,8 @@ void	save_and_clear_finded_file(t_token *token)
 	{
 		free(token->literal);
 		token->literal = ft_strdup(tmp_str);
+		if (!token->literal)
+			paraser_expand_asterisk_error(SET_AST_ERROR);
 	}
 	finded_file_func(CLEAR_AST_FINDED_FILE, NULL, &tmp, &tmp);
 }

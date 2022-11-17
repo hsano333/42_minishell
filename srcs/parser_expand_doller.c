@@ -6,11 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 13:57:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 23:57:16 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_expand.h"
+#include "parser_error.h"
 
 static void	expand_recursive(char *str, t_token_type pre_token, char **dst_str);
 
@@ -33,6 +34,8 @@ static char	*join_and_free_str(char *dst, char *str, int i, int is_free_str)
 	tmp = str[i];
 	str[i] = '\0';
 	concat_str = ft_strjoin(dst, str);
+	if (!concat_str)
+		set_parser_error(true);
 	str[i] = tmp;
 	free(dst);
 	if (is_free_str)
@@ -100,7 +103,6 @@ int	expand_doller(t_token *token, t_token_type pre_token)
 		expand_recursive(token->literal, NON, &dst_str);
 	if (!dst_str)
 	{
-		printf("expand doller error No.1\n");
 		token->error = true;
 		return (false);
 	}

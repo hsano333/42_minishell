@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 15:54:01 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 01:34:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ static int	create_file(char *filename, int option)
 		option = O_CREAT | O_WRONLY ;
 		fd_out = open(filename, option, 0744);
 		if (fd_out < 0)
+		{
+			perror(filename);
 			return (false);
+		}
 	}
 	else if (fd_out < 0)
 		return (false);

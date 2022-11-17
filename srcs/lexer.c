@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/16 23:43:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 20:58:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,6 @@ t_token	*lexer(char *str)
 	}
 	tokens = analyze_str(str, tokens, 0);
 	set_option_fd(tokens);
+	put_tokens(tokens);
 	return (lexer_handling_error(tokens));
 }

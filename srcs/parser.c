@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 11:38:57 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 00:17:43 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include "parser_find_cmds.h"
 #include "kill_myprocess.h"
 #include "token_parenthesis.h"
+#include "parser_error.h"
+#include "parser_util.h"
 
 void	print_cmds(t_cmds *cmds)
 {
@@ -61,9 +63,11 @@ static size_t	concat_str(t_token *tokens, size_t i, size_t j, int *f)
 	char	*tmp;
 
 	*f = false;
-	if (j == 0)
+	if (j == 0 || get_parser_error())
 		return (0);
 	tmp = ft_strjoin(tokens[i].literal, tokens[j].literal);
+	if (!tmp)
+		set_parser_error(true);
 	free(tokens[i].literal);
 	tokens[i].literal = tmp;
 	return (i);
@@ -76,7 +80,7 @@ static size_t	concat(t_token *tokens, size_t i, int b_flag, int *f_flag)
 	while (!((tokens[i].type == IDENT && tokens[i].valid) \
 					|| tokens[i].type == EOS))
 		i++;
-	if (tokens[i].type == EOS)
+	if (tokens[i].type == EOS || get_parser_error())
 		return (0);
 	if (b_flag)
 	{
@@ -103,23 +107,27 @@ t_cmds	*parser(t_token *tokens)
 	int		error;
 	int		tmp_flag;
 
+	set_parser_error(false);
 	parser_expand(tokens, NON, 0);
 	concat(tokens, 0, false, &tmp_flag);
 	cmds = init_parser(tokens, &error);
-	if (error)
-		kill_myprocess(12, NULL, tokens, NULL);
-	if (!cmds)
+	if (get_parser_error() && handling_parser_error(12, cmds))
 		return (NULL);
 	if (create_heredoc_file(tokens) == false)
 		return (NULL);
+	put_tokens(tokens);
 	if (search_std_in_and_out(tokens, cmds, 0))
 	{
-		//put_tokens(tokens);
-		if (search_cmds_and_arg(tokens, cmds, 0))
+		printf("search cmds No.1\n");
+		if (search_cmds_and_arg(tokens, cmds, 0) == false)
+		{
+		printf("search cmds No.2\n");
 			clear_all_cmds(&cmds);
-		if (!cmds)
-			ft_putstr_fd("minishell:invalid command\n", 2);
+			errno = 12;
+			perror("minishell");
+		}
+		printf("search cmds No.3\n");
 	}
-	//enable_paren_token(cmds);
+	print_cmds(cmds);
 	return (cmds);
 }

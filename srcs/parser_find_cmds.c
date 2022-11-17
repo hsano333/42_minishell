@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 11:02:54 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 01:23:31 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "parser_find_cmds_util.h"
 #include "cmd_builtin.h"
 #include "token_parenthesis.h"
+#include "parser_error.h"
+#include "libft_mem.h"
 
 static int	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 {
@@ -22,30 +24,56 @@ static int	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 	return (true);
 }
 
-static char	**allocate_args_memory(t_token *tokens, size_t i \
-		, size_t len, size_t j)
+static char	**insert_argv(t_token *tokens, char **argv, size_t i, size_t *j)
 {
-	char	**argv;
 	char	**split;
 	size_t	k;
 
-	argv = (char **)malloc(sizeof(char *) * (len + 1));
-	while (argv && tokens[i].type != EOS)
+	printf("tokens[i].type=%d,tokens[i].valid=%d, tokens[i].expand=%d\n ",tokens[i].type , tokens[i].valid,  tokens[i].expand);
+	if (tokens[i].type == IDENT && tokens[i].valid && tokens[i].expand)
 	{
-		argv[len] = NULL;
+		split = ft_split(tokens[i].literal, PARSER_DELIMITER);
+		if (!split && set_parser_error(true))
+			return (argv);
+		k = 0;
+		while (split && split[k])
+			argv[(*j)++] = split[k++];
+		free(split);
+	}
+	else if (tokens[i].type == IDENT && tokens[i].valid)
+	{
+		printf("j=%zu,i=%zu strdup :%s\n",*j, i, tokens[i].literal);
+		argv[(*j)++] = ft_strdup(tokens[i].literal);
+		printf("strdup :%p\n", argv[*j - 1]);
+		if (argv[*j - 1] == NULL)
+			set_parser_error(true);
+	}
+	return (argv);
+}
+
+static char	**allocate_args_memory(t_token *tokens, size_t i \
+		, size_t len)
+{
+	char	**argv;
+	size_t	j;
+
+	j = 0;
+	if (get_parser_error())
+		return (NULL);
+	argv = ft_calloc(sizeof(char *), len + 1);
+	if (!argv && set_parser_error(true))
+		return (NULL);
+	while (tokens[i].type != EOS)
+	{
 		if (tokens[i].type == D_PIPE || tokens[i].type == D_AMPERSAND \
 				|| tokens[i].type == PIPE)
 			break ;
-		else if (tokens[i].type == IDENT && tokens[i].valid && tokens[i].expand)
+		argv = insert_argv(tokens, argv, i, &j);
+		if (get_parser_error())
 		{
-			split = ft_split(tokens[i].literal, PARSER_DELIMITER);
-			k = 0;
-			while (split && split[k])
-				argv[j++] = split[k++];
-			free(split);
+			ft_free_split(argv);
+			return (NULL);
 		}
-		else if (tokens[i].type == IDENT && tokens[i].valid)
-			argv[j++] = ft_strdup(tokens[i].literal);
 		i++;
 	}
 	return (argv);
@@ -71,11 +99,13 @@ static void	set_args(t_cmds *cmds, t_token *tokens \
 			cnt += cnt_parser_cmd_param(&tokens[i]);
 		i++;
 	}
-	cmds->pipes[pipe_i].param = allocate_args_memory(tokens, backup_i, cnt, 0);
+	cmds->pipes[pipe_i].param = allocate_args_memory(tokens, backup_i, cnt);
+	printf("allocate_args_memory No.0 pipe_i=%zu, cnt=%zu\n", pipe_i, cnt);
 	cmds->pipes[pipe_i].param_num = cnt;
 	*tmp_i = --i;
 }
 
+/*
 static int	have_error(t_cmds *cmds, size_t i, size_t j, size_t k)
 {
 	i = 0;
@@ -102,6 +132,7 @@ static int	have_error(t_cmds *cmds, size_t i, size_t j, size_t k)
 	}
 	return (false);
 }
+*/
 
 int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds, size_t i)
 {
@@ -129,5 +160,5 @@ int	search_cmds_and_arg(t_token *tokens, t_cmds *cmds, size_t i)
 			set_args(&(cmds[ci]), tokens, &i, pi);
 		i++;
 	}
-	return (!have_error(cmds, 0, 0, 0));
+	return (!get_parser_error());
 }

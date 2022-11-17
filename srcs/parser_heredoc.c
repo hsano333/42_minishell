@@ -6,13 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 12:46:04 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/17 23:57:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_heredoc.h"
 #include "signal_minishell.h"
 #include "exit_status.h"
+#include "parser_error.h"
 
 static void	expand_and_write(char *str, int fd)
 {
@@ -126,5 +127,7 @@ int	create_heredoc_file(t_token *tokens)
 		}
 		i++;
 	}
+	if (heredoc.valid == false)
+		set_parser_error(true);
 	return (heredoc.valid);
 }
