@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:59:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 01:42:13 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 03:21:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,21 @@
 
 static int	is_invalid_near_token(t_token *tokens, size_t i)
 {
-	if (tokens[i].type == LPAREN)
+	if (tokens[i].valid && tokens[i].type == LPAREN)
 	{
-		if (i > 0 && !is_connection_token(tokens[i - 1].type))
+		if (i > 0 && tokens[i - 1].valid \
+				&& !is_connection_token(tokens[i - 1].type))
 			return (true);
-		else if (is_begin_error_token(tokens[i + 1].type))
+		else if (tokens[i + 1].valid \
+				&& is_begin_error_token(tokens[i + 1].type))
 			return (true);
 	}
-	else if (tokens[i].type == RPAREN)
+	else if (tokens[i].valid && tokens[i].type == RPAREN)
 	{
-		if (i > 0 && !is_string_token(tokens[i - 1].type))
+		if (i > 0 && tokens[i - 1].valid \
+				&& !is_rparen_left_valid_token(tokens[i - 1].type))
 			return (true);
-		else if (is_string_token(tokens[i + 1].type))
+		else if (tokens[i + 1].valid && is_string_token(tokens[i + 1].type))
 			return (true);
 	}
 	return (false);

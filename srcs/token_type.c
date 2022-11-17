@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 14:15:59 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 01:39:44 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 03:06:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,26 @@ int	is_string_token(t_token_type type)
 {
 	const t_token_type	tokens[] = {IDENT, SINGLE_QUOTE, DOUBLE_QUOTE \
 		, DOLLER, ASTERISK, EXIT_STATUS};
+	size_t				i;
+	size_t				len;
+
+	i = 0;
+	len = sizeof(tokens) / sizeof(t_token_type);
+	while (i < len)
+	{
+		if (i <= 2 && tokens[i] == type)
+			return (true);
+		else if (i > 2 && tokens[i] == (type & tokens[i]))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+int	is_rparen_left_valid_token(t_token_type type)
+{
+	const t_token_type	tokens[] = {IDENT, SINGLE_QUOTE, DOUBLE_QUOTE \
+		, DOLLER, ASTERISK, EXIT_STATUS, RPAREN};
 	size_t				i;
 	size_t				len;
 
