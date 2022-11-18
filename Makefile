@@ -59,7 +59,7 @@ SRC	:= utils_array.c \
 
 	
 ENTRY	:= main.c
-ENTRYBONUS	:= main_bonus.c
+ENTRYBONUS	:= main.c
 DELENTRY	:= $(OBJDIR)/main_bonus.o
 ifdef WITH_BONUS
 ENTRY	:= $(ENTRYBONUS)
