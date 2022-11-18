@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 02:36:11 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 03:19:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ t_cmds	*get_cmds(t_token *tokens, int rval, size_t *i, t_token_type *type)
 	while (tokens[*i].type != EOS)
 	{
 		set_lexer_quote_util(tokens[*i].type);
-		if (get_lexer_quote() == NON && !tokens[*i].valid && !not_if_token(tokens[*i].type))
+		if (get_lexer_quote() == NON && !tokens[*i].valid \
+				&& !not_if_token(tokens[*i].type))
 			break ;
 		(*i)++;
 	}
@@ -122,7 +123,6 @@ void	exe_cmds(t_token *tokens)
 	rval = 0;
 	while (tokens[i].type != EOS)
 	{
-
 		cmds = get_cmds(tokens, rval, &i, &type);
 		handle_cmd_signals();
 		if (cmds && (cmds[0].len == 1 && cmds[0].pipes[0].is_builtin_cmd \

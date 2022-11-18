@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 02:36:27 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 03:18:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static size_t	concat(t_token *tokens, size_t i, int b_flag, int *f_flag)
 	j = concat(tokens, i + 1, false, f_flag);
 	if (*f_flag)
 		concat_str(tokens, i, j, f_flag);
-	return (i);
+	return (j);
 }
 
 t_cmds	*parser(t_token *tokens)
@@ -97,10 +97,16 @@ t_cmds	*parser(t_token *tokens)
 	t_cmds	*cmds;
 	int		error;
 	int		tmp_flag;
+	size_t	i;
 
+	i = 0;
 	set_parser_error(false);
 	parser_expand(tokens, NON, 0);
-	concat(tokens, 0, false, &tmp_flag);
+	while (tokens[i].type != EOS)
+	{
+		i = concat(tokens, i, false, &tmp_flag);
+		i++;
+	}
 	cmds = init_parser(tokens, &error);
 	if (get_parser_error() && parser_error(12, cmds))
 		return (NULL);
