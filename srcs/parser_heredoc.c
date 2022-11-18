@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 19:26:02 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 20:22:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser_error.h"
 #include "libft_str.h"
 #include "token_type.h"
+#include "lexer_quote_flag.h"
 
 static void	expand_and_write(char *str, int fd)
 {
@@ -122,14 +123,12 @@ int	create_heredoc_file(t_token *tokens)
 	i = 0;
 	cnt = 0;
 	heredoc.valid = true;
+	set_lexer_quote(NON);
 	while (tokens[i].type != EOS)
 	{
-		if (!tokens[i].valid)
-		{
-			i++;
-			continue ;
-		}
-		if (tokens[i].type == D_GT)
+		if (!tokens[i].valid || get_lexer_quote() != NON)
+			;
+		else if (tokens[i].type == D_GT)
 		{
 			get_heredoc_setting(&heredoc, tokens, i);
 			handle_global_signals();
@@ -137,7 +136,9 @@ int	create_heredoc_file(t_token *tokens)
 				heredoc.valid = execute_heredoc(&(tokens[i]), &heredoc, cnt++);
 			handle_cmd_signals();
 		}
+		set_lexer_quote_util(tokens[i].type);
 		i++;
 	}
+	set_lexer_quote(NON);
 	return (heredoc.valid);
 }
