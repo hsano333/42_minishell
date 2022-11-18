@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 03:18:21 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 04:11:56 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "token_parenthesis.h"
 #include "parser_error.h"
 #include "parser_util.h"
+#include "parser_concat.h"
 
 void	print_cmds(t_cmds *cmds)
 {
@@ -49,64 +50,16 @@ void	print_cmds(t_cmds *cmds)
 	}
 }
 
-static size_t	concat_str(t_token *tokens, size_t i, size_t j, int *f)
-{
-	char	*tmp;
-
-	*f = false;
-	if (j == 0 || get_parser_error())
-		return (0);
-	tmp = ft_strjoin(tokens[i].literal, tokens[j].literal);
-	if (!tmp)
-		set_parser_error(true);
-	free(tokens[i].literal);
-	tokens[i].literal = tmp;
-	return (i);
-}
-
-static size_t	concat(t_token *tokens, size_t i, int b_flag, int *f_flag)
-{
-	size_t	j;
-
-	while (!((tokens[i].type == IDENT && tokens[i].valid) \
-					|| tokens[i].type == EOS))
-		i++;
-	if (tokens[i].type == EOS || get_parser_error())
-		return (0);
-	if (b_flag)
-	{
-		tokens[i].valid = false;
-		return (i);
-	}
-	else if (b_flag == false && tokens[i].concat_back)
-		concat_str(tokens, i, concat(tokens, i + 1, true, f_flag), f_flag);
-	else if (b_flag == false && tokens[i].concat_front)
-	{
-		*f_flag = true;
-		tokens[i].valid = false;
-		return (i);
-	}
-	j = concat(tokens, i + 1, false, f_flag);
-	if (*f_flag)
-		concat_str(tokens, i, j, f_flag);
-	return (j);
-}
-
 t_cmds	*parser(t_token *tokens)
 {
 	t_cmds	*cmds;
 	int		error;
-	int		tmp_flag;
-	size_t	i;
 
-	i = 0;
 	set_parser_error(false);
 	parser_expand(tokens, NON, 0);
-	while (tokens[i].type != EOS)
-	{
-		i = concat(tokens, i, false, &tmp_flag);
-		i++;
-	}
+	parser_concat(tokens);
+	if (get_parser_error())
+		return (NULL);
 	cmds = init_parser(tokens, &error);
 	if (get_parser_error() && parser_error(12, cmds))
 		return (NULL);

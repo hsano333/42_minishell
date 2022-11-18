@@ -33,6 +33,7 @@ SRC	:= utils_array.c \
 	parser_expand_asterisk_saved_file.c \
 	parser_expand_exit_status.c \
 	parser_heredoc.c \
+	parser_concat.c \
 	parser_change_std.c \
 	parser_find_cmds.c \
 	parser_find_cmds_util.c \
