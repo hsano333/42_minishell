@@ -22,7 +22,7 @@ SRC	:= utils_array.c \
 	lexer_continue_input.c \
 	token_type.c \
 	token_parenthesis.c \
-	error_token_type.c \
+	not_token_type.c \
 	parser.c \
 	parser_util.c \
 	parser_init.c \

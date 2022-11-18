@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 14:15:59 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 00:10:56 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 01:17:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int	is_connection_token(t_token_type type)
 	return (false);
 }
 
-int	is_string_and_space_token(t_token_type type)
+int	is_quote_token(t_token_type type)
 {
-	if (type == WHITE_SPACE || is_string_token(type))
+	if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
 		return (true);
 	return (false);
 }

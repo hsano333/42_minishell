@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 23:17:47 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 02:36:11 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "libft_put.h"
 #include "lexer.h"
 #include "lexer_util.h"
+#include "lexer_quote_flag.h"
+#include "token_type.h"
 #define RESET_INDEX (INT_MIN)
 
 static int	change_buildin_fd_inout(int fd_inout \
@@ -89,10 +91,14 @@ t_cmds	*get_cmds(t_token *tokens, int rval, size_t *i, t_token_type *type)
 
 	bk = *i;
 	old_type = *type;
-	while (tokens[*i].type != EOS && ((tokens[*i].type != D_AMPERSAND \
-		&& tokens[*i].type != D_PIPE) || (!tokens[*i].valid \
-		&& (tokens[*i].type == D_AMPERSAND || tokens[*i].type == D_PIPE))))
+	set_lexer_quote_util(tokens[*i].type);
+	while (tokens[*i].type != EOS)
+	{
+		set_lexer_quote_util(tokens[*i].type);
+		if (get_lexer_quote() == NON && !tokens[*i].valid && !not_if_token(tokens[*i].type))
+			break ;
 		(*i)++;
+	}
 	*type = tokens[*i].type;
 	if (bk > 0 && ((old_type == D_PIPE && rval == 0) \
 				|| (old_type == D_AMPERSAND && rval != 0)))
@@ -116,6 +122,7 @@ void	exe_cmds(t_token *tokens)
 	rval = 0;
 	while (tokens[i].type != EOS)
 	{
+
 		cmds = get_cmds(tokens, rval, &i, &type);
 		handle_cmd_signals();
 		if (cmds && (cmds[0].len == 1 && cmds[0].pipes[0].is_builtin_cmd \

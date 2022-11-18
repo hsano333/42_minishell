@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 00:23:38 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 02:01:56 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,11 @@ static void	set_token(t_token *tokens, t_token_type type, char *str, size_t i)
 	else
 		tokens[i].type = type;
 	type = tokens[i].type;
-	if ((type == SINGLE_QUOTE || type == DOUBLE_QUOTE) \
-		&& get_lexer_quote() == NON && i > 0 \
-		&& is_string_token(tokens[i].type) && !ft_isspace(str[-1]))
+	if (is_quote_token(type) && get_lexer_quote() == NON \
+		&& is_string_token(type) && i > 0 && !ft_isspace(str[-1]))
 		tokens[i - 1].concat_back = true;
 	if (i > 0 && is_string_token(type) && !ft_isspace(str[-1]) \
-		&& (tokens[i - 1].type == SINGLE_QUOTE \
-		|| tokens[i - 1].type == DOUBLE_QUOTE) && get_lexer_quote() == NON)
+		&& is_quote_token(tokens[i - 1].type) && get_lexer_quote() == NON)
 		tokens[i].concat_front = true;
 	if (i > 0 && is_token_must_next_string(type) \
 			&& get_lexer_quote() == NON && !ft_isspace(str[-1]))
