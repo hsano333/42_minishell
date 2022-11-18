@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 14:51:15 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/15 05:02:58 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/18 20:20:38 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	handle_cmd_signal(int sig)
 {
 	if (sig == SIGINT || sig == SIGQUIT)
 	{
-		ft_putstr_fd("\n", STDOUT_FILENO);
+		ft_putstr_fd("\033[2D", STDOUT_FILENO);
+		ft_putstr_fd("\033[0K", STDOUT_FILENO);
 		rl_on_new_line();
 		set_exit_status(130);
 		rl_replace_line("", 0);
