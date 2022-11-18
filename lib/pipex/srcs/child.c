@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 15:18:35 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 15:48:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static	void	change_fd(int fd_in, int *pipe_fd, t_pipe *pipes)
 				kill_process(-1, pipes->in_file, NULL);
 		}
 	}
-	printf("pipex dup , fd=%d\n", pipes->option_fd_in);
 	r[0] = dup2(fd_in, pipes->option_fd_in);
 	r[1] = 1;
 	if (pipe_fd[PIPE_OUT] != 1)

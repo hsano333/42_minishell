@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 15:16:39 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 15:47:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,13 @@ static int	execute_heredoc_loop(t_heredoc *heredoc \
 	while (true)
 	{
 		line = readline("heredoc> ");
-		//if (!line && close(*fd) == 0)
 		if (!line)
 		{
-			printf("end test heredoc No.1\n");
-			//unlink(HEREDODC_FILE);
-			//*fd = open(HEREDODC_FILE, O_CREAT | O_WRONLY, 0744);
+			error = true;
 			break ;
 		}
 		if (*line == '\0' && g_signal_flag && set_exit_status(1))
 		{
-			printf("end test heredoc No.2\n");
 			g_signal_flag = 0;
 			error = true;
 			break ;
@@ -82,13 +78,9 @@ static int	execute_heredoc(t_token *token, t_heredoc *heredoc, size_t cnt)
 	int		error;
 	char	*line;
 	char	heredoc_file[PATH_MAX + 1];
-	//char	*heredoc_file;
 	char	cnt_str[32];
 
 	ft_itoa_no_memory(cnt, heredoc_file, cnt_str);
-	//heredoc_file = ft_calloc(ft_strlen(heredoc_file) + 16, 1);
-	//if (heredoc_file)
-
 	ft_strlcpy(heredoc_file, HEREDODC_FILE, PATH_MAX + 1);
 	ft_strlcat(heredoc_file, cnt_str, PATH_MAX + 1);
 	line = NULL;
@@ -103,9 +95,7 @@ static int	execute_heredoc(t_token *token, t_heredoc *heredoc, size_t cnt)
 	close(fd);
 	fd = open(heredoc_file, O_RDONLY, 0744);
 	token->heredoc_fd = fd;
-	printf("heredoc fd=%d\n", fd);
 	unlink(heredoc_file);
-	//close(fd);
 	handle_global_signals();
 	return (!error);
 }
@@ -148,7 +138,5 @@ int	create_heredoc_file(t_token *tokens)
 		}
 		i++;
 	}
-	if (heredoc.valid == false)
-		set_parser_error(true);
 	return (heredoc.valid);
 }
