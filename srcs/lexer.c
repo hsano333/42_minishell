@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 03:09:38 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 15:00:38 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "kill_myprocess.h"
 #include "lexer_quote_flag.h"
 #include "lexer_handling_error.h"
+#include "parser_heredoc.h"
 
 size_t	token_len(t_token_type *type, char *str, size_t i, size_t cnt)
 {
@@ -137,10 +138,11 @@ t_token	*lexer(char *str)
 	while (i < len)
 	{
 		tokens[i].id = i;
-		tokens[i].valid = true;
-		i++;
+		tokens[i++].valid = true;
 	}
 	tokens = analyze_str(str, tokens, 0);
 	set_option_fd(tokens);
+	if (create_heredoc_file(tokens) == false)
+		return (NULL);
 	return (lexer_handling_error(tokens));
 }

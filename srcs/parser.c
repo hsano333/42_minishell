@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 02:29:58 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 12:54:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "parser_init.h"
 #include "parser_expand.h"
 #include "parser_std.h"
-#include "parser_heredoc.h"
 #include "stdio.h"
 #include "parser_find_cmds.h"
 #include "kill_myprocess.h"
@@ -103,8 +102,6 @@ t_cmds	*parser(t_token *tokens)
 	concat(tokens, 0, false, &tmp_flag);
 	cmds = init_parser(tokens, &error);
 	if (get_parser_error() && parser_error(12, cmds))
-		return (NULL);
-	if (create_heredoc_file(tokens) == false)
 		return (NULL);
 	if (!search_std_in_and_out(tokens, cmds, 0) && parser_error(0, cmds))
 		return (NULL);

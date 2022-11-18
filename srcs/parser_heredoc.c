@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 23:57:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 15:16:39 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "signal_minishell.h"
 #include "exit_status.h"
 #include "parser_error.h"
+#include "libft_str.h"
+#include "token_type.h"
 
 static void	expand_and_write(char *str, int fd)
 {
@@ -48,14 +50,17 @@ static int	execute_heredoc_loop(t_heredoc *heredoc \
 	while (true)
 	{
 		line = readline("heredoc> ");
-		if (!line && close(*fd) == 0)
+		//if (!line && close(*fd) == 0)
+		if (!line)
 		{
-			unlink(HEREDODC_FILE);
-			*fd = open(HEREDODC_FILE, O_CREAT | O_WRONLY, 0744);
+			printf("end test heredoc No.1\n");
+			//unlink(HEREDODC_FILE);
+			//*fd = open(HEREDODC_FILE, O_CREAT | O_WRONLY, 0744);
 			break ;
 		}
 		if (*line == '\0' && g_signal_flag && set_exit_status(1))
 		{
+			printf("end test heredoc No.2\n");
 			g_signal_flag = 0;
 			error = true;
 			break ;
@@ -71,22 +76,36 @@ static int	execute_heredoc_loop(t_heredoc *heredoc \
 	return (error);
 }
 
-static int	execute_heredoc(t_heredoc *heredoc)
+static int	execute_heredoc(t_token *token, t_heredoc *heredoc, size_t cnt)
 {
 	int		fd;
 	int		error;
 	char	*line;
+	char	heredoc_file[PATH_MAX + 1];
+	//char	*heredoc_file;
+	char	cnt_str[32];
 
+	ft_itoa_no_memory(cnt, heredoc_file, cnt_str);
+	//heredoc_file = ft_calloc(ft_strlen(heredoc_file) + 16, 1);
+	//if (heredoc_file)
+
+	ft_strlcpy(heredoc_file, HEREDODC_FILE, PATH_MAX + 1);
+	ft_strlcat(heredoc_file, cnt_str, PATH_MAX + 1);
 	line = NULL;
 	rl_event_hook = signal_check_state;
 	handle_heredoc_signals();
-	unlink(HEREDODC_FILE);
-	fd = open(HEREDODC_FILE, O_CREAT | O_WRONLY, 0744);
+	unlink(heredoc_file);
+	fd = open(heredoc_file, O_CREAT | O_WRONLY, 0744);
 	if (fd < 0)
 		return (false);
 	error = false;
 	error = execute_heredoc_loop(heredoc, &fd, error, line);
 	close(fd);
+	fd = open(heredoc_file, O_RDONLY, 0744);
+	token->heredoc_fd = fd;
+	printf("heredoc fd=%d\n", fd);
+	unlink(heredoc_file);
+	//close(fd);
 	handle_global_signals();
 	return (!error);
 }
@@ -94,7 +113,7 @@ static int	execute_heredoc(t_heredoc *heredoc)
 static void	get_heredoc_setting(t_heredoc *heredoc, t_token *tokens, size_t i)
 {
 	heredoc->valid = false;
-	if (tokens[i + 1].type == IDENT)
+	if (is_string_token(tokens[i + 1].type))
 	{
 		if (tokens[i + 1].literal)
 		{
@@ -107,9 +126,11 @@ static void	get_heredoc_setting(t_heredoc *heredoc, t_token *tokens, size_t i)
 int	create_heredoc_file(t_token *tokens)
 {
 	size_t		i;
+	size_t		cnt;
 	t_heredoc	heredoc;
 
 	i = 0;
+	cnt = 0;
 	while (tokens[i].type != EOS)
 	{
 		if (!tokens[i].valid)
@@ -122,7 +143,7 @@ int	create_heredoc_file(t_token *tokens)
 			get_heredoc_setting(&heredoc, tokens, i);
 			handle_global_signals();
 			if (heredoc.valid)
-				heredoc.valid = execute_heredoc(&heredoc);
+				heredoc.valid = execute_heredoc(&(tokens[i]), &heredoc, cnt++);
 			handle_cmd_signals();
 		}
 		i++;

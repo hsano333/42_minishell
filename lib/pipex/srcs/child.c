@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 02:29:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 15:18:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,19 @@ static	void	change_fd(int fd_in, int *pipe_fd, t_pipe *pipes)
 	int			r[2];
 
 	close(pipe_fd[PIPE_IN]);
-	if (pipes->in_file)
+	if (pipes->in_file || pipes->heredoc_fd > 0)
 	{
 		close(fd_in);
-		fd_in = open(pipes->in_file, O_RDONLY);
-		if (fd_in < 0)
-			kill_process(-1, pipes->in_file, NULL);
+		if (pipes->heredoc_fd > 0)
+			fd_in = pipes->heredoc_fd;
+		else
+		{
+			fd_in = open(pipes->in_file, O_RDONLY);
+			if (fd_in < 0)
+				kill_process(-1, pipes->in_file, NULL);
+		}
 	}
+	printf("pipex dup , fd=%d\n", pipes->option_fd_in);
 	r[0] = dup2(fd_in, pipes->option_fd_in);
 	r[1] = 1;
 	if (pipe_fd[PIPE_OUT] != 1)

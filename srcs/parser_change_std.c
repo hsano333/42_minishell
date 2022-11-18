@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 01:34:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 15:16:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include "parser_std.h"
 #include "parser_heredoc.h"
+#include "token_type.h"
 
 static int	create_file(char *filename, int option)
 {
@@ -74,11 +75,13 @@ int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 			rval = false;
 		}
 	}
-	else if (tokens[i + 1].type == IDENT && pre_type == D_GT)
+	else if (pre_type == D_GT && is_string_token(tokens[i + 1].type))
 	{
-		cmds->pipes[pipe_i].in_file = HEREDODC_FILE;
+		//cmds->pipes[pipe_i].in_file = tokens[i + 1].literal;
 		tokens[i + 1].valid = false;
 		cmds->pipes[pipe_i].option_fd_in = tokens[i].option_fd;
+		cmds->pipes[pipe_i].heredoc_fd= tokens[i].heredoc_fd ;
+		printf("heredoc copy No.2 fd=%d\n", cmds->pipes[pipe_i].option_fd_in);
 	}
 	return (rval);
 }
