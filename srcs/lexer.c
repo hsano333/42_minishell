@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 00:15:15 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 00:23:38 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	set_token(t_token *tokens, t_token_type type, char *str, size_t i)
 	tokens[i].len = token_len(&type, str, 0, 1);
 	if (type == EOS)
 		tokens[i].type = type;
-	else if (is_string_and_space_token(type) && get_lexer_quote() != NON)
+	else if (type == WHITE_SPACE && get_lexer_quote() != NON)
 		tokens[i].type = IDENT;
 	else if (get_lexer_quote() == SINGLE_QUOTE && type != SINGLE_QUOTE)
 		tokens[i].type = IDENT;
