@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 19:45:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 23:06:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ size_t	token_len(t_token_type *type, char *str, size_t i, size_t cnt)
 	cnt = 1;
 	while (str[++i])
 	{
-		if (ft_isspace(*str) && (get_lexer_quote() == NON))
+		if ((ft_isspace(*str) && (get_lexer_quote() == NON)) || *type == EOS)
 			break ;
 		tmp_type = identify_token(str[i], str[i + 1]);
 		if (tmp_type == IDENT || tmp_type == DOLLER \
@@ -61,17 +61,19 @@ static void	set_token(t_token *tokens, t_token_type type, char *str, size_t i)
 	else
 		tokens[i].type = type;
 	if ((tokens[i].type == SINGLE_QUOTE || tokens[i].type == DOUBLE_QUOTE) \
-										&& i > 0 && !ft_isspace(str[-1]))
+		&& get_lexer_quote() == NON && i > 0 \
+		&& is_string_token(tokens[i].type) && !ft_isspace(str[-1]))
 		tokens[i - 1].concat_back = true;
 	if ((tokens[i].type == SINGLE_QUOTE || tokens[i].type == DOUBLE_QUOTE) \
-										&& type != EOS && !ft_isspace(str[1]))
+		&& get_lexer_quote() == tokens[i].type \
+		&& is_string_token(tokens[i + 1].type) && !ft_isspace(str[1]))
 		tokens[i + 1].concat_front = true;
 	if (i > 0 && is_token_must_next_string(tokens[i].type) \
-						&& !ft_isspace(str[-1]))
+			&& get_lexer_quote() == NON && !ft_isspace(str[-1]))
 		tokens[i].concat_front = true;
 	set_lexer_quote_util(type);
 	tokens[i].literal = ft_substr(str, 0, tokens[i].len);
-	if (type == LT || type == D_LT)
+	if ((type == LT || type == D_LT) && get_lexer_quote() == NON)
 		tokens[i].option_fd = 1;
 }
 
@@ -118,8 +120,7 @@ static t_token	*analyze_str(char *str, t_token *tokens, size_t i)
 			paren_flag_cnt--;
 		if (paren_flag_cnt == 0 && tokens[i].type == RPAREN)
 			tokens[i].valid = true;
-		k += tokens[i].len;
-		i++;
+		k += tokens[i++].len;
 	}
 	set_token(tokens, EOS, "", i);
 	if (get_lexer_quote() != NON && change_quote_type(tokens, &(i), &k))

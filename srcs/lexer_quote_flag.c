@@ -6,12 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 03:25:37 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 22:47:05 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 23:05:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_quote_flag.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 static t_token_type	lexer_quote_flag(int mode, t_token_type flag)
 {
@@ -40,6 +41,9 @@ int	change_quote_type(t_token *tokens, size_t *i, size_t *k)
 	{
 		if (get_lexer_quote() != tokens[*i].type)
 		{
+			if (tokens[*i].literal)
+				free(tokens[*i].literal);
+			tokens[*i].literal = NULL;
 			*k -= tokens[*i].len;
 			(*i)--;
 		}
