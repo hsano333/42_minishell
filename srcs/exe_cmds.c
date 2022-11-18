@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 15:07:56 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 19:29:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	change_buildin_fd(t_pipe *pipe, int back)
 		change_buildin_fd_inout(pipe->option_fd_out \
 		, pipe->out_file, O_APPEND | O_WRONLY, &fd_out);
 	}
-	if (back == true)
+	else if (back == true)
 	{
 		if (fd_out != 1)
 			close(fd_out);

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 15:47:33 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 19:26:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	create_heredoc_file(t_token *tokens)
 
 	i = 0;
 	cnt = 0;
+	heredoc.valid = true;
 	while (tokens[i].type != EOS)
 	{
 		if (!tokens[i].valid)

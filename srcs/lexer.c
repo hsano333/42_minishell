@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 15:46:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 19:45:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "lexer_quote_flag.h"
 #include "lexer_handling_error.h"
 #include "parser_heredoc.h"
+#include "token_type.h"
+#include "libft_str.h"
 
 size_t	token_len(t_token_type *type, char *str, size_t i, size_t cnt)
 {
@@ -64,6 +66,9 @@ static void	set_token(t_token *tokens, t_token_type type, char *str, size_t i)
 	if ((tokens[i].type == SINGLE_QUOTE || tokens[i].type == DOUBLE_QUOTE) \
 										&& type != EOS && !ft_isspace(str[1]))
 		tokens[i + 1].concat_front = true;
+	if (i > 0 && is_token_must_next_string(tokens[i].type) \
+						&& !ft_isspace(str[-1]))
+		tokens[i].concat_front = true;
 	set_lexer_quote_util(type);
 	tokens[i].literal = ft_substr(str, 0, tokens[i].len);
 	if (type == LT || type == D_LT)
@@ -74,18 +79,18 @@ static void	set_option_fd(t_token *tokens)
 {
 	size_t	i;
 	int		type;
+	int		error;
 
 	i = 0;
 	while (tokens[i].type != EOS)
 	{
 		type = tokens[i].type;
-		if (i > 0 && (type == GLT || type == GT || type == LT \
-				|| type == D_GT || type == D_LT))
+		if (i > 0 && is_token_must_next_string(type))
 		{
-			if (tokens[i - 1].type == IDENT && tokens[i - 1].len == 1 \
-					&& ft_isdigit(tokens[i - 1].literal[0]))
+			if (tokens[i].concat_front && tokens[i - 1].type == IDENT \
+					&& ft_isdigitstr(tokens[i - 1].literal))
 			{
-				tokens[i].option_fd = tokens[i - 1].literal[0] - 0x30;
+				tokens[i].option_fd = ft_atoi(tokens[i - 1].literal, &error);
 				tokens[i - 1].valid = false;
 			}
 		}

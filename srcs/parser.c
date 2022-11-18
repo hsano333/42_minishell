@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 12:54:29 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/18 19:45:36 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ void	print_cmds(t_cmds *cmds)
 			printf("%zu.pipes[%zu].cmd=%s\n", i, j, cmds[i].pipes[j].cmd);
 			if (cmds[i].pipes[j].sub_tokens)
 				put_tokens(cmds[i].pipes[j].sub_tokens);
-			k = 0;
-			while (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param[k])
-				k++;
+			k = -1;
+			while (cmds[i].pipes[j].have_param && cmds[i].pipes[j].param[++k])
+				printf("%zu.pipes[%zu].param[%zu]=%s\n" \
+						, i, j, k, cmds[i].pipes[j].param[k]);
 			j++;
 		}
 		if (cmds[i++].last)
