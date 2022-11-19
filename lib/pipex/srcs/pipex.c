@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/14 14:14:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/20 00:26:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	pipex(t_cmds *cmds)
 	char	**environ;
 	t_fdpid	fdpid[4096];
 
+	fdpid[0].fd = 0;
 	environ = env_store(NULL, GET_ENV);
 	pid = fork();
 	if (pid == 0)
