@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 14:33:50 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 16:37:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ static void	set_token(t_token *tokens, t_token_type type, char *str, size_t i)
 	else
 		tokens[i].type = type;
 	type = tokens[i].type;
-	if (is_quote_token(type) && get_lexer_quote() == NON \
-		&& is_string_token(type) && i > 0 && !ft_isspace(str[-1]))
+	if (get_lexer_quote() == type && !ft_isspace(str[1]) && str[1] != '\0' \
+		&& is_string_token(identify_token(str[1], str[2])) \
+		&& is_quote_token(type))
+		tokens[i + 1].concat_front = true;
+	if (i > 0 && is_quote_token(type) && !ft_isspace(str[-1]) \
+		&& get_lexer_quote() == NON)
 		tokens[i - 1].concat_back = true;
-	if (i > 0 && is_string_token(type) && !ft_isspace(str[-1]) \
-		&& is_quote_token(tokens[i - 1].type) && get_lexer_quote() == NON)
-		tokens[i].concat_front = true;
 	if (i > 0 && is_token_must_next_string(type) && !ft_isspace(str[-1]) \
 		&& get_lexer_quote() == NON && (tokens[i - 1].type) == IDENT)
 		tokens[i].flag_redir = true;
