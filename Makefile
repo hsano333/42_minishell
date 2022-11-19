@@ -83,7 +83,7 @@ CC	:= cc
 ifeq ($(shell uname),Darwin)
 CFLAGS	:= -Wall -Wextra -Werror
 else
-CFLAG	:= -Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra -Werror
 #CFLAGS := -Wall -Wextra -Werror -fsanitize=address  -fsanitize=undefined -fsanitize=leak
 endif
 LDFLAGS := $(IFLAGS) $(LFLAGS)  -lpipex -lft -lreadline  -L$(shell brew --prefix readline)/lib -lreadline
