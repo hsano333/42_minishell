@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:11:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/12 16:42:01 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/20 01:30:36 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ char	*search_path(char *exe, char *filepath)
 	}
 	free(paths);
 	ft_free_split(tmp_paths);
-	return (NULL);
+	copy_filepath(filepath, exe);
+	return (filepath);
 }
