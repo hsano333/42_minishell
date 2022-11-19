@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 03:25:37 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 02:34:32 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 19:00:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	change_quote_type(t_token *tokens, size_t *i, size_t *k)
 		else
 		{
 			tokens[*i].type = IDENT;
+			tokens[*i].concat_back = true;
 			(*i)++;
 			(*k) += 1;
 			set_lexer_quote(NON);

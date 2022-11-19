@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 03:43:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 16:45:40 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 18:55:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,35 +29,17 @@ static size_t	concat_str(t_token *tokens, size_t i, size_t j)
 	return (i);
 }
 
-static size_t	go_valid_pre_token(t_token *tokens, size_t i)
-{
-	while (tokens[i].type != EOS)
-	{
-		if (tokens[i].valid)
-			return (i);
-		i--;
-	}
-	return (i);
-}
-
-static size_t	go_valid_next_token(t_token *tokens, size_t i)
-{
-	while (tokens[i].type != EOS)
-	{
-		if (tokens[i].valid)
-			return (i);
-		i++;
-	}
-	return (i);
-}
-
 static size_t	concat_front(t_token *tokens, size_t i)
 {
 	size_t	bk;
 
 	bk = i;
-	i = go_valid_pre_token(tokens, i - 1);
-	if (i > 0 && tokens[i].valid)
+	while (i > 0 && tokens[--i].type != EOS)
+	{
+		if (tokens[i].valid)
+			break ;
+	}
+	if (tokens[i].valid)
 		concat_str(tokens, i, bk);
 	tokens[bk].valid = false;
 	i = bk;
@@ -69,11 +51,15 @@ static size_t	concat_back(t_token *tokens, size_t i)
 	size_t	bk;
 
 	bk = i;
-	i = go_valid_next_token(tokens, i + 1);
-	if (tokens[i].valid)
+	while (tokens[++i].type != EOS)
+	{
+		if (tokens[i].valid)
+			break ;
+	}
+	if (tokens[i].valid && tokens[i].type != EOS)
 		concat_str(tokens, bk, i);
 	tokens[i].valid = false;
-	return (i);
+	return (bk);
 }
 
 int	parser_concat(t_token *tokens)
@@ -85,13 +71,13 @@ int	parser_concat(t_token *tokens)
 	{
 		if (tokens[i].valid && tokens[i].concat_back)
 		{
+			if (&tokens[i + 1])
+				parser_concat(&(tokens[i + 1]));
 			i = concat_back(tokens, i);
 		}
-		else if (i > 0 && tokens[i].valid && tokens[i].concat_front)
-		{
+		if (i > 0 && tokens[i].valid && tokens[i].concat_front)
 			i = concat_front(tokens, i);
-		}
-		if (get_parser_error())
+		if (get_parser_error() || tokens[i].type == EOS)
 			break ;
 		i++;
 	}
