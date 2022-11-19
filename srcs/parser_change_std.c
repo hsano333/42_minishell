@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 14:07:37 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 20:45:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser_std.h"
 #include "parser_heredoc.h"
 #include "token_type.h"
+#include "exit_status.h"
 
 static int	create_file(char *filename, int option)
 {
@@ -29,6 +30,7 @@ static int	create_file(char *filename, int option)
 		if (fd_out < 0)
 		{
 			perror(filename);
+			set_exit_status(1);
 			return (false);
 		}
 	}
@@ -72,6 +74,7 @@ int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 		if (access(tokens[i + 1].literal, F_OK | R_OK) != 0)
 		{
 			perror(tokens[i + 1].literal);
+			set_exit_status(1);
 			rval = false;
 		}
 	}

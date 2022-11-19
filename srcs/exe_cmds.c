@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 14:32:43 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 20:52:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	exe_cmds(t_token *tokens)
 	size_t			i;
 
 	i = 0;
-	rval = 0;
+	rval = 1;
 	while (tokens[i].type != EOS)
 	{
 		cmds = get_cmds(tokens, rval, &i, &type);
@@ -134,9 +134,9 @@ void	exe_cmds(t_token *tokens)
 		else if (cmds && (cmds->has_subshell || cmds[0].len >= 1))
 			rval = pipex(&(cmds[0]));
 		handle_global_signals();
-		set_exit_status(rval);
 		clear_all_cmds(&cmds);
 		if (type != EOS)
 			i++;
 	}
+	set_exit_status(rval);
 }
