@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 20:38:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 23:03:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ static int	execute_heredoc_loop(t_heredoc *heredoc \
 	{
 		line = readline("heredoc> ");
 		if (!line)
-		{
-			error = true;
 			break ;
-		}
 		if (*line == '\0' && g_signal_flag && set_exit_status(1))
 		{
 			g_signal_flag = 0;
