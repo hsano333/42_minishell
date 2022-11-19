@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 07:10:36 by hsano             #+#    #+#             */
-/*   Updated: 2022/09/01 20:50:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/20 00:00:38 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ long	ft_atol(const char *str, int *long_over_flag)
 	}
 	sum = calc(str, i, len, long_over_flag);
 	if (minus == 1 && sum == LONG_MAX + 1UL)
+	{
+		*long_over_flag = true;
+		return (0);
+	}
+	else if (sum >= LONG_MAX + 1UL)
 		return (0);
 	return ((long)(sum * minus));
 }
