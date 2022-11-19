@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 01:45:00 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 19:41:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,12 @@ int	expand_quote(t_token *token, size_t end_no)
 		token[i++].valid = false;
 	}
 	token[i].valid = false;
-	if (len == 0)
-		return (true);
 	expanded_str = malloc(len + 1);
 	if (!expanded_str)
 		set_parser_error(true);
 	ft_strlcpy(expanded_str, token[1].literal, len + 1);
 	i = 2;
-	while (token[i].id != end_no && ++i)
+	while (len > 0 && token[i].id != end_no && ++i)
 		ft_strlcat(expanded_str, token[i - 1].literal, len + 1);
 	free(token[0].literal);
 	token[0].literal = expanded_str;

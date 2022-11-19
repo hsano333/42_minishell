@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 03:43:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 18:55:52 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 19:42:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser_error.h"
 #include "parser_util.h"
 #include "libft_str.h"
+#include "token_type.h"
 
 static size_t	concat_str(t_token *tokens, size_t i, size_t j)
 {
