@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 03:17:08 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:09:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ static void	set_token(t_token *tokens, t_token_type type, char *str, size_t i)
 	if (i > 0 && is_string_token(type) && !ft_isspace(str[-1]) \
 		&& is_quote_token(tokens[i - 1].type) && get_lexer_quote() == NON)
 		tokens[i].concat_front = true;
-	if (i > 0 && is_token_must_next_string(type) \
-			&& get_lexer_quote() == NON && !ft_isspace(str[-1]))
-		tokens[i].concat_front = true;
+	if (i > 0 && is_token_must_next_string(type) && !ft_isspace(str[-1]) \
+		&& get_lexer_quote() == NON && (tokens[i - 1].type) == IDENT)
+		tokens[i].flag_redir = true;
 	set_lexer_quote_util(type);
 	tokens[i].literal = ft_substr(str, 0, tokens[i].len);
 	if ((type == LT || type == D_LT) && get_lexer_quote() == NON)
@@ -88,7 +88,7 @@ static void	set_option_fd(t_token *tokens)
 		type = tokens[i].type;
 		if (i > 0 && is_token_must_next_string(type))
 		{
-			if (tokens[i].concat_front && tokens[i - 1].type == IDENT \
+			if (tokens[i].flag_redir && tokens[i - 1].type == IDENT \
 					&& ft_isdigitstr(tokens[i - 1].literal))
 			{
 				tokens[i].option_fd = ft_atoi(tokens[i - 1].literal, &error);
