@@ -56,7 +56,7 @@ SRC	:= utils_array.c \
 	cmd_pwd.c \
 	cmd_unset.c \
 	ft_isstr_space.c \
-
+	shlvl.c \
 
 	
 ENTRY	:= main.c
