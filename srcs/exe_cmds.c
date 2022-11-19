@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 03:19:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:32:43 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ t_cmds	*get_cmds(t_token *tokens, int rval, size_t *i, t_token_type *type)
 
 	bk = *i;
 	old_type = *type;
-	set_lexer_quote_util(tokens[*i].type);
+	set_lexer_quote(NON);
 	while (tokens[*i].type != EOS)
 	{
 		set_lexer_quote_util(tokens[*i].type);
-		if (get_lexer_quote() == NON && !tokens[*i].valid \
+		if (get_lexer_quote() == NON && tokens[*i].valid \
 				&& !not_if_token(tokens[*i].type))
 			break ;
 		(*i)++;
