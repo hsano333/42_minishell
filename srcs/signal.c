@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 14:51:15 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/20 03:29:11 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/20 10:58:51 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,26 @@
 
 static void	handle_cmd_signal(int sig)
 {
-	if (sig == SIGINT || sig == SIGQUIT)
+	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
 		set_exit_status(130);
 		rl_replace_line("", 0);
 	}
+	else if (sig == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: 3\n", STDOUT_FILENO);
+		rl_on_new_line();
+		set_exit_status(130);
+		rl_replace_line("", 0);
+	}
+}
+
+void	handle_ign_signals(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 }
 
 static void	handle_global_signal(int sig)

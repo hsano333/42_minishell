@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/20 00:26:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/20 10:56:51 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ int	pipex(t_cmds *cmds)
 	environ = env_store(NULL, GET_ENV);
 	pid = fork();
 	if (pid == 0)
+	{
+		handle_cmd_signals();
 		main_child(fdpid, cmds, environ);
+	}
 	else if (pid == -1)
 		kill_process(-1, NULL, NULL);
 	waitpid(pid, &status, 0);
