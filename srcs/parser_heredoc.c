@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 23:03:17 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/23 18:15:56 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,10 @@ int	create_heredoc_file(t_token *tokens)
 		else if (tokens[i].type == D_GT)
 		{
 			get_heredoc_setting(&heredoc, tokens, i);
-			handle_global_signals();
+			handle_cmd_signals();
 			if (heredoc.valid)
 				heredoc.valid = execute_heredoc(&(tokens[i]), &heredoc, cnt++);
-			handle_cmd_signals();
+			handle_global_signals();
 		}
 		set_lexer_quote_util(tokens[i].type);
 		i++;
