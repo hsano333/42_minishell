@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 10:52:28 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/23 18:37:31 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/23 19:09:59 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	unset_error_loop(char *var)
 int	cmd_unset(char **cmd)
 {
 	size_t	i;
+	int		exit_status;
 
 	i = 1;
 	if (!cmd[i])
@@ -50,5 +51,5 @@ int	cmd_unset(char **cmd)
 		del_env_var(cmd[i]);
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (exit_status);
 }
