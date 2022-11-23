@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 21:48:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/23 19:48:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static char	*analyze_and_execute(char *line)
 	{
 		while (tokens && is_continue_input(tokens))
 			tokens = continued_input(tokens, &line);
+		handle_global_signals();
 		if (!tokens)
 			return (line);
 		rval = exe_cmds(tokens);
