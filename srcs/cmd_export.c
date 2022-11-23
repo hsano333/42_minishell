@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:53:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/23 19:09:03 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/23 19:13:25 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	export_error_loop(char **var, char *cmd)
 	return (EXIT_SUCCESS);
 }
 
-int	export_input_error(char **cmd)
+int	export_input_error(char *cmd)
 {
 	char	**split;
 	char	*var;
