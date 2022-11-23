@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:53:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/23 19:13:25 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/23 19:15:00 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	export_input_error(char *cmd)
 	char	*var;
 
 	var = NULL;
-	split = ft_split(cmd[i], '=');
+	split = ft_split(cmd, '=');
 	if (!split)
 		return (EXIT_FAILURE);
 	var = ft_strdup(split[0]);
 	if (!var)
 		return (EXIT_FAILURE);
-	if (export_error_loop(&var, cmd[i]) == EXIT_FAILURE)
+	if (export_error_loop(&var, cmd) == EXIT_FAILURE)
 	{
 		free(var);
 		free_str_array(&split);
