@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:33:34 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/05 19:17:10 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/23 18:18:11 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	cmd_echo(char **cmd)
 
 	print_newline = true;
 	i = 1;
-	if (cmd[i] && ft_strncmp(cmd[i], "-n", ft_strlen("-n")) == 0)
+	while (cmd[i] && ft_strncmp(cmd[i], "-n", ft_strlen("-n")) == 0)
 	{
 		print_newline = false;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:53:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/12 17:13:45 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/23 18:38:10 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,27 +61,39 @@ int	export_input_error(char **cmd)
 	return (EXIT_SUCCESS);
 }
 
+void	export_with_argments(size_t *i, char **cmd, int *exit_status)
+{
+	*i = 1;
+	while (cmd[*i])
+	{
+		if (export_input_error(cmd[*i]) == EXIT_FAILURE)
+		{
+			(*i)++;
+			*exit_status = EXIT_FAILURE;
+			continue ;
+		}
+		if (!set_env_var(cmd[*i]))
+		{
+			*exit_status = EXIT_FAILURE;
+			return ;
+		}
+		(*i)++;
+	}
+}
+
 int	cmd_export(char **cmd)
 {
 	size_t	i;
 	char	**env;
+	int		exit_status;
 
+	exit_status = EXIT_SUCCESS;
 	env = env_store(NULL, GET_ENV);
 	if (!env)
 		return (EXIT_FAILURE);
 	if (cmd && !cmd[1])
 		export_only((const char **)env);
-	else if (export_input_error(cmd) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
 	else
-	{
-		i = 1;
-		while (cmd[i])
-		{
-			if (!set_env_var(cmd[i]))
-				return (EXIT_FAILURE);
-			i++;
-		}
-	}
-	return (EXIT_SUCCESS);
+		export_with_argments(&i, cmd, &exit_status);
+	return (exit_status);
 }
