@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 19:00:26 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/22 01:39:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ size_t	token_len(t_token_type *type, char *str, size_t i, size_t cnt)
 	return (cnt);
 }
 
-static void	set_token(t_token *tokens, t_token_type type, char *str, size_t i)
+void	lexer_set_token(t_token *tokens, t_token_type type, char *str, size_t i)
 {
 	tokens[i].len = token_len(&type, str, 0, 1);
 	if (type == EOS)
@@ -111,7 +111,8 @@ static t_token	*analyze_str(char *str, t_token *tokens, size_t i)
 	{
 		if (ft_isspace(str[k]) && (get_lexer_quote() == NON) && k++)
 			continue ;
-		set_token(tokens, identify_token(str[k], str[k + 1]), &(str[k]), i);
+		lexer_set_token(tokens, identify_token(str[k], str[k + 1]) \
+								, &(str[k]), i);
 		if (paren_flag_cnt > 0)
 			tokens[i].valid = false;
 		if (tokens[i].type == LPAREN)
@@ -122,8 +123,8 @@ static t_token	*analyze_str(char *str, t_token *tokens, size_t i)
 			tokens[i].valid = true;
 		k += tokens[i++].len;
 	}
-	set_token(tokens, EOS, "", i);
-	if (get_lexer_quote() != NON && change_quote_type(tokens, &(i), &k))
+	lexer_set_token(tokens, EOS, "", i);
+	if (get_lexer_quote() != NON && change_quote_type(tokens, &(i), &k, str))
 		tokens = analyze_str(&str[k], tokens, i);
 	return (tokens);
 }
