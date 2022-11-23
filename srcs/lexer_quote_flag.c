@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 03:25:37 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 19:00:23 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/22 01:36:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void	set_lexer_quote(t_token_type flag)
 	lexer_quote_flag(LEXER_SET_FLAG, flag);
 }
 
-int	change_quote_type(t_token *tokens, size_t *i, size_t *k)
+int	change_quote_type(t_token *tokens, size_t *i, size_t *k, char *str)
 {
 	while (1)
 	{
-		if (get_lexer_quote() != tokens[*i].type)
+		if (*i > 0 && get_lexer_quote() != tokens[*i].type)
 		{
 			if (tokens[*i].literal)
 				free(tokens[*i].literal);
@@ -47,16 +47,18 @@ int	change_quote_type(t_token *tokens, size_t *i, size_t *k)
 			*k -= tokens[*i].len;
 			(*i)--;
 		}
-		else
+		else if (get_lexer_quote() == tokens[*i].type)
 		{
 			tokens[*i].type = IDENT;
-			tokens[*i].concat_back = true;
+			if (tokens[*i].literal)
+				free(tokens[*i].literal);
+			lexer_set_token(tokens, IDENT, &(str[*k]), *i);
+			(*k) += tokens[*i].len;
 			(*i)++;
-			(*k) += 1;
 			set_lexer_quote(NON);
 			return (true);
 		}
-		if (*i == 0)
+		else
 			return (false);
 	}
 	return (true);

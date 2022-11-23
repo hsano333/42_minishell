@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/17 22:40:15 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/21 23:35:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int	expand_asterisk(t_token *token, t_token_type pre_token)
 		return (true);
 	if (!token->valid || ASTERISK != (token->type & ASTERISK))
 		return (true);
+	delete_consecutive_ast(token->literal);
 	get_prefix_dir(token->literal, dir, &i);
 	if (!dir[0])
 		return (true);
