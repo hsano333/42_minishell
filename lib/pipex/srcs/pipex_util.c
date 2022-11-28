@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 10:11:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/20 01:30:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 01:23:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,27 @@ static char	*concat_pathpath(char *filepath, char *env, char *exe)
 	return (filepath);
 }
 
-int	copy_filepath(char *dst, char *src)
+int	copy_filepath(char *dst, char *src, char **paths)
 {
-	ft_strlcpy(dst, src, PATH_MAX + 1);
-	return (true);
+	if (paths == NULL || paths[0] == NULL || ft_strchr(src, '/'))
+	{
+		ft_strlcpy(dst, src, PATH_MAX + 1);
+		return (true);
+	}
+	dst = NULL;
+	return (false);
 }
 
-char	*search_path(char *exe, char *filepath)
+int	search_path(char *exe, char *filepath)
 {
 	size_t	j;
 	char	*paths;
 	char	**tmp_paths;
+	int		rval;
 
 	if ((exe && (exe[0] == '/' || exe[0] == '.')) \
-			&& copy_filepath(filepath, exe))
-		return (filepath);
+			&& copy_filepath(filepath, exe, NULL))
+		return (true);
 	paths = get_env_val("PATH");
 	tmp_paths = ft_split(paths, ':');
 	j = 0;
@@ -74,11 +80,11 @@ char	*search_path(char *exe, char *filepath)
 		if ((!access(filepath, X_OK)) && ft_free_split(tmp_paths))
 		{
 			free(paths);
-			return (filepath);
+			return (true);
 		}
 	}
+	rval = copy_filepath(filepath, exe, tmp_paths);
 	free(paths);
 	ft_free_split(tmp_paths);
-	copy_filepath(filepath, exe);
-	return (filepath);
+	return (rval);
 }

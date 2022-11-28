@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:41:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/21 23:59:04 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 00:12:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	add_expanding_asterisk_str(char *dst, char *src \
 	free(pwd_str);
 }
 
-void	delete_consecutive_ast(char *str)
+int	delete_consecutive_ast(char *str)
 {
 	size_t	i;
 	size_t	len;
@@ -126,4 +126,5 @@ void	delete_consecutive_ast(char *str)
 		}
 		i++;
 	}
+	return (true);
 }
