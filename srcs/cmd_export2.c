@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 11:15:59 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/28 21:53:57 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/28 22:47:13 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ int	_print_env_export(char **env)
 	i = 0;
 	while (env && env[i])
 	{
+		if (!ft_strncmp(env[i], "_=", 2))
+		{
+			i++;
+			continue ;
+		}
 		_print_env_export_line(env[i]);
 		i++;
 	}
