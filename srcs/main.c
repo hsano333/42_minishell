@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 09:31:44 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/23 19:48:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/28 21:14:27 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	loop(void)
 		line = readline("minishell$ ");
 		if (!line)
 		{
-			printf("exit\n");
+			ft_putstr_fd("exit\n", 2);
 			free(line);
 			break ;
 		}
