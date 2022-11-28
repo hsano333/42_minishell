@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 10:52:28 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/23 19:09:59 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/28 21:43:10 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	unset_error_loop(char *var)
 	i = 0;
 	while (var[i] != '\0')
 	{
-		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
+		if (ft_isnum((var)[0]) || (ft_isalnum(var[i]) == 0 && var[i] != '_'))
 		{
 			ft_putstr_fd("unset: ", 2);
 			ft_putstr_fd(var, 2);

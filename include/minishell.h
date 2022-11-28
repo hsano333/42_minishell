@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 21:16:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/28 21:55:12 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	**str_arr_dup(char **arr);
 void	free_str_array(char ***arr);
 char	**realloc_str_arr(char **arr, size_t size);
 bool	ft_is_str_space(char *str);
+int		ft_isnum(char c);
 
 // shlvl
 bool	update_shlvl(void);
@@ -51,6 +52,7 @@ int		cmd_unset(char **cmd);
 int		cmd_cd(char **cmd);
 void	update_pwd(char **cwd);
 void	check_pwd(char **cwd);
+void	update_pwd_with_synbl(char **cwd, char *lastpath);
 int		exit_cd(char **cwd, int exit_status, char *dname);
 int		cmd_exit(char **cmd);
 int		is_builtin(char **cmd);

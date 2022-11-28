@@ -57,7 +57,7 @@ SRC	:= utils_array.c \
 	cmd_unset.c \
 	ft_isstr_space.c \
 	shlvl.c \
-
+	ft_isnum.c \
 	
 ENTRY	:= main.c
 ENTRYBONUS	:= main.c
