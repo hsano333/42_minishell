@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/28 22:03:12 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 03:12:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "parser_heredoc.h"
 #include "token_type.h"
 #include "exit_status.h"
+#include "parser_check_valid_file.h"
 
 static int	create_file(char *filename, int option)
 {
@@ -48,8 +49,8 @@ int	change_std_glt(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 {
 	int	rval;
 
-	rval = true;
-	if (tokens[i + 1].type == IDENT)
+	rval = parser_check_valid_file(&(tokens[i + 1]));
+	if (is_string_token(tokens[i + 1].type))
 	{
 		tokens[i + 1].valid = false;
 		if (access(tokens[i + 1].literal, F_OK) != 0)
@@ -68,9 +69,9 @@ int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 	int	rval;
 	int	pre_type;
 
-	rval = true;
+	rval = parser_check_valid_file(&(tokens[i + 1]));
 	pre_type = tokens[i].type;
-	if (tokens[i + 1].type == IDENT && pre_type == GT)
+	if (is_string_token(tokens[i + 1].type) && pre_type == GT)
 	{
 		cmds->pipes[pipe_i].in_file = tokens[i + 1].literal;
 		tokens[i + 1].valid = false;
@@ -82,7 +83,7 @@ int	change_std_in(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 			rval = false;
 		}
 	}
-	else if (pre_type == D_GT && is_string_token(tokens[i + 1].type))
+	else if (is_string_token(tokens[i + 1].type) && pre_type == D_GT)
 	{
 		tokens[i + 1].valid = false;
 		cmds->pipes[pipe_i].option_fd_in = tokens[i].option_fd;
@@ -96,9 +97,9 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 	int	rval;
 	int	pre_type;
 
-	rval = true;
+	rval = parser_check_valid_file(&(tokens[i + 1]));
 	pre_type = tokens[i].type;
-	if (tokens[i + 1].type == IDENT && pre_type == LT)
+	if (is_string_token(tokens[i + 1].type) && pre_type == LT)
 	{
 		cmds->pipes[pipe_i].out_file = tokens[i + 1].literal;
 		rval = create_file(cmds->pipes[pipe_i].out_file, \
@@ -107,7 +108,7 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 		tokens[i + 1].valid = false;
 		cmds->pipes[pipe_i].option_fd_out = tokens[i].option_fd;
 	}
-	else if (tokens[i + 1].type == IDENT && pre_type == D_LT)
+	else if (is_string_token(tokens[i + 1].type) && pre_type == D_LT)
 	{
 		cmds->pipes[pipe_i].out_file = tokens[i + 1].literal;
 		rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_APPEND);
