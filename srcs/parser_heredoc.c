@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/23 18:15:56 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/28 03:41:39 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "libft_str.h"
 #include "token_type.h"
 #include "lexer_quote_flag.h"
+#include "parser_concat.h"
+#include "exe_cmds.h"
 
 static void	expand_and_write(char *str, int fd)
 {
@@ -100,12 +102,25 @@ static int	execute_heredoc(t_token *token, t_heredoc *heredoc, size_t cnt)
 
 static void	get_heredoc_setting(t_heredoc *heredoc, t_token *tokens, size_t i)
 {
+	t_token_type	type_backup;
+	size_t			bk_i;
+
 	heredoc->valid = false;
-	if (is_string_token(tokens[i + 1].type))
+	bk_i = i;
+	if (tokens[i].type != EOS && is_string_token(tokens[i].type))
 	{
-		if (tokens[i + 1].literal)
+		while (tokens[i].type != EOS && is_string_token(tokens[i].type))
+			i++;
+		type_backup = tokens[i].type;
+		tokens[i].type = EOS;
+		change_token_no(&(tokens[bk_i]));
+		set_parser_error(false);
+		parser_expand(&(tokens[bk_i]), NON, 0);
+		parser_concat(&(tokens[bk_i]));
+		tokens[i].type = type_backup;
+		if (tokens[bk_i].literal)
 		{
-			heredoc->limiter = tokens[i + 1].literal;
+			heredoc->limiter = tokens[bk_i].literal;
 			heredoc->valid = true;
 		}
 	}
@@ -127,7 +142,7 @@ int	create_heredoc_file(t_token *tokens)
 			;
 		else if (tokens[i].type == D_GT)
 		{
-			get_heredoc_setting(&heredoc, tokens, i);
+			get_heredoc_setting(&heredoc, tokens, i + 1);
 			handle_cmd_signals();
 			if (heredoc.valid)
 				heredoc.valid = execute_heredoc(&(tokens[i]), &heredoc, cnt++);

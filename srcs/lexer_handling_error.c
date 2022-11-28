@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:31:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 19:55:28 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/28 04:10:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "token_type.h"
 #include "lexer_quote_flag.h"
 
-static void	check_lexer_memmory_error(t_token *tokens)
+static int	have_lexer_memmory_error(t_token *tokens)
 {
 	int		err;
 	size_t	i;
@@ -33,10 +33,8 @@ static void	check_lexer_memmory_error(t_token *tokens)
 		i++;
 	}
 	if (err)
-	{
-		clear_tokens(tokens);
-		kill_myprocess(12, NULL, tokens, NULL);
-	}
+		return (true);
+	return (false);
 }
 
 static int	put_quote_error(t_token *tokens)
@@ -108,7 +106,9 @@ t_token	*lexer_handling_error(t_token *tokens)
 {
 	int		error;
 
-	check_lexer_memmory_error(tokens);
+	error = have_lexer_memmory_error(tokens);
+	if (error)
+		return (lexer_memory_error(tokens));
 	error = have_quote_error(tokens);
 	if (!error)
 		error = begin_token_error(tokens);

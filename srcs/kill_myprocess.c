@@ -6,11 +6,20 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 15:41:04 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 19:37:42 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/28 04:08:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kill_myprocess.h"
+
+t_token	*lexer_memory_error(t_token *tokens)
+{
+	if (tokens)
+		clear_tokens(tokens);
+	errno = 12;
+	perror("minishell:");
+	return (NULL);
+}
 
 void	kill_myprocess(int no, char *message1, t_token *tokens, t_cmds *cmds)
 {

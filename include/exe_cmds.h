@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:58:04 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 21:30:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/28 03:40:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,5 @@
 # include "exit_status.h"
 
 int	exe_cmds(t_token *tokens);
+int	change_token_no(t_token *tokens);
 #endif
