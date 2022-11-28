@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:50:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/28 22:18:00 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/28 22:43:57 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	update_pwd(char **cwd)
 
 	tmp_pwd = get_env_val("PWD");
 	old_pwd = ft_strjoin("OLDPWD=", tmp_pwd);
-	*cwd = getcwd(*cwd, 0);
 	pwd = ft_strjoin("PWD=", *cwd);
 	set_env_var(old_pwd);
 	set_env_var(pwd);
