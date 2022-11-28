@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/20 10:55:36 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/28 23:49:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ int	exe_cmds(t_token *tokens)
 			rval = builtin_wrapper(cmds[0].pipes[0].param, &(cmds[0].pipes[0]));
 		else if (cmds && (cmds->has_subshell || cmds[0].len >= 1))
 			rval = pipex(&(cmds[0]));
-		else
-			rval = 1;
 		set_exit_status(rval);
 		handle_global_signals();
 		clear_all_cmds(&cmds);
