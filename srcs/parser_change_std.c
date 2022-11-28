@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 01:52:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 20:45:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/28 22:03:12 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ static int	create_file(char *filename, int option)
 		}
 	}
 	else if (fd_out < 0)
+	{
+		perror(filename);
+		set_exit_status(1);
 		return (false);
+	}
 	close(fd_out);
 	return (true);
 }
@@ -97,8 +101,8 @@ int	change_std_out(t_cmds *cmds, t_token *tokens, size_t i, size_t pipe_i)
 	if (tokens[i + 1].type == IDENT && pre_type == LT)
 	{
 		cmds->pipes[pipe_i].out_file = tokens[i + 1].literal;
-		unlink(cmds->pipes[pipe_i].out_file);
-		rval = create_file(cmds->pipes[pipe_i].out_file, O_WRONLY | O_CREAT);
+		rval = create_file(cmds->pipes[pipe_i].out_file, \
+			O_WRONLY | O_CREAT | O_TRUNC);
 		cmds->pipes[pipe_i].write_option = O_WRONLY;
 		tokens[i + 1].valid = false;
 		cmds->pipes[pipe_i].option_fd_out = tokens[i].option_fd;
