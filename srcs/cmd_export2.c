@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 11:15:59 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/06 21:55:00 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/28 21:53:57 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,24 @@ static int	sort_env(char **env, size_t i, size_t j)
 int	_print_env_export_line(char *line)
 {
 	size_t	i;
+	bool	quote_flag;
 
+	quote_flag = false;
 	i = 0;
 	printf("declare -x ");
 	while (line[i])
 	{
 		if (&line[i] == ft_strchr(line, '='))
+		{
+			quote_flag = true;
 			printf("%c\"", line[i++]);
+		}
 		else
 			printf("%c", line[i++]);
 	}
-	printf("\"\n");
+	if (quote_flag)
+		printf("\"");
+	printf("\n");
 	return (EXIT_SUCCESS);
 }
 

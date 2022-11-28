@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/09 13:20:30 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/28 21:40:07 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool	del_env_var(char *var)
 	i = 0;
 	if (!var)
 		return (false);
-	while (env && env[i] && ft_strncmp(env[i], var, ft_strlen(env[i])) != '=')
+	while (env && env[i] && ft_strncmp(env[i], var, ft_strlen(var)) != 0)
 		i++;
 	if (!env[i])
 		return (false);
@@ -107,7 +107,7 @@ bool	set_env_var(char *var_val)
 	i = 0;
 	split = ft_split(var_val, '=');
 	while ((env) && \
-		(env)[i] && ft_strncmp((env)[i], split[0], ft_strlen(env[i])) != '=')
+		(env)[i] && ft_strncmp((env)[i], split[0], ft_strlen(split[0])) != 0)
 		i++;
 	free_str_array(&split);
 	free(split);

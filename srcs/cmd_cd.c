@@ -6,12 +6,15 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:50:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/12 19:31:42 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/28 22:23:46 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "env.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 static char	*find_home(void)
 {
@@ -70,22 +73,29 @@ static int	cd_home(void)
 
 int	cmd_cd(char **cmd)
 {
-	char	*cwd;
-	DIR		*directory;
+	char		*cwd;
+	struct stat	buf;
+	int			ret;
+	bool		is_synbl;
 
+	is_synbl = false;
 	if (!cmd)
 		return (EXIT_FAILURE);
 	if (!cmd[1])
 		return (cd_home());
 	cwd = NULL;
-	directory = opendir(cmd[1]);
-	if (!directory)
-		return (exit_cd(&cwd, EXIT_FAILURE, cmd[1]));
-	else if (closedir(directory) != 0)
+	ret = lstat(cmd[1], &buf);
+	if (ret < 0)
+		return (EXIT_FAILURE);
+	if ((S_ISLNK(buf.st_mode)))
+		is_synbl = true;
+	if (chdir(cmd[1]) != 0)
 		return (exit_cd(&cwd, EXIT_FAILURE, NULL));
-	else if (chdir(cmd[1]) != 0)
-		return (exit_cd(&cwd, EXIT_FAILURE, NULL));
-	update_pwd(&cwd);
+	cwd = getcwd(cwd, 0);
+	if (is_synbl)
+		update_pwd_with_synbl(&cwd, cmd[1]);
+	else
+		update_pwd(&cwd);
 	check_pwd(&cwd);
 	return (exit_cd(&cwd, EXIT_SUCCESS, NULL));
 }
