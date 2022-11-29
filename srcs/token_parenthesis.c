@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:59:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 03:21:15 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/30 01:53:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "lexer_quote_flag.h"
 #include "lexer.h"
 #include "lexer_util.h"
+#include "exit_status.h"
 #include "parser.h"
 #include "libft_put.h"
 #include "token_type.h"
@@ -82,7 +83,10 @@ int	have_paren_error(t_token *tokens)
 			closed = check_closed(tokens, &i, &error);
 		set_lexer_quote_util(tokens[i++].type);
 		if (error)
+		{
+			set_exit_status(258);
 			ft_putstr_fd(E_MSG, 2);
+		}
 		if (!closed || error)
 			return (true);
 	}
