@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 07:57:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/30 00:21:58 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/30 01:04:30 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,10 @@ int	pipex(t_cmds *cmds)
 	else if (pid == -1)
 		kill_process(-1, NULL, NULL);
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-	{
-		if ((WEXITSTATUS(status) == 130 && ft_putstr_fd_r("\n", STDOUT_FILENO)) || (WEXITSTATUS(status) == 130 && ft_putstr_fd_r("Quit: 3\n", STDOUT_FILENO)))
-			;
+	if ((WIFEXITED(status) && ((WEXITSTATUS(status) == 130 && \
+		ft_putstr_fd_r("\n", STDOUT_FILENO)) || (WEXITSTATUS(status) == 131 && \
+		ft_putstr_fd_r("Quit: 3\n", STDOUT_FILENO)))) || WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	}
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (0);
