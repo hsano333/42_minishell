@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:55:41 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/30 00:53:36 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/30 02:41:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	exe_cmds(t_token *tokens)
 	while (tokens[i].type != EOS)
 	{
 		cmds = get_cmds(tokens, rval, &i, &type);
+		rval = 1;
 		handle_ign_signals();
 		if (cmds && (cmds[0].len == 1 && cmds[0].pipes[0].is_builtin_cmd))
 			rval = builtin_wrapper(cmds[0].pipes[0].param, &(cmds[0].pipes[0]));
