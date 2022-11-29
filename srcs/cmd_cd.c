@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:50:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/28 22:23:46 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/29 22:12:22 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int	cd_home(void)
 		free(home_path);
 		return (exit_cd(&cwd, EXIT_FAILURE, NULL));
 	}
+	cwd = getcwd(cwd, 0);	
 	update_pwd(&cwd);
 	free(home_path);
 	check_pwd(&cwd);
