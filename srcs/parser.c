@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 22:06:43 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 20:53:19 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 14:29:34 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_cmds	*parser(t_token *tokens)
 	set_parser_error(false);
 	parser_expand(tokens, NON, 0);
 	parser_concat(tokens);
-	if (get_parser_error())
+	if (get_parser_error() && parser_error(12, NULL))
 		return (NULL);
 	cmds = init_parser(tokens, &error);
 	if (get_parser_error() && parser_error(12, cmds))

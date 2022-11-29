@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:04:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 02:12:04 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 14:20:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	parser_error(int no, t_cmds *cmds)
 		errno = no;
 		perror("minishell");
 	}
-	clear_all_cmds(&cmds);
+	if (cmds)
+		clear_all_cmds(&cmds);
 	return (true);
 }

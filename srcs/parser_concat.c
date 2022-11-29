@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 03:43:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/19 19:42:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 14:24:04 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	parser_concat(t_token *tokens)
 	size_t	i;
 
 	i = 0;
-	while (tokens[i].type != EOS)
+	while (tokens[i].type != EOS && !get_parser_error())
 	{
 		if (tokens[i].valid && tokens[i].concat_back)
 		{

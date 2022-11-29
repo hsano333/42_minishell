@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/21 23:35:33 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 15:44:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,20 +139,23 @@ int	expand_asterisk(t_token *token, t_token_type pre_token)
 	size_t	i;
 	char	dir[PATH_MAX + 1];
 	char	f_name[PATH_MAX + 1];
+	char	*bk;
 
+	bk = NULL;
 	f_name[0] = '\0';
 	if (pre_token == SINGLE_QUOTE || pre_token == DOUBLE_QUOTE)
 		return (true);
 	if (!token->valid || ASTERISK != (token->type & ASTERISK))
 		return (true);
-	delete_consecutive_ast(token->literal);
+	if (!delete_consecutive_ast(token->literal, &bk))
+		return (false);
 	get_prefix_dir(token->literal, dir, &i);
-	if (!dir[0])
+	if (!dir[0] && free_ast_bk(bk))
 		return (true);
 	expand_loop(&(token->literal[i]), dir, f_name, token->literal[0] == '/');
-	if (paraser_expand_asterisk_error(GET_AST_ERROR))
+	if (paraser_expand_asterisk_error(GET_AST_ERROR) && free_ast_bk(bk))
 		return (false);
-	save_and_clear_finded_file(token);
+	save_and_clear_finded_file(token, bk);
 	if (!token->literal)
 		return (false);
 	return (true);
