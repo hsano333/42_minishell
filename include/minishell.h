@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 02:42:18 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/28 21:55:12 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/29 23:20:12 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	free_str_array(char ***arr);
 char	**realloc_str_arr(char **arr, size_t size);
 bool	ft_is_str_space(char *str);
 int		ft_isnum(char c);
+char	**delete_space(char **value);
 
 // shlvl
 bool	update_shlvl(void);
