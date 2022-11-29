@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:55:40 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/18 01:43:15 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 18:49:06 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "token_parenthesis.h"
 #include "parser_error.h"
 #include "libft_mem.h"
+#include "libft_sort.h"
 
 static int	set_cmd_name(t_cmds *cmds, t_token *token, size_t pipe_i)
 {
@@ -35,6 +36,7 @@ static char	**insert_argv(t_token *tokens, char **argv, size_t i, size_t *j)
 		if (!split && set_parser_error(true))
 			return (argv);
 		k = 0;
+		ft_qsort(split, 0);
 		while (split && split[k])
 			argv[(*j)++] = split[k++];
 		free(split);
