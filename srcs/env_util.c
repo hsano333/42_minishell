@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:47:45 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/28 21:40:07 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/29 23:10:16 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_env_val(char *var)
 	}
 	if (!value)
 		value = ft_calloc(1, sizeof(char));
-	return (value);
+	return (*delete_space(&value));
 }
 
 bool	del_env_var(char *var)
