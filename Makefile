@@ -60,7 +60,9 @@ SRC	:= utils_array.c \
 	ft_isstr_space.c \
 	shlvl.c \
 	ft_isnum.c \
-	
+	ft_delete_space.c \
+
+
 ENTRY	:= main.c
 ENTRYBONUS	:= main.c
 DELENTRY	:= $(OBJDIR)/main_bonus.o
