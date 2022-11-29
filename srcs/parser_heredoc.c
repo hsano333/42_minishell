@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:54:48 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/28 03:41:39 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/30 03:01:39 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ static void	get_heredoc_setting(t_heredoc *heredoc, t_token *tokens, size_t i)
 			heredoc->valid = true;
 		}
 	}
+	if (heredoc->valid == false)
+		ft_putstr_fd("minishell: syntax error\n", 2);
 }
 
 int	create_heredoc_file(t_token *tokens)

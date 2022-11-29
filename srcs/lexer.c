@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 00:20:00 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/28 04:08:47 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/30 03:01:45 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ t_token	*lexer(char *str)
 	set_option_fd(tokens);
 	if (create_heredoc_file(tokens) == false)
 	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
 		clear_tokens(tokens);
 		return (NULL);
 	}
