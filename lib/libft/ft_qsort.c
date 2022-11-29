@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 11:08:35 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/29 18:48:25 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 18:52:31 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	quick_sort(char *tab[], char *pivot, int li, int ri)
 		quick_sort(tab, &(tab[(ri + 1 + begin_ri) / 2][0]), ri + 1, begin_ri);
 }
 
-#include <stdio.h>
 void	ft_qsort(char **argv, size_t len)
 {
 	size_t	i;
