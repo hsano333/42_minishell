@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:50:43 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/28 22:43:57 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/29 22:07:49 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	update_pwd_with_synbl(char **cwd, char *lastpath)
 	if (ft_strrchr(lastpath, '/'))
 		lastpath = ft_strrchr(lastpath, '/') + 1;
 	joined = build_symbolic_path(split, lastpath);
-	printf("synbl: %s\n", joined);
 	update_pwd(&joined);
 	free(joined);
 	free_str_array(&split);
