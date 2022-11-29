@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:04:16 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/29 15:44:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/29 16:40:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_ast_end_mode	is_prefix(char *ast_word, char *d_name \
 	i = 0;
 	while (f_name[i] || ast_word[i])
 	{
-		if (f_name[i] != ast_word[i] && ast_word[i] == '*' )
+		if (ast_word[i] == '*' )
 		{
 			return (is_prefix_next(&(ast_word[i]), d_name, f_name, is_absol));
 		}
