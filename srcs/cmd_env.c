@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:33:39 by maoyagi           #+#    #+#             */
-/*   Updated: 2022/11/12 19:30:47 by maoyagi          ###   ########.fr       */
+/*   Updated: 2022/11/30 19:06:52 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ int	_print_env(char **env)
 	i = 0;
 	while (env && env[i])
 	{
+		if (!ft_strchr(env[i], '='))
+		{
+			i++;
+			continue ;
+		}
 		if (printf("%s\n", env[i++]) == 0)
 			return (EXIT_FAILURE);
 	}
