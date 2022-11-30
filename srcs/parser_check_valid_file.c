@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 02:25:12 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/30 02:02:54 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/30 19:37:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ int	parser_check_valid_file(t_token *token)
 	{
 		if (ft_strchr(token->literal, PARSER_DELIMITER))
 		{
-			set_exit_status(258);
+			set_exit_status(1);
 			ft_putstr_fd("minishell: ambiguous redirect\n", 2);
 			rval = false;
 			token->type = NON;
+			token->valid = false;
 		}
 	}
 	return (rval);

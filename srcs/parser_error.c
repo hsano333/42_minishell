@@ -6,12 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:04:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/11/29 14:20:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/11/30 19:36:51 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_error.h"
 #include "parser_util.h"
+#include "exit_status.h"
 #include <stdbool.h>
 #include <errno.h>
 
@@ -44,6 +45,8 @@ int	parser_error(int no, t_cmds *cmds)
 		errno = no;
 		perror("minishell");
 	}
+	if (get_exit_status() == 0)
+		set_exit_status(1);
 	if (cmds)
 		clear_all_cmds(&cmds);
 	return (true);
